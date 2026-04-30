@@ -24,27 +24,87 @@
             margin-top: -50px;
             z-index: 10;
         }
+       
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    padding: 20px;
+  }
+  .menu-card {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+  }
+  .menu-card:hover { transform: translateY(-5px); }
+  model-viewer {
+    width: 100%;
+    height: 250px;
+    background-color: #f9f9f9;
+  }
+  .info { padding: 20px; text-align: left; }
+  .price { color: #27ae60; font-weight: bold; font-size: 1.2rem; }
+  .ar-button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
     </style>
 </head>
 <body>
+  <header>
+    <h1>3D Innovation Menu</h1>
+  </header>
 
-    <h1>Our 3D Menu</h1>
+  <!-- This is where Supabase will "inject" your burger and other items -->
+  <div id="menu-container" class="menu-grid"></div>
 
-    <model-viewer 
-        src="https://miqyfkrxyxywnkavvnkn.supabase.co/storage/v1/object/public/models/Food%20-%20Homemade%20burger.glb" 
-        ar 
-        ar-modes="webxr scene-viewer quick-look" 
-        camera-controls 
-        poster="poster.webp" 
-        shadow-intensity="1" 
-        auto-rotate>
-        
-        <button slot="ar-button" class="ar-button">
-            👋 View in your room
-        </button>
-    </model-viewer>
+  <!-- Include the Supabase and Model-Viewer scripts -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js">
+  </script>
+    <script>
+  const SUPABASE_URL = 'YOUR_PROJECT_URL_HERE';
+  const SUPABASE_KEY = 'YOUR_ANON_KEY_HERE';
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    <p style="padding: 20px;">Point your camera at a flat surface to see the food!</p>
+  async function getMenu() {
+    // 1. Fetch data from your 'menu_items' table
+    const { data, error } = await supabase
+      .from('menu_items')
+      .select('*')
+      .eq('is_active', true);
 
+    if (error) console.error('Error loading menu:', error);
+
+    const container = document.getElementById('menu-container');
+
+    // 2. Loop through each item and create the HTML
+    data.forEach(item => {
+      const card = `
+        <div class="menu-card">
+          <model-viewer src="${item.model_url}" ar camera-controls touch-action="pan-y"></model-viewer>
+          <div class="info">
+            <h3>${item.name}</h3>
+            <p>${item.description}</p>
+            <span class="price">$${item.price}</span>
+            <button class="ar-button">View in AR</button>
+          </div>
+        </div>
+      `;
+      container.innerHTML += card;
+    });
+  }
+
+  getMenu();
+</script>
 </body>
 </html>
