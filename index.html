@@ -3,108 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Food Menu</title>
+    <title>Innovation AR Menu</title>
+    <!-- Adding a modern font for that premium feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    
     <style>
-        body { margin: 0; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background: #f4f4f4; }
-        h1 { margin-top: 20px; color: #333; }
+        :root {
+            --brand-gold: #D4AF37; /* Premium accent color */
+            --bg-light: #fdfdfd;
+            --text-main: #1a1a1a;
+        }
+
+        body { 
+            margin: 0; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-light); 
+            color: var(--text-main);
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px 20px;
+        }
+
+        header h1 { 
+            font-size: 2.5rem; 
+            font-weight: 800; 
+            letter-spacing: -1px;
+            margin: 0;
+        }
+
+        header p {
+            color: #666;
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .menu-card {
+            background: #ffffff;
+            border-radius: 30px;
+            padding: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #f0f0f0;
+        }
+
+        .menu-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+        }
+
         model-viewer {
             width: 100%;
-            height: 80vh;
-            background-color: #ffffff;
+            height: 300px;
+            background-color: #fafafa;
+            border-radius: 20px;
             --poster-color: transparent;
         }
-        .ar-button {
-            background-color: #007bff;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: -50px;
-            z-index: 10;
-        }
-       
-  .menu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-    padding: 20px;
-  }
-  .menu-card {
-    background: #ffffff;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease;
-  }
-  .menu-card:hover { transform: translateY(-5px); }
-  model-viewer {
-    width: 100%;
-    height: 250px;
-    background-color: #f9f9f9;
-  }
-  .info { padding: 20px; text-align: left; }
-  .price { color: #27ae60; font-weight: bold; font-size: 1.2rem; }
-  .ar-button {
-    width: 100%;
-    margin-top: 15px;
-    padding: 10px;
-    background: #000;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-  }
 
+        .info { padding: 25px 10px 10px; }
+
+        .category {
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: var(--brand-gold);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        h3 { margin: 0 0 10px; font-size: 1.6rem; font-weight: 700; }
+        
+        p { color: #777; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .price { font-weight: 800; font-size: 1.4rem; color: #111; }
+
+        .ar-button {
+            background: #000;
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .ar-button:hover { background: #333; }
     </style>
 </head>
 <body>
-  <header>
-    <h1>3D Innovation Menu</h1>
-  </header>
+    <header>
+        <h1>The 3D Bistro</h1>
+        <p>Experience your meal before it arrives.</p>
+    </header>
 
-  <!-- This is where Supabase will "inject" your burger and other items -->
-  <div id="menu-container" class="menu-grid"></div>
+    <div id="menu-container" class="menu-grid"></div>
 
-  <!-- Include the Supabase and Model-Viewer scripts -->
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js">
-  </script>
     <script>
-  const SUPABASE_URL = 'YOUR_PROJECT_URL_HERE';
-  const SUPABASE_KEY = 'YOUR_ANON_KEY_HERE';
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // FIXED SYNTAX: Using supabase.createClient correctly
+        const SUPABASE_URL = 'YOUR_PROJECT_URL_HERE';
+        const SUPABASE_KEY = 'YOUR_ANON_KEY_HERE';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  async function getMenu() {
-    // 1. Fetch data from your 'menu_items' table
-    const { data, error } = await supabase
-      .from('menu_items')
-      .select('*')
-      .eq('is_active', true);
+        async function getMenu() {
+            const { data, error } = await _supabase
+                .from('menu_items')
+                .select('*')
+                .eq('is_active', true);
 
-    if (error) console.error('Error loading menu:', error);
+            if (error) {
+                console.error('Error loading menu:', error);
+                return;
+            }
 
-    const container = document.getElementById('menu-container');
+            const container = document.getElementById('menu-container');
 
-    // 2. Loop through each item and create the HTML
-    data.forEach(item => {
-      const card = `
-        <div class="menu-card">
-          <model-viewer src="${item.model_url}" ar camera-controls touch-action="pan-y"></model-viewer>
-          <div class="info">
-            <h3>${item.name}</h3>
-            <p>${item.description}</p>
-            <span class="price">$${item.price}</span>
-            <button class="ar-button">View in AR</button>
-          </div>
-        </div>
-      `;
-      container.innerHTML += card;
-    });
-  }
+            data.forEach(item => {
+                const card = `
+                    <div class="menu-card">
+                        <model-viewer 
+                            src="${item.model_url}" 
+                            ar 
+                            camera-controls 
+                            touch-action="pan-y"
+                            shadow-intensity="1"
+                            exposure="1">
+                        </model-viewer>
+                        <div class="info">
+                            <span class="category">${item.category}</span>
+                            <h3>${item.name}</h3>
+                            <p>${item.description}</p>
+                            <div class="footer">
+                                <span class="price">$${item.price}</span>
+                                <button class="ar-button" onclick="this.parentElement.parentElement.parentElement.querySelector('model-viewer').activateAR()">VIEW IN 3D</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
 
-  getMenu();
-</script>
+        getMenu();
+    </script>
 </body>
 </html>
