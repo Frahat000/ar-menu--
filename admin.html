@@ -1,27 +1,46 @@
-// Step 1: Initialize Supabase (Same keys as before)
-const SUPABASE_URL = 'https://miqyfkrxyxywnkavvnkn.supabase.co'; 
-const SUPABASE_KEY = 'sb_publishable_bFsHvmYFPyTOIUdIHJYmjA_8xm8NVP0';
-const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bistro Manager</title>
+    <!-- 1. Load the Supabase Library first -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        form { display: flex; flex-direction: column; max-width: 300px; gap: 10px; }
+        input { padding: 8px; }
+    </style>
+</head>
+<body>
 
-// Step 2: Function to Add a New Item
-async function addNewItem(event) {
-    event.preventDefault(); // Stop page from refreshing
-    
-    // Get values from your form fields
-    const name = document.getElementById('name').value;
-    const price = document.getElementById('price').value;
-    const modelUrl = document.getElementById('modelUrl').value;
+    <h2>Add New Menu Item</h2>
+    <!-- 2. Create the actual input fields the code is looking for -->
+    <form onsubmit="addNewItem(event)">
+        <input type="text" id="name" placeholder="Item Name" required>
+        <input type="number" id="price" placeholder="Price" required>
+        <input type="text" id="modelUrl" placeholder="Model URL (.glb)" required>
+        <button type="submit">Add to Menu</button>
+    </form>
 
-    const { data, error } = await _supabase
-        .from('menu_items')
-        .insert([
-            { name: name, price: price, model_url: modelUrl, is_active: true }
-        ]);
+    <script>
+        // 3. Your JavaScript goes INSIDE these script tags
+        const SUPABASE_URL = 'https://miqyfkrxyxywnkavvnkn.supabase.co'; 
+        const SUPABASE_KEY = 'sb_publishable_bFsHvmYFPyTOIUdIHJYmjA_8xm8NVP0';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    if (error) {
-        alert("Error adding item: " + error.message);
-    } else {
-        alert("Success! Item added to the menu.");
-        location.reload(); // Refresh to see the new list
-    }
-}
+        async function addNewItem(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const price = document.getElementById('price').value;
+            const modelUrl = document.getElementById('modelUrl').value;
+
+            const { data, error } = await _supabase
+                .from('menu_items')
+                .insert([{ name: name, price: price, model_url: modelUrl, is_active: true }]);
+
+            if (error) alert("Error: " + error.message);
+            else { alert("Success!"); location.reload(); }
+        }
+    </script>
+</body>
+</html>
