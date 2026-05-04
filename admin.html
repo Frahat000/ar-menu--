@@ -1,0 +1,27 @@
+// Step 1: Initialize Supabase (Same keys as before)
+const SUPABASE_URL = 'https://miqyfkrxyxywnkavvnkn.supabase.co'; 
+const SUPABASE_KEY = 'sb_publishable_bFsHvmYFPyTOIUdIHJYmjA_8xm8NVP0';
+const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Step 2: Function to Add a New Item
+async function addNewItem(event) {
+    event.preventDefault(); // Stop page from refreshing
+    
+    // Get values from your form fields
+    const name = document.getElementById('name').value;
+    const price = document.getElementById('price').value;
+    const modelUrl = document.getElementById('modelUrl').value;
+
+    const { data, error } = await _supabase
+        .from('menu_items')
+        .insert([
+            { name: name, price: price, model_url: modelUrl, is_active: true }
+        ]);
+
+    if (error) {
+        alert("Error adding item: " + error.message);
+    } else {
+        alert("Success! Item added to the menu.");
+        location.reload(); // Refresh to see the new list
+    }
+}
