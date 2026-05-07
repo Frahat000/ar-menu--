@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bistro Manager Dashboard</title>
-    <!-- 1. This loads the Supabase "engine" -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 40px; background: #f4f7f6; color: #333; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; padding: 40px; background: #f4f7f6; color: #333; }
         .container { max-width: 500px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         h2 { margin-top: 0; color: #1a1a1a; }
         label { display: block; margin-top: 15px; font-weight: 600; font-size: 0.9rem; }
-        input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        input, textarea, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: inherit; }
         button { width: 100%; padding: 12px; background: #000; color: white; border: none; border-radius: 6px; margin-top: 25px; cursor: pointer; font-weight: bold; transition: 0.3s; }
         button:hover { background: #333; }
     </style>
@@ -20,10 +19,19 @@
 
 <div class="container">
     <h2>Add New Item</h2>
-    <!-- 2. The Form UI -->
     <form id="menu-form">
+        <label>Category</label>
+        <select id="category">
+            <option value="Main Course">Main Course</option>
+            <option value="Dessert">Dessert</option>
+            <option value="Drinks">Drinks</option>
+        </select>
+
         <label>Item Name</label>
-        <input type="text" id="name" placeholder="e.g. Double Cheeseburger" required>
+        <input type="text" id="name" placeholder="e.g. Chocolate Lava Cake" required>
+
+        <label>Description</label>
+        <textarea id="description" placeholder="Short tasty description..." required></textarea>
 
         <label>Price ($)</label>
         <input type="number" step="0.01" id="price" placeholder="9.99" required>
@@ -36,7 +44,6 @@
 </div>
 
 <script>
-    // 3. The Logic (Now inside script tags where it belongs!)
     const SUPABASE_URL = 'https://miqyfkrxyxywnkavvnkn.supabase.co'; 
     const SUPABASE_KEY = 'sb_publishable_bFsHvmYFPyTOIUdIHJYmjA_8xm8NVP0';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -45,33 +52,30 @@
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
-        
         const btn = document.getElementById('submitBtn');
         btn.innerText = "Saving...";
         btn.disabled = true;
 
-        const name = document.getElementById('name').value;
-        const price = document.getElementById('price').value;
-        const modelUrl = document.getElementById('modelUrl').value;
+        const newItem = {
+            name: document.getElementById('name').value,
+            price: document.getElementById('price').value,
+            description: document.getElementById('description').value,
+            category: document.getElementById('category').value,
+            model_url: document.getElementById('modelUrl').value,
+            is_active: true
+        };
 
-        const { data, error } = await _supabase
-            .from('menu_items')
-            .insert([
-                { name: name, price: price, model_url: modelUrl, is_active: true }
-            ]);
+        const { error } = await _supabase.from('menu_items').insert([newItem]);
 
         if (error) {
-            alert("Error adding item: " + error.message);
-            btn.innerText = "Save to Menu";
-            btn.disabled = false;
+            alert("Error: " + error.message);
         } else {
-            alert("Success! Item added to the menu.");
+            alert("Success! Item added.");
             form.reset();
-            btn.innerText = "Save to Menu";
-            btn.disabled = false;
         }
+        btn.innerText = "Save to Menu";
+        btn.disabled = false;
     });
 </script>
-
 </body>
 </html>
