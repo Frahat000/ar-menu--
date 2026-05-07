@@ -115,59 +115,54 @@
 
     <div id="menu-container" class="menu-grid"></div>
 
-    <script>
-        // CLEANED URL: Removed /rest/v1/ to allow Supabase to handle routing
-        const SUPABASE_URL = 'https://miqyfkrxyxywnkavvnkn.supabase.co'; 
-        const SUPABASE_KEY = 'sb_publishable_bFsHvmYFPyTOIUdIHJYmjA_8xm8NVP0';
-        
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+   <script>
+    const SUPABASE_URL = 'https://miqyfkrxyxywnkavvnkn.supabase.co'; 
+    const SUPABASE_KEY = 'sb_publishable_bFsHvmYFPyTOIUdIHJYmjA_8xm8NVP0';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        async function getMenu() {
-            const { data, error } = await _supabase
-                .from('menu_items')
-                .select('*')
-                .eq('is_active', true);
+    async function getMenu() {
+        const container = document.getElementById('menu-container');
+        container.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Loading Deliciousness...</p>';
 
-            if (error) {
-                console.error('Connection Error:', error);
-                return;
-            }
+        const { data, error } = await _supabase
+            .from('menu_items')
+            .select('*')
+            .eq('is_active', true);
 
-            const container = document.getElementById('menu-container');
-            container.innerHTML = ''; // Clear loading state
-
-            if (data.length === 0) {
-                container.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No active items found. Please check "is_active" in Supabase.</p>';
-                return;
-            }
-
-            data.forEach(item => {
-                const card = `
-                    <div class="menu-card">
-                        <model-viewer 
-                            src="${item.model_url}" 
-                            ar 
-                            camera-controls 
-                            touch-action="pan-y"
-                            shadow-intensity="1"
-                            exposure="1">
-                        </model-viewer>
-                        <div class="info">
-                            <span class="category">${item.category}</span>
-                            <h3>${item.name}</h3>
-                            <p>${item.description}</p>
-                            <div class="footer">
-                                <span class="price">$${item.price}</span>
-                                <button class="ar-button" onclick="this.closest('.menu-card').querySelector('model-viewer').activateAR()">VIEW IN 3D</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                container.innerHTML += card;
-            });
+        if (error) {
+            container.innerHTML = `<p>Error connecting to database: ${error.message}</p>`;
+            return;
         }
 
-        getMenu();
-    </script>
+        container.innerHTML = ''; // Clear loading text
+
+        data.forEach(item => {
+            const card = `
+                <div class="menu-card">
+                    <model-viewer 
+                        src="${item.model_url}" 
+                        ar 
+                        camera-controls 
+                        touch-action="pan-y"
+                        shadow-intensity="1"
+                        exposure="1">
+                    </model-viewer>
+                    <div class="info">
+                        <span class="category">${item.category || 'Specialty'}</span>
+                        <h3>${item.name}</h3>
+                        <p>${item.description || 'No description provided.'}</p>
+                        <div class="footer">
+                            <span class="price">$${item.price}</span>
+                            <button class="ar-button" onclick="this.closest('.menu-card').querySelector('model-viewer').activateAR()">VIEW IN 3D</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += card;
+        });
+    }
+
+    getMenu();
+</script>
 </body>
 </html>
