@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Innovation AR Menu</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Professional 3D Components -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     
@@ -36,7 +37,6 @@
             padding: 20px;
             overflow-x: auto;
             white-space: nowrap;
-            -ms-overflow-style: none; 
             scrollbar-width: none; 
         }
         .category-nav::-webkit-scrollbar { display: none; }
@@ -73,22 +73,42 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.03);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 1px solid #f0f0f0;
+            display: flex;
+            flex-direction: column;
         }
         .menu-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.08); }
 
-        model-viewer { width: 100%; height: 300px; background-color: #fafafa; border-radius: 20px; }
-        .info { padding: 25px 10px 10px; }
+        /* Professional 3D Styling */
+        model-viewer { 
+            width: 100%; 
+            height: 300px; 
+            background-color: #fafafa; 
+            border-radius: 20px;
+            --poster-color: transparent;
+        }
+
+        .info { padding: 25px 10px 10px; flex-grow: 1; }
         .category-tag { text-transform: uppercase; font-size: 0.7rem; font-weight: 800; color: var(--brand-gold); letter-spacing: 2px; margin-bottom: 8px; display: block; }
         h3 { margin: 0 0 10px; font-size: 1.6rem; font-weight: 700; }
         p.desc { color: #777; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; }
 
-        .footer { display: flex; justify-content: space-between; align-items: center; }
+        .footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
         .price { font-weight: 800; font-size: 1.4rem; color: #111; }
-        .ar-button { background: #000; color: #fff; padding: 12px 25px; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; }
+        
+        .ar-button { 
+            background: #000; 
+            color: #fff; 
+            padding: 12px 25px; 
+            border: none; 
+            border-radius: 50px; 
+            font-weight: 600; 
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .ar-button:active { transform: scale(0.95); }
 
         /* --- SKELETON ANIMATION --- */
         .skeleton {
-            background: var(--skeleton-grey);
             background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
             background-size: 200% 100%;
             animation: 1.5s shine linear infinite;
@@ -96,7 +116,7 @@
         @keyframes shine { to { background-position-x: -200%; } }
         
         .skeleton-viewer { height: 300px; border-radius: 20px; margin-bottom: 15px; }
-        .skeleton-text { height: 20px; border-radius: 4px; margin-bottom: 10px; width: 60%; }
+        .skeleton-text { height: 20px; border-radius: 4px; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -116,6 +136,7 @@
     <div id="menu-container" class="menu-grid"></div>
 
 <script>
+    // Configuration
     const SUPABASE_URL = 'https://miqyfkrxyxywnkavvnkn.supabase.co'; 
     const SUPABASE_KEY = 'sb_publishable_bFsHvmYFPyTOIUdIHJYmjA_8xm8NVP0';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -137,7 +158,7 @@
         }
     }
 
-    // 2. Fetching Logic with Professional Filtering
+    // 2. Fetching & AR Integration Logic
     async function getMenu(category = 'All') {
         showSkeletons();
 
@@ -148,7 +169,69 @@
         }
 
         const { data, error } = await query;
-
         const container = document.getElementById('menu-container');
+
         if (error) {
-            container.innerHTML = `
+            container.innerHTML = `<p style="grid-column: 1/-1; text-align:center;">Failed to load menu. Check connection.</p>`;
+            return;
+        }
+
+        container.innerHTML = ''; // Clear skeletons
+
+        data.forEach(item => {
+            container.innerHTML += `
+                <div class="menu-card">
+                    <model-viewer 
+                        src="${item.model_url}" 
+                        alt="3D model of ${item.name}"
+                        ar 
+                        ar-modes="webxr scene-viewer quick-look" 
+                        camera-controls 
+                        auto-rotate 
+                        shadow-intensity="1.5"
+                        exposure="1"
+                        loading="lazy"
+                        reveal="interaction"
+                        touch-action="pan-y">
+                        <div slot="ar-button" style="display:none;"></div>
+                    </model-viewer>
+
+                    <div class="info">
+                        <span class="category-tag">${item.category}</span>
+                        <h3>${item.name}</h3>
+                        <p class="desc">${item.description}</p>
+                        
+                        <div class="footer">
+                            <span class="price">$${parseFloat(item.price).toFixed(2)}</span>
+                            <button class="ar-button" onclick="activateAR(this)">
+                                🧊 View in AR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // AR Activation Helper
+    function activateAR(btn) {
+        const viewer = btn.closest('.menu-card').querySelector('model-viewer');
+        if (viewer.canActivateAR) {
+            viewer.activateAR();
+        } else {
+            alert("AR is not supported on this device or browser. Try using Chrome or Safari on a smartphone.");
+        }
+    }
+
+    // Category Filter Interaction
+    function filterMenu(category, btn) {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        getMenu(category);
+    }
+
+    // Initial Load
+    getMenu();
+</script>
+</body>
+</html>
