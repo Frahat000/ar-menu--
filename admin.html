@@ -8,6 +8,12 @@
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; padding: 40px; background: #f4f7f6; color: #333; }
+        
+        /* Top Navigation / Header */
+        .admin-header { display: flex; justify-content: space-between; align-items: center; max-width: 800px; margin: 0 auto 20px; }
+        .logout-btn { background: #eee; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.8rem; }
+        .logout-btn:hover { background: #ffebeb; color: #ff4d4d; }
+
         .container { max-width: 800px; margin: auto; display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; }
         
         /* Form Styling */
@@ -32,6 +38,11 @@
     </style>
 </head>
 <body>
+
+<div class="admin-header">
+    <h1 style="font-size: 1.2rem; margin:0;">Bistro Admin</h1>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+</div>
 
 <div class="container">
     <div class="card">
@@ -70,13 +81,26 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody id="inventory-body">
-                </tbody>
+            <tbody id="inventory-body"></tbody>
         </table>
     </div>
 </div>
 
 <script>
+    // --- 1. SECURITY GATEKEEPER ---
+    (function() {
+        const isAdmin = sessionStorage.getItem("isAdmin");
+        if (isAdmin !== "true") {
+            window.location.href = "login.html";
+        }
+    })();
+
+    function logout() {
+        sessionStorage.removeItem("isAdmin");
+        window.location.href = "login.html";
+    }
+
+    // --- 2. SUPABASE SETUP ---
     const SUPABASE_URL = 'https://miqyfkrxyxywnkavvnkn.supabase.co'; 
     const SUPABASE_KEY = 'sb_publishable_bFsHvmYFPyTOIUdIHJYmjA_8xm8NVP0';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -98,16 +122,4 @@
             inventoryBody.innerHTML += `
                 <tr>
                     <td>
-                        <strong>${item.name}</strong><br>
-                        <small style="color:#999">${item.category}</small>
-                    </td>
-                    <td>$${item.price}</td>
-                    <td>
-                        <button class="delete-btn" onclick="deleteItem('${item.id}')">Delete</button>
-                    </td>
-                </tr>
-            `;
-        });
-    }
-
-    // ---
+                        <strong>${item.name}
