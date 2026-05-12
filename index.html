@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Innovation AR Menu</title>
-    <!-- Premium Jakarta Font -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
@@ -14,6 +13,7 @@
             --brand-gold: #D4AF37;
             --bg-light: #fdfdfd;
             --text-main: #1a1a1a;
+            --skeleton-grey: #eeeeee;
         }
 
         body { 
@@ -21,26 +21,42 @@
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background: var(--bg-light); 
             color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
         }
 
-        header {
-            text-align: center;
-            padding: 60px 20px 20px;
+        header { text-align: center; padding: 60px 20px 20px; }
+        header h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; margin: 0; }
+        header p { color: #666; margin-top: 10px; font-size: 1.1rem; }
+
+        /* --- CATEGORY FILTER STYLE --- */
+        .category-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none; 
+            scrollbar-width: none; 
+        }
+        .category-nav::-webkit-scrollbar { display: none; }
+
+        .filter-btn {
+            background: #fff;
+            border: 1px solid #eee;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .filter-btn.active {
+            background: #000;
+            color: #fff;
+            border-color: #000;
         }
 
-        header h1 { 
-            font-size: 2.5rem; 
-            font-weight: 800; 
-            letter-spacing: -1px;
-            margin: 0;
-        }
-
-        header p {
-            color: #666;
-            margin-top: 10px;
-            font-size: 1.1rem;
-        }
-
+        /* --- GRID & CARDS --- */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -58,111 +74,81 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 1px solid #f0f0f0;
         }
+        .menu-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.08); }
 
-        .menu-card:hover { 
-            transform: translateY(-10px); 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.08);
-        }
-
-        model-viewer {
-            width: 100%;
-            height: 300px;
-            background-color: #fafafa;
-            border-radius: 20px;
-        }
-
+        model-viewer { width: 100%; height: 300px; background-color: #fafafa; border-radius: 20px; }
         .info { padding: 25px 10px 10px; }
-
-        .category {
-            text-transform: uppercase;
-            font-size: 0.7rem;
-            font-weight: 800;
-            color: var(--brand-gold);
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-            display: block;
-        }
-
+        .category-tag { text-transform: uppercase; font-size: 0.7rem; font-weight: 800; color: var(--brand-gold); letter-spacing: 2px; margin-bottom: 8px; display: block; }
         h3 { margin: 0 0 10px; font-size: 1.6rem; font-weight: 700; }
-        p { color: #777; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; }
+        p.desc { color: #777; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; }
 
-        .footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
-        }
-
+        .footer { display: flex; justify-content: space-between; align-items: center; }
         .price { font-weight: 800; font-size: 1.4rem; color: #111; }
+        .ar-button { background: #000; color: #fff; padding: 12px 25px; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; }
 
-        .ar-button {
-            background: #000;
-            color: #fff;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
+        /* --- SKELETON ANIMATION --- */
+        .skeleton {
+            background: var(--skeleton-grey);
+            background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+            background-size: 200% 100%;
+            animation: 1.5s shine linear infinite;
         }
+        @keyframes shine { to { background-position-x: -200%; } }
+        
+        .skeleton-viewer { height: 300px; border-radius: 20px; margin-bottom: 15px; }
+        .skeleton-text { height: 20px; border-radius: 4px; margin-bottom: 10px; width: 60%; }
     </style>
 </head>
 <body>
+
     <header>
         <h1>The 3D Bistro</h1>
         <p>Experience your meal before it arrives.</p>
     </header>
 
+    <nav class="category-nav">
+        <button class="filter-btn active" onclick="filterMenu('All', this)">All Items</button>
+        <button class="filter-btn" onclick="filterMenu('Main Course', this)">Mains</button>
+        <button class="filter-btn" onclick="filterMenu('Dessert', this)">Desserts</button>
+        <button class="filter-btn" onclick="filterMenu('Drinks', this)">Drinks</button>
+    </nav>
+
     <div id="menu-container" class="menu-grid"></div>
 
-   <script>
+<script>
     const SUPABASE_URL = 'https://miqyfkrxyxywnkavvnkn.supabase.co'; 
     const SUPABASE_KEY = 'sb_publishable_bFsHvmYFPyTOIUdIHJYmjA_8xm8NVP0';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    async function getMenu() {
+    // 1. Skeleton UI Logic
+    function showSkeletons() {
         const container = document.getElementById('menu-container');
-        container.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Loading Deliciousness...</p>';
-
-        const { data, error } = await _supabase
-            .from('menu_items')
-            .select('*')
-            .eq('is_active', true);
-
-        if (error) {
-            container.innerHTML = `<p>Error connecting to database: ${error.message}</p>`;
-            return;
-        }
-
-        container.innerHTML = ''; // Clear loading text
-
-        data.forEach(item => {
-            const card = `
+        container.innerHTML = '';
+        for(let i=0; i<3; i++) {
+            container.innerHTML += `
                 <div class="menu-card">
-                    <model-viewer 
-                        src="${item.model_url}" 
-                        ar 
-                        camera-controls 
-                        touch-action="pan-y"
-                        shadow-intensity="1"
-                        exposure="1">
-                    </model-viewer>
+                    <div class="skeleton skeleton-viewer"></div>
                     <div class="info">
-                        <span class="category">${item.category || 'Specialty'}</span>
-                        <h3>${item.name}</h3>
-                        <p>${item.description || 'No description provided.'}</p>
-                        <div class="footer">
-                            <span class="price">$${item.price}</span>
-                            <button class="ar-button" onclick="this.closest('.menu-card').querySelector('model-viewer').activateAR()">VIEW IN 3D</button>
-                        </div>
+                        <div class="skeleton skeleton-text" style="width:30%"></div>
+                        <div class="skeleton skeleton-text" style="width:80%"></div>
+                        <div class="skeleton skeleton-text" style="width:50%"></div>
                     </div>
-                </div>
-            `;
-            container.innerHTML += card;
-        });
+                </div>`;
+        }
     }
 
-    getMenu();
-</script>
-</body>
-</html>
+    // 2. Fetching Logic with Professional Filtering
+    async function getMenu(category = 'All') {
+        showSkeletons();
+
+        let query = _supabase.from('menu_items').select('*').eq('is_active', true);
+        
+        if (category !== 'All') {
+            query = query.eq('category', category);
+        }
+
+        const { data, error } = await query;
+
+        const container = document.getElementById('menu-container');
+        if (error) {
+            container.innerHTML = `
