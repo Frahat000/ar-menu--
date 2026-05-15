@@ -1,36 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bistro Admin Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&display=swap" rel="stylesheet">
+    <title>Innovation AR | Staff Login</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f7f6; }
-        .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; width: 300px; }
-        input { width: 100%; padding: 12px; margin: 20px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: #000; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f0f0f0; }
+        .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+        button { width: 100%; padding: 10px; background: #000; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="login-card">
         <h2>Manager Access</h2>
-        <input type="password" id="passkey" placeholder="Enter Secret Key">
-        <button onclick="checkLogin()">Login</button>
-        <p id="error" style="color: red; font-size: 0.8rem; display: none;">Access Denied</p>
+        <input type="password" id="accessKey" placeholder="Enter Manager Key">
+        <button onclick="checkAccess()">Login</button>
     </div>
-
     <script>
-        function checkLogin() {
-            const secret = "BISTRO2026"; // CHANGE THIS TO YOUR SECRET PASSWORD
-            const input = document.getElementById('passkey').value;
-            
-            if(input === secret) {
-                // Give them the "Key" for this session
+        function checkAccess() {
+            const key = document.getElementById('accessKey').value;
+            if (key === "admin123") { // Replace with your secret key
                 sessionStorage.setItem("isAdmin", "true");
                 window.location.href = "admin.html";
             } else {
-                document.getElementById('error').style.display = "block";
+                alert("Invalid Access Key");
             }
         }
     </script>
