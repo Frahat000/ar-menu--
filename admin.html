@@ -1,30 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Innovation AR | Manager Dashboard</title>
+    <meta charset="UTF-8">
+    <title>Bistro Manager | Dashboard</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="env.js"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    </head>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; padding: 40px; background: #f4f7f6; }
+        .admin-nav { display: flex; justify-content: space-between; max-width: 900px; margin: 0 auto 20px; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); max-width: 500px; margin: auto; }
+        input, select, textarea { width: 100%; padding: 12px; margin-top: 10px; border: 1px solid #eee; border-radius: 10px; display: block; }
+        button { width: 100%; padding: 15px; background: #000; color: #fff; border: none; border-radius: 12px; margin-top: 20px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
 <body>
-    <script>
-        // Security Gate
-        if (sessionStorage.getItem("isAdmin") !== "true") { window.location.href = "login.html"; }
 
-        const _supabase = supabase.createClient(config.SUPABASE_URL, config.SUPABASE_KEY);
+<div class="admin-nav">
+    <h1>Bistro Admin</h1>
+    <button onclick="logout()" style="width: auto; background: #ff4d4d;">Logout</button>
+</div>
 
-        async function addItem(e) {
-            e.preventDefault();
-            const newItem = {
-                name: document.getElementById('name').value,
-                price: document.getElementById('price').value,
-                model_url: document.getElementById('modelUrl').value,
-                category: document.getElementById('category').value,
-                description: document.getElementById('description').value
-            };
-            const { error } = await _supabase.from('menu_items').insert([newItem]);
-            if (error) alert("Error!"); else location.reload();
+<div class="card">
+    <h2>Add New Item</h2>
+    <form id="menu-form">
+        <input type="text" id="name" placeholder="Item Name" required>
+        <textarea id="description" placeholder="Description" required></textarea>
+        <input type="number" step="0.01" id="price" placeholder="Price (9.99)" required>
+        <select id="category">
+            <option value="Main Course">Main Course</option>
+            <option value="Dessert">Dessert</option>
+            <option value="Drinks">Drinks</option>
+        </select>
+        <input type="text" id="modelUrl" placeholder="3D Model URL (from Supabase Storage)" required>
+        <button type="submit">Save to Live Menu</button>
+    </form>
+</div>
+
+<script>
+    // --- 1. SECURITY CHECK ---
+    if (sessionStorage.getItem("isAdmin") !== "true") {
+        window.location.href = "login.html";
+    }
+
+    function logout() {
+        sessionStorage.removeItem("isAdmin");
+        window.location.href = "login.html";
+    }
+
+    // --- 2. SUPABASE CONFIG ---
+    const url = (typeof config !== 'undefined') ? config.SUPABASE_URL : '';
+    const key = (typeof config !== 'undefined') ? config.SUPABASE_KEY : '';
+    const _supabase = supabase.createClient(url, key);
+
+    // --- 3. SAVE LOGIC ---
+    document.getElementById('menu-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newItem = {
+            name: document.getElementById('name').value,
+            description: document.getElementById('description').value,
+            price: document.getElementById('price').value,
+            category: document.getElementById('category').value,
+            model_url: document.getElementById('modelUrl').value,
+            is_active: true
+        };
+
+        const { error } = await _supabase.from('menu_items').insert([newItem]);
+
+        if (error) {
+            alert("Error: " + error.message);
+        } else {
+            alert("Item added successfully!");
+            document.getElementById('menu-form').reset();
         }
-    </script>
-    </body>
+    });
+</script>
+</body>
 </html>
