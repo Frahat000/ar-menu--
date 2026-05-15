@@ -33,45 +33,47 @@
 
     <div id="menu-container" class="menu-grid">
         </div>
-// 1. Try to get keys from env.js, but have backups just in case
-const url = (typeof config !== 'undefined') ? config.SUPABASE_URL : 'https://miqyfkrxyxywnkavvnkn.supabase.co';
-const key = (typeof config !== 'undefined') ? config.SUPABASE_KEY : 'sb_publishable_bFsHvmYFPyTOIUdIHJYmjA_8xm8NVP0';
 
-const _supabase = supabase.createClient(url, key);
+    <script>
+        // 1. Setup credentials with Fallbacks
+        const url = (typeof config !== 'undefined') ? config.SUPABASE_URL : 'https://miqyfkrxyxywnkavvnkn.supabase.co';
+        const key = (typeof config !== 'undefined') ? config.SUPABASE_KEY : 'sb_publishable_bFsHvmYFPyTOIUdIHJYmjA_8xm8NVP0';
 
-async function getMenu() {
-    const container = document.getElementById('menu-container');
-    
-    // 2. Fetch everything from the table to test connection
-    const { data, error } = await _supabase.from('menu_items').select('*');
+        const _supabase = supabase.createClient(url, key);
 
-    if (error) {
-        container.innerHTML = `<p style="color:red;">Database Error: ${error.message}</p>`;
-        return;
-    }
+        async function getMenu() {
+            const container = document.getElementById('menu-container');
+            
+            // 2. Fetch data from Supabase
+            const { data, error } = await _supabase.from('menu_items').select('*');
 
-    if (!data || data.length === 0) {
-        container.innerHTML = `<p>Connected to Supabase, but your 'menu_items' table is empty. Add items in the Admin Dashboard!</p>`;
-        return;
-    }
+            if (error) {
+                container.innerHTML = `<p style="color:red;">Database Error: ${error.message}</p>`;
+                return;
+            }
 
-    // 3. Render the items
-    container.innerHTML = ''; 
-    data.forEach(item => {
-        container.innerHTML += `
-            <div class="menu-card">
-                <model-viewer src="${item.model_url}" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate shadow-intensity="1"></model-viewer>
-                <div class="info">
-                    <h3>${item.name}</h3>
-                    <p>${item.description}</p>
-                    <span class="price">$${parseFloat(item.price).toFixed(2)}</span>
-                </div>
-            </div>`;
-    });
-}
+            if (!data || data.length === 0) {
+                container.innerHTML = `<p>Connected! But your 'menu_items' table is empty. Add items in the Admin Dashboard!</p>`;
+                return;
+            }
 
-getMenu();
-   
+            // 3. Render the items into the HTML
+            container.innerHTML = ''; 
+            data.forEach(item => {
+                container.innerHTML += `
+                    <div class="menu-card">
+                        <model-viewer src="${item.model_url}" ar ar-modes="webxr scene-viewer quick-look" camera-controls auto-rotate shadow-intensity="1"></model-viewer>
+                        <div class="info">
+                            <h3>${item.name}</h3>
+                            <p>${item.description}</p>
+                            <span class="price">$${parseFloat(item.price).toFixed(2)}</span>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        // Start the fetch process
+        getMenu();
     </script>
 </body>
 </html>
