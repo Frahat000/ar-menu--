@@ -7,250 +7,207 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="env.js"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <style>
-    /* --- 1. BRAND GLOBAL VARIABLES --- */
-    :root {
-        --brand-gold: #D4AF37;
-        --brand-gold-hover: #AA8C2C;
-        --bg-main: #FAFAFB;
-        --surface-card: #FFFFFF;
-        
-        /* Typography Colors */
-        --text-primary: #111112;
-        --text-secondary: #56565C;
-        --text-muted: #8A8A93;
-        
-        /* UI Accents */
-        --border-color: rgba(0, 0, 0, 0.06);
-        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.02);
-        --shadow-md: 0 12px 34px rgba(0, 0, 0, 0.04);
-        --radius-lg: 24px;
-        --radius-md: 12px;
-        --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
-
-    /* --- 2. GLOBAL RESET & BASE RULES --- */
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-
-    body {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        background-color: var(--bg-main);
-        color: var(--text-primary);
-        line-height: 1.6;
-        -webkit-font-smoothing: antialiased;
-    }
-
-    /* --- 3. PREMIUM APP HEADER --- */
-    header, .admin-nav {
-        text-align: center;
-        padding: 60px 24px 32px;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    header h1, .admin-nav h1 {
-        font-size: 2.5rem;
-        font-weight: 800;
-        letter-spacing: -1px;
-        margin-bottom: 8px;
-        color: var(--text-primary);
-    }
-
-    header p {
-        color: var(--text-secondary);
-        font-size: 1.1rem;
-        font-weight: 400;
-    }
-
-    /* --- 4. THE INTERACTIVE GRID --- */
-    .menu-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 32px;
-        padding: 0 24px 60px;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    /* --- 5. THE PRODUCT CARD STATE MACHINERY --- */
-    .menu-card {
-        background: var(--surface-card);
-        border-radius: var(--radius-lg);
-        padding: 16px;
-        border: 1px solid var(--border-color);
-        box-shadow: var(--shadow-sm);
-        transition: var(--transition-smooth);
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-    }
-
-    /* Micro-interaction layout lift on desktop hover */
-    @media (hover: hover) {
-        .menu-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-md);
-            border-color: rgba(212, 175, 55, 0.2);
+    <style>
+        /* --- 1. BRAND GLOBAL VARIABLES --- */
+        :root {
+            --brand-gold: #D4AF37;
+            --brand-gold-hover: #AA8C2C;
+            --bg-main: #FAFAFB;
+            --surface-card: #FFFFFF;
+            
+            /* Typography Colors */
+            --text-primary: #111112;
+            --text-secondary: #56565C;
+            --text-muted: #8A8A93;
+            
+            /* UI Accents */
+            --border-color: rgba(0, 0, 0, 0.06);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 12px 34px rgba(0, 0, 0, 0.04);
+            --radius-lg: 24px;
+            --radius-md: 12px;
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-    }
 
-    /* 3D Viewport Area */
-    model-viewer {
-        width: 100%;
-        height: 280px;
-        background-color: #F5F5F7;
-        border-radius: calc(var(--radius-lg) - 4px);
-        --poster-color: transparent;
-    }
+        /* --- 2. GLOBAL RESET & BASE RULES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    /* Card Details Elements */
-    .info {
-        padding: 20px 8px 8px;
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-    }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
 
-    .info h3 {
-        font-size: 1.35rem;
-        font-weight: 700;
-        letter-spacing: -0.5px;
-        margin-bottom: 8px;
-    }
+        /* --- 3. PREMIUM APP HEADER --- */
+        .admin-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 24px 20px;
+            max-width: 580px;
+            margin: 0 auto;
+        }
 
-    .info p {
-        color: var(--text-secondary);
-        font-size: 0.95rem;
-        margin-bottom: 20px;
-        flex-grow: 1;
-    }
+        .admin-nav h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--text-primary);
+        }
 
-    .price {
-        font-size: 1.4rem;
-        font-weight: 800;
-        color: var(--brand-gold);
-        letter-spacing: -0.5px;
-        margin-top: auto;
-    }
+        /* --- 4. FORM FIELDS & BUTTONS --- */
+        .card {
+            background: var(--surface-card);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            width: 100%;
+            max-width: 580px;
+            margin: 20px auto 60px;
+        }
 
-    /* --- 6. FORM FIELDS & BUTTONS (For Login & Admin Dashboard) --- */
-    .card {
-        background: var(--surface-card);
-        padding: 40px;
-        border-radius: var(--radius-lg);
-        border: 1px solid var(--border-color);
-        box-shadow: var(--shadow-md);
-        width: 100%;
-        max-width: 480px;
-        margin: 40px auto;
-    }
+        .card h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+        }
 
-    .card h2 {
-        font-size: 1.75rem;
-        font-weight: 800;
-        letter-spacing: -0.5px;
-        margin-bottom: 24px;
-    }
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-    label {
-        font-size: 0.85rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        color: var(--text-secondary);
-        display: block;
-        margin-top: 16px;
-    }
+        label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            display: block;
+            margin-bottom: 6px;
+        }
 
-    input, select, textarea {
-        width: 100%;
-        padding: 14px 16px;
-        margin-top: 6px;
-        border: 1px solid var(--border-color);
-        background-color: #F5F5F7;
-        border-radius: var(--radius-md);
-        font-family: inherit;
-        font-size: 1rem;
-        color: var(--text-primary);
-        transition: var(--transition-smooth);
-    }
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border-color);
+            background-color: #F5F5F7;
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--text-primary);
+            transition: var(--transition-smooth);
+        }
 
-    input:focus, select:focus, textarea:focus {
-        outline: none;
-        background-color: var(--surface-card);
-        border-color: var(--brand-gold);
-        box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
-    }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
 
-    /* Modern Styled Controls */
-    button, .btn {
-        width: 100%;
-        padding: 16px;
-        background-color: var(--text-primary);
-        color: var(--surface-card);
-        font-size: 1rem;
-        font-weight: 700;
-        border: none;
-        border-radius: var(--radius-md);
-        cursor: pointer;
-        transition: var(--transition-smooth);
-        margin-top: 24px;
-        display: inline-block;
-        text-align: center;
-        text-decoration: none;
-    }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            background-color: var(--surface-card);
+            border-color: var(--brand-gold);
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
+        }
 
-    button:hover, .btn:hover {
-        background-color: #27272A;
-    }
+        /* Modern Controls Button Layer */
+        button, .btn {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--text-primary);
+            color: var(--surface-card);
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
 
-    /* Decorative Action Accents */
-    button.primary, .btn-primary {
-        background-color: var(--brand-gold);
-        color: #FFFFFF;
-    }
+        button:hover, .btn:hover {
+            background-color: #27272A;
+        }
 
-    button.primary:hover, .btn-primary:hover {
-        background-color: var(--brand-gold-hover);
-    }
+        button[type="submit"] {
+            background-color: var(--brand-gold);
+            color: #FFFFFF;
+            margin-top: 10px;
+        }
 
-    button.danger {
-        background-color: #EF4444;
-    }
-    button.danger:hover {
-        background-color: #DC2626;
-    }
-</style>
+        button[type="submit"]:hover {
+            background-color: var(--brand-gold-hover);
+        }
+
+        .btn-logout {
+            width: auto;
+            padding: 10px 20px;
+            background-color: #EF4444;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .btn-logout:hover {
+            background-color: #DC2626;
+        }
+    </style>
 </head>
 <body>
 
 <div class="admin-nav">
     <h1>Bistro Admin</h1>
-    <button onclick="logout()" style="width: auto; background: #ff4d4d;">Logout</button>
+    <button onclick="logout()" class="btn-logout">Logout</button>
 </div>
 
 <div class="card">
-    <h2>Add New Item</h2>
+    <h2>Add New Menu Item</h2>
     <form id="menu-form">
-        <input type="text" id="name" placeholder="Item Name" required>
-        <textarea id="description" placeholder="Description" required></textarea>
-        <input type="number" step="0.01" id="price" placeholder="Price (9.99)" required>
-        <select id="category">
-            <option value="Main Course">Main Course</option>
-            <option value="Dessert">Dessert</option>
-            <option value="Drinks">Drinks</option>
-        </select>
-        <input type="text" id="modelUrl" placeholder="3D Model URL (from Supabase Storage)" required>
+        <div class="form-group">
+            <label for="name">Item Name</label>
+            <input type="text" id="name" placeholder="e.g., Signature Beef Burger" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" placeholder="Describe ingredients, layout presentation..." required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Price ($ USD)</label>
+            <input type="number" step="0.01" id="price" placeholder="12.99" required>
+        </div>
+
+        <div class="form-group">
+            <label for="category">Menu Category</label>
+            <select id="category" required>
+                <option value="Main Course">Burgers (Main Course)</option>
+                <option value="Drinks">Drinks</option>
+                <option value="Dessert">Desserts</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="modelUrl">3D Model URL Path</label>
+            <input type="text" id="modelUrl" placeholder="https://.../storage/v1/object/public/..." required>
+        </div>
+
         <button type="submit">Save to Live Menu</button>
     </form>
 </div>
 
 <script>
-    // --- 1. SECURITY CHECK ---
+    // --- 1. SECURITY ENGINE INTERCEPT ---
     if (sessionStorage.getItem("isAdmin") !== "true") {
         window.location.href = "login.html";
     }
@@ -260,14 +217,15 @@
         window.location.href = "login.html";
     }
 
-    // --- 2. SUPABASE CONFIG ---
-    const url = (typeof config !== 'undefined') ? config.SUPABASE_URL : '';
-    const key = (typeof config !== 'undefined') ? config.SUPABASE_KEY : '';
+    // --- 2. SUPABASE CREDENTIAL INITIALIZATION ---
+    const url = (typeof config !== 'undefined') ? config.SUPABASE_URL : 'https://miqyfkrxyxywnkavvnkn.supabase.co';
+    const key = (typeof config !== 'undefined') ? config.SUPABASE_KEY : 'sb_publishable_bFsHvmYFPyTOIUdIHJYmjA_8xm8NVP0';
     const _supabase = supabase.createClient(url, key);
 
-    // --- 3. SAVE LOGIC ---
+    // --- 3. PERSISTENCE INJECTION PIPELINE ---
     document.getElementById('menu-form').addEventListener('submit', async (e) => {
         e.preventDefault();
+        
         const newItem = {
             name: document.getElementById('name').value,
             description: document.getElementById('description').value,
@@ -280,9 +238,9 @@
         const { error } = await _supabase.from('menu_items').insert([newItem]);
 
         if (error) {
-            alert("Error: " + error.message);
+            alert("Error adding item: " + error.message);
         } else {
-            alert("Item added successfully!");
+            alert("✨ Success! Item successfully published to live AR Menu.");
             document.getElementById('menu-form').reset();
         }
     });
