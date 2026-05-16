@@ -70,7 +70,7 @@
             box-shadow: var(--shadow-md);
             width: 100%;
             max-width: 580px;
-            margin: 20px auto 60px;
+            margin: 20px auto 30px;
         }
 
         .card h2 {
@@ -206,6 +206,12 @@
     </form>
 </div>
 
+<div class="card" style="margin-bottom: 60px;">
+    <h2>Item Popularity Analytics</h2>
+    <div id="analytics-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 20px;">
+        </div>
+</div>
+
 <script>
     // --- 1. SECURITY ENGINE INTERCEPT ---
     if (sessionStorage.getItem("isAdmin") !== "true") {
@@ -229,7 +235,7 @@
         const newItem = {
             name: document.getElementById('name').value,
             description: document.getElementById('description').value,
-            price: document.getElementById('price').value,
+            price: parseFloat(document.getElementById('price').value),
             category: document.getElementById('category').value,
             model_url: document.getElementById('modelUrl').value,
             is_active: true
@@ -242,8 +248,40 @@
         } else {
             alert("✨ Success! Item successfully published to live AR Menu.");
             document.getElementById('menu-form').reset();
+            loadAnalytics(); // Reload metrics layout automatically upon record insertion
         }
     });
+
+    // --- 4. ANALYTICS ENGINE DATA HARVESTER ---
+    async function loadAnalytics() {
+        const grid = document.getElementById('analytics-grid');
+        grid.innerHTML = `<p style="color: var(--text-secondary); font-size: 0.9rem;">Gathering performance metrics...</p>`;
+        
+        // Fetch items sorted by metrics ranking
+        const { data, error } = await _supabase
+            .from('menu_items')
+            .select('name, view_count')
+            .order('view_count', { ascending: false });
+
+        if (error) {
+            grid.innerHTML = `<p style="color: #EF4444; font-size: 0.9rem;">Failed to load analytics: ${error.message}</p>`;
+            return;
+        }
+
+        grid.innerHTML = '';
+        data.forEach(item => {
+            grid.innerHTML += `
+                <div style="background: #F5F5F7; padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--border-color); text-align: center;">
+                    <h4 style="font-size: 1rem; font-weight: 600; margin-bottom: 6px; color: var(--text-primary); text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${item.name}</h4>
+                    <span style="font-size: 2.25rem; font-weight: 800; color: var(--brand-gold); line-height: 1;">${item.view_count || 0}</span>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-top: 6px;">Views</p>
+                </div>
+            `;
+        });
+    }
+
+    // Run engine setup metrics on start
+    loadAnalytics();
 </script>
 </body>
 </html>
