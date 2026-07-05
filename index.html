@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>ARscape® Immersive Gastronomy</title>
-    <!-- Tailwind CSS for utility framing -->
+    <!-- Tailwind CSS for modern layout scaffolding -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Fonts: Editorial Playfair Display and modern Plus Jakarta Sans -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Elegant editorial Playfair Display & sleek, modern Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- Google Model Viewer for GPU-accelerated WebXR/AR rendering -->
+    <!-- Google Model Viewer for fast, hardware-accelerated 3D/AR projection -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
     <script>
@@ -20,17 +20,22 @@
                     fontFamily: {
                         serif: ['Playfair Display', 'serif'],
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
                         arscape: {
-                            obsidian: '#050505',     // Absolute premium pitch black
-                            cardBg: '#111111',       // Sleek dark grey elevation container
-                            champagne: '#f5d6b3',    // Light warm sand accents
-                            bronze: '#ca8a04',       // Warm gold metrics
-                            textMuted: '#7c7c82',    // Standard Apple-grade grey
-                            accentRed: '#ff3b30',    // Apple system red
-                            neonAura: 'rgba(245, 214, 179, 0.04)'
+                            obsidian: '#040508',     // Deepest premium luxury space blue-black
+                            cardBg: 'rgba(13, 17, 28, 0.7)', // Frosted dark elevation container
+                            champagne: '#f5d6b3',    // Soft warm luxury sand accent
+                            bronze: '#d97706',       // Deep rich golden bronze
+                            textMuted: '#94a3b8',    // Slate gray metadata text
+                            accentRed: '#ff3b30',    // Apple-grade dynamic system red
+                            success: '#34d399',      // Sleek mint green for cart notifications
                         }
+                    },
+                    boxShadow: {
+                        'premium': '0 20px 40px rgba(0, 0, 0, 0.4)',
+                        'ambient-glow': '0 0 30px rgba(217, 119, 6, 0.15)',
                     }
                 }
             }
@@ -39,11 +44,24 @@
 
     <style>
         body {
-            background-color: #050505;
-            -webkit-tap-highlight-color: transparent; /* Disable default gray touch highlight on mobile */
-            overflow-y: scroll;
+            background-color: #040508;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
         }
-        
+
+        /* Glassmorphism panel base */
+        .premium-glass {
+            background: rgba(13, 17, 28, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .gold-border {
+            border: 1px solid rgba(217, 119, 6, 0.2);
+        }
+
+        /* Hide default scrollbars */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -52,32 +70,28 @@
             scrollbar-width: none;
         }
 
-        /* Fluid native spring animations */
-        .spring-ease {
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* Fluid physical spring curves */
+        .spring-physics {
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.2);
         }
 
         .cinematic-ease {
             transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @keyframes micro-pulse {
-            0%, 100% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.03); opacity: 1; }
-        }
-
-        .ambient-shimmer {
-            background: linear-gradient(90deg, #ca8a04 0%, #f5d6b3 50%, #ca8a04 100%);
-            background-size: 200% auto;
-            animation: shine 6s infinite linear;
-        }
-
-        @keyframes shine {
+        /* Premium holographic shine on the AR Button */
+        @keyframes shimmer-glow {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
         }
 
-        /* Bottom Sheet UI Drawer Animation States */
+        .shimmer-active {
+            background: linear-gradient(90deg, #d97706 0%, #f5d6b3 50%, #d97706 100%);
+            background-size: 200% auto;
+            animation: shimmer-glow 4s infinite linear;
+        }
+
+        /* Bottom Sheet Sliding States */
         .bottom-sheet {
             transform: translateY(100%);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -85,245 +99,291 @@
         .bottom-sheet.open {
             transform: translateY(0);
         }
+
+        /* Custom frame wrapper for desktop styling - looks like a clean phone frame on computers but normal on mobile */
+        @media (min-width: 640px) {
+            .mobile-frame-container {
+                max-width: 412px;
+                height: 892px;
+                border: 12px solid #1e293b;
+                border-radius: 48px;
+                position: relative;
+                box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+                overflow: hidden;
+                margin: auto;
+            }
+        }
     </style>
 </head>
-<body class="text-slate-100 font-sans min-h-screen flex flex-col justify-between select-none">
+<body class="text-slate-100 font-sans min-h-screen flex flex-col justify-center items-center py-6 px-2 select-none">
 
-    <header class="sticky top-0 z-40 bg-arscape-obsidian/90 backdrop-blur-md border-b border-white/5 py-4 px-4 flex items-center justify-between w-full">
-        <div class="flex items-center gap-2">
-            <h1 class="text-2xl font-black tracking-tighter text-white">
-                ARscape<span class="text-[9px] font-bold text-arscape-champagne ml-0.5 relative -top-2">®</span>
-            </h1>
-            <span class="text-[9px] font-bold tracking-widest text-arscape-textMuted uppercase border border-white/10 px-2.5 py-1 rounded-full bg-white/5">
-                Table 08
-            </span>
-        </div>
+    <!-- The outer frame wraps the app on desktop, ensuring a beautiful viewport perspective -->
+    <div class="mobile-frame-container w-full min-h-screen sm:min-h-0 bg-arscape-obsidian flex flex-col justify-between relative shadow-2xl">
 
-        <div class="flex items-center gap-2">
-            <!-- Active invoice counter button -->
-            <button onclick="toggleCartDrawer(true)" class="relative bg-arscape-cardBg border border-white/10 p-2.5 rounded-2xl flex items-center gap-1.5 active:scale-90 transition-all">
-                <i class="fa-solid fa-receipt text-arscape-champagne text-xs"></i>
-                <span id="cart-badge-counter" class="bg-arscape-champagne text-black font-extrabold text-[9px] w-4 h-4 rounded-md flex items-center justify-center">0</span>
-            </button>
-        </div>
-    </header>
+        <!-- STICKY TOP HEADER -->
+        <header class="sticky top-0 z-40 bg-arscape-obsidian/85 backdrop-blur-md border-b border-white/5 py-4 px-6 flex items-center justify-between w-full">
+            <div class="flex flex-col">
+                <div class="flex items-center gap-1.5">
+                    <h1 class="text-xl font-bold tracking-tight text-white uppercase">
+                        ARscape<span class="text-[8px] font-black text-arscape-champagne relative -top-1.5">®</span>
+                    </h1>
+                    <span class="text-[8px] font-bold tracking-widest text-arscape-champagne border border-arscape-champagne/20 px-2 py-0.5 rounded-full bg-arscape-champagne/5 uppercase">
+                        Table 08
+                    </span>
+                </div>
+                <span class="text-[8px] uppercase tracking-widest text-slate-500 font-semibold mt-0.5">Spatial Gastronomy</span>
+            </div>
 
-    <main class="w-full max-w-md mx-auto flex flex-col px-4 pt-4 pb-28 gap-6 flex-grow">
+            <div class="flex items-center gap-3">
+                <!-- Shopping Cart / Live Bill Button -->
+                <button onclick="toggleCartDrawer(true)" class="relative bg-white/5 border border-white/10 p-2.5 rounded-2xl flex items-center justify-center active:scale-90 transition-all">
+                    <i class="fa-solid fa-receipt text-arscape-champagne text-sm"></i>
+                    <span id="cart-badge-counter" class="absolute -top-1.5 -right-1.5 bg-arscape-accentRed text-white font-bold text-[9px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-arscape-obsidian">0</span>
+                </button>
+            </div>
+        </header>
 
-        <section class="relative w-full aspect-[4/3] rounded-[28px] overflow-hidden border border-white/5 bg-gradient-to-b from-neutral-900 to-black shadow-2xl flex flex-col">
-            <!-- Ambient backdrop spot lighting simulation -->
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,214,179,0.06)_0%,transparent_75%)] pointer-events-none"></div>
+        <!-- MAIN SCROLLABLE MOBILE CONTENT AREA -->
+        <main class="w-full flex flex-col px-5 pt-5 pb-28 gap-6 flex-grow overflow-y-auto no-scrollbar">
 
-            <!-- Google model-viewer element pointing to local path with CDN fallbacks -->
-            <model-viewer id="main-spatial-canvas"
-                src="./pizza.glb"
-                alt="ARscape 3D Gastronomy Model"
-                ar
-                ar-modes="webxr scene-viewer quick-look"
-                camera-controls
-                touch-action="pan-y"
-                auto-rotate
-                interaction-prompt="auto"
-                class="w-full h-full"
-                style="--poster-color: transparent;">
+            <!-- THE HOLOGRAPHIC 3D PEDESTAL -->
+            <section class="relative w-full aspect-[4/3.5] rounded-[32px] overflow-hidden border border-white/5 bg-gradient-to-b from-neutral-900/45 to-[#040508] flex flex-col shadow-premium">
+                <!-- Warm spotlight glow simulation -->
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(217,119,6,0.12)_0%,transparent_75%)] pointer-events-none"></div>
+
+                <!-- WebXR Model-Viewer -->
+                <model-viewer id="main-spatial-canvas"
+                    src="https://raw.githubusercontent.com/AviDwivedi/WebAR/main/pizza.glb"
+                    alt="ARscape 3D Spatial Food Scan"
+                    ar
+                    ar-modes="webxr scene-viewer quick-look"
+                    camera-controls
+                    touch-action="pan-y"
+                    auto-rotate
+                    interaction-prompt="none"
+                    class="w-full h-full"
+                    style="--poster-color: transparent;">
+                    
+                    <!-- Dynamic Loading Screen Indicator -->
+                    <div slot="progress-bar" class="absolute inset-0 bg-arscape-obsidian flex flex-col items-center justify-center gap-2">
+                        <div class="w-6 h-6 border-2 border-arscape-champagne border-t-transparent rounded-full animate-spin"></div>
+                        <span class="text-[8px] text-arscape-champagne tracking-widest uppercase font-bold">Streaming Mesh...</span>
+                    </div>
+                </model-viewer>
+
+                <!-- Holographic Live Icon overlay -->
+                <div class="absolute top-4 left-4 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-full text-[8px] font-bold text-arscape-champagne uppercase flex items-center gap-1.5 pointer-events-none tracking-widest">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> 3D Interact
+                </div>
+
+                <!-- Place On Table AR Button -->
+                <button onclick="triggerAR()" class="absolute bottom-4 right-4 bg-white text-black font-extrabold text-[9px] tracking-widest uppercase py-2.5 px-4 rounded-xl flex items-center gap-2 shadow-lg active:scale-95 transition-all">
+                    <i class="fa-solid fa-cube text-xs"></i> View Tableside
+                </button>
+            </section>
+
+            <!-- PRODUCT FOCUS HEADER DETAILS -->
+            <section class="premium-glass gold-border rounded-[28px] p-5 flex flex-col gap-4">
+                <div class="flex items-start justify-between">
+                    <div class="flex flex-col">
+                        <span id="detail-category" class="text-[8px] uppercase tracking-widest text-slate-500 font-bold font-mono">// Pizza</span>
+                        <h2 id="detail-title" class="text-2xl font-serif font-extrabold text-white tracking-tight mt-1 leading-tight">Stone-Baked Pepperoni Pizza</h2>
+                    </div>
+                    <div class="flex flex-col items-end">
+                        <span class="text-[8px] uppercase tracking-widest text-slate-500 font-bold">Base Price</span>
+                        <span id="detail-price" class="text-xl font-bold text-arscape-champagne font-mono tracking-tighter mt-1">$24.50</span>
+                    </div>
+                </div>
+
+                <p id="detail-desc" class="text-[11px] text-slate-400 leading-relaxed border-l-2 border-arscape-champagne/40 pl-3 italic">
+                    Hand-tossed sourdough pizza crust baked in our stone-hearth oven at 800 degrees. Layered with Sicilian plum tomato sauce, buffalo mozzarella, and spicy cured dry salami rounds.
+                </p>
+
+                <!-- THE "PLATE COMPOSER" INTERACTIVE MODIFIER TOOL -->
+                <div class="border-t border-white/5 pt-3">
+                    <span class="text-[9px] uppercase tracking-wider text-arscape-champagne font-bold mb-2.5 block">Plate Composer (Toppings / Add-ons)</span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <!-- Modifier Item 1 -->
+                        <div onclick="toggleModifier(1, 4.50, this)" class="modifier-pill flex items-center justify-between px-3 py-2.5 rounded-xl border border-white/5 bg-white/5 cursor-pointer active:scale-95 transition-all">
+                            <span class="text-[10px] text-slate-300 font-medium">Extra Cheese</span>
+                            <span class="text-[9px] font-mono font-bold text-arscape-champagne">+$4.50</span>
+                        </div>
+                        <!-- Modifier Item 2 -->
+                        <div onclick="toggleModifier(2, 6.00, this)" class="modifier-pill flex items-center justify-between px-3 py-2.5 rounded-xl border border-white/5 bg-white/5 cursor-pointer active:scale-95 transition-all">
+                            <span class="text-[10px] text-slate-300 font-medium">Truffle Butter</span>
+                            <span class="text-[9px] font-mono font-bold text-arscape-champagne">+$6.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MAIN INTERACTION BUTTONS -->
+                <div class="grid grid-cols-2 gap-2 mt-2">
+                    <button onclick="openChefCard()" class="bg-white/5 hover:bg-white/10 border border-white/10 text-white text-[9px] font-extrabold py-3.5 px-4 rounded-2xl uppercase tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-all">
+                        <i class="fa-solid fa-seedling text-arscape-champagne"></i> Sourcing
+                    </button>
+                    <button onclick="addCurrentItemToCart()" class="shimmer-active text-black text-[9px] font-black py-3.5 px-4 rounded-2xl uppercase tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-all shadow-ambient-glow">
+                        Place On Plate <i class="fa-solid fa-circle-plus"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- HORIZONTAL SWIPEABLE CATEGORY CHIPS -->
+            <section class="flex flex-col gap-2">
+                <span class="text-[8px] uppercase tracking-widest text-slate-500 font-black px-1 font-mono">// Menu Categories</span>
                 
-                <div slot="progress-bar" class="absolute inset-0 bg-arscape-obsidian/95 flex flex-col items-center justify-center gap-2">
-                    <div class="w-8 h-8 border-3 border-arscape-champagne border-t-transparent rounded-full animate-spin"></div>
-                    <span class="text-[9px] text-arscape-champagne tracking-widest uppercase font-bold">Streaming Mesh Geometry...</span>
+                <div class="flex gap-2 overflow-x-auto no-scrollbar py-1 px-1">
+                    <button onclick="filterCategory('all', this)" class="category-pill flex-shrink-0 bg-white text-black font-extrabold text-[10px] uppercase tracking-wider py-2.5 px-5 rounded-xl shadow-lg active:scale-95 transition-all">
+                        All Items
+                    </button>
+                    <button onclick="filterCategory('steak', this)" class="category-pill flex-shrink-0 bg-white/5 border border-white/5 text-slate-400 font-bold text-[10px] uppercase tracking-wider py-2.5 px-5 rounded-xl active:scale-95 transition-all">
+                        Premium Steaks
+                    </button>
+                    <button onclick="filterCategory('pizza', this)" class="category-pill flex-shrink-0 bg-white/5 border border-white/5 text-slate-400 font-bold text-[10px] uppercase tracking-wider py-2.5 px-5 rounded-xl active:scale-95 transition-all">
+                        Stone Pizza
+                    </button>
+                    <button onclick="filterCategory('burgers', this)" class="category-pill flex-shrink-0 bg-white/5 border border-white/5 text-slate-400 font-bold text-[10px] uppercase tracking-wider py-2.5 px-5 rounded-xl active:scale-95 transition-all">
+                        Burgers
+                    </button>
                 </div>
-            </model-viewer>
+            </section>
 
-            <!-- Holographic indicator -->
-            <div class="absolute top-3 left-3 bg-black/70 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-full text-[9px] font-bold text-arscape-champagne uppercase flex items-center gap-1.5 pointer-events-none tracking-widest">
-                <i class="fa-solid fa-circle-nodes animate-pulse"></i> Interact 3D
+            <!-- DYNAMIC PRODUCT GRID -->
+            <section id="catalog-grid" class="grid grid-cols-2 gap-3">
+                <!-- Loaded Dynamically via Javascript -->
+            </section>
+
+        </main>
+
+        <!-- STICKY FLOATING CHECKOUT PANEL -->
+        <div class="fixed bottom-0 left-0 right-0 z-30 bg-arscape-obsidian/95 backdrop-blur-lg border-t border-white/5 px-6 py-4 flex items-center justify-between max-w-md mx-auto rounded-t-[28px] shadow-premium">
+            <div class="flex flex-col">
+                <span class="text-[8px] uppercase tracking-widest text-slate-500 font-bold">Running Subtotal</span>
+                <span id="floating-bar-total" class="text-xl font-bold text-arscape-champagne font-mono tracking-tighter">$ 0.00</span>
             </div>
-
-            <!-- Native AR Projection Trigger -->
-            <button onclick="triggerAR()" class="absolute bottom-3 right-3 bg-white text-black font-black text-[10px] tracking-wider uppercase py-2 px-4 rounded-xl flex items-center gap-1.5 shadow-lg active:scale-95 transition-all">
-                <i class="fa-solid fa-cubes"></i> Place On Table (AR)
+            <button onclick="triggerYelpGuard()" class="bg-white hover:bg-neutral-100 text-black font-extrabold text-[10px] py-3.5 px-6 rounded-2xl flex items-center gap-2 uppercase tracking-widest active:scale-95 transition-all shadow-lg">
+                Cook &amp; Settle <i class="fa-solid fa-chevron-right text-[9px]"></i>
             </button>
-        </section>
-
-        <section class="bg-arscape-cardBg border border-white/5 rounded-3xl p-5 flex flex-col gap-3">
-            <div class="flex items-start justify-between">
-                <div>
-                    <span id="detail-category" class="text-[9px] uppercase tracking-widest text-arscape-textMuted font-bold">// Pizza</span>
-                    <h2 id="detail-title" class="text-2xl font-serif font-extrabold text-white tracking-tight mt-0.5 leading-none">Stone-Baked Pepperoni Pizza</h2>
-                </div>
-                <div class="flex flex-col items-end">
-                    <span class="text-[8px] uppercase tracking-widest text-arscape-textMuted font-bold">Price</span>
-                    <span id="detail-price" class="text-xl font-black text-arscape-champagne font-mono tracking-tighter mt-0.5">$24.50</span>
-                </div>
-            </div>
-
-            <p id="detail-desc" class="text-xs text-neutral-400 leading-relaxed border-l border-white/10 pl-3 italic">
-                Hand-tossed sourdough pizza crust baked in our stone-hearth oven at 800 degrees. Layered with Sicilian plum tomato sauce, buffalo mozzarella, and spicy cured dry salami rounds.
-            </p>
-
-            <div class="grid grid-cols-2 gap-2 mt-2">
-                <button onclick="openChefCard()" class="bg-white/5 hover:bg-white/10 border border-white/10 text-white text-[10px] font-bold py-3 px-4 rounded-xl uppercase tracking-wider flex items-center justify-center gap-2 active:scale-95 transition-all">
-                    <i class="fa-solid fa-wheat-awn text-arscape-champagne"></i> Composition
-                </button>
-                <button onclick="addCurrentItemToCart()" class="ambient-shimmer text-black text-[10px] font-black py-3 px-4 rounded-xl uppercase tracking-wider flex items-center justify-center gap-2 active:scale-95 transition-all">
-                    Place On Table <i class="fa-solid fa-plus-circle"></i>
-                </button>
-            </div>
-        </section>
-
-        <section class="flex flex-col gap-2">
-            <span class="text-[9px] uppercase tracking-widest text-arscape-textMuted font-black px-1">Menu Catalog</span>
-            
-            <div class="flex gap-2 overflow-x-auto no-scrollbar py-1 px-1">
-                <button onclick="filterCategory('all', this)" class="category-pill flex-shrink-0 bg-white text-black font-extrabold text-xs py-2.5 px-5 rounded-full shadow-lg active:scale-95 transition-all">
-                    Showcase All
-                </button>
-                <button onclick="filterCategory('steak', this)" class="category-pill flex-shrink-0 bg-arscape-cardBg border border-white/5 text-arscape-textMuted font-bold text-xs py-2.5 px-5 rounded-full active:scale-95 transition-all">
-                    Premium Steaks
-                </button>
-                <button onclick="filterCategory('pizza', this)" class="category-pill flex-shrink-0 bg-arscape-cardBg border border-white/5 text-arscape-textMuted font-bold text-xs py-2.5 px-5 rounded-full active:scale-95 transition-all">
-                    Stone Pizza
-                </button>
-                <button onclick="filterCategory('burgers', this)" class="category-pill flex-shrink-0 bg-arscape-cardBg border border-white/5 text-arscape-textMuted font-bold text-xs py-2.5 px-5 rounded-full active:scale-95 transition-all">
-                    Gourmet Burgers
-                </button>
-            </div>
-        </section>
-
-        <section id="catalog-grid" class="grid grid-cols-2 gap-3">
-            <!-- Dynamic product cards will be populated via JSON logic -->
-        </section>
-
-    </main>
-
-    <div class="fixed bottom-0 left-0 right-0 z-30 bg-arscape-obsidian/95 backdrop-blur-lg border-t border-white/5 px-6 py-4 flex items-center justify-between max-w-md mx-auto rounded-t-[24px]">
-        <div class="flex flex-col">
-            <span class="text-[8px] uppercase tracking-widest text-arscape-textMuted font-black">Group Total Ledger</span>
-            <span id="floating-bar-total" class="text-xl font-black text-arscape-champagne font-mono tracking-tighter">$ 0.00</span>
         </div>
-        <button onclick="triggerYelpGuard()" class="bg-white hover:bg-neutral-100 text-black font-extrabold text-xs py-3.5 px-6 rounded-2xl flex items-center gap-2 uppercase tracking-widest active:scale-95 transition-all shadow-xl">
-            Settle &amp; Cook <i class="fa-solid fa-chevron-right text-[10px]"></i>
-        </button>
-    </div>
 
-    <!-- ==================== DRAWER: TABLE SESSION INVOICE ==================== -->
-    <div id="cart-drawer-overlay" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
-        <div class="absolute inset-x-0 bottom-0 max-w-md mx-auto bg-arscape-cardBg border-t border-white/10 rounded-t-[32px] max-h-[85vh] flex flex-col justify-between p-6 bottom-sheet" id="cart-drawer-sheet">
-            
-            <!-- Handle-bar indicating slide-down swipe accessibility -->
-            <div class="w-12 h-1 bg-white/10 rounded-full mx-auto mb-4" onclick="toggleCartDrawer(false)"></div>
+        <!-- ==================== DRAWER: TABLE SESSION INVOICE ==================== -->
+        <div id="cart-drawer-overlay" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+            <div class="absolute inset-x-0 bottom-0 max-w-md mx-auto bg-slate-950/95 border-t border-white/10 rounded-t-[36px] max-h-[85vh] flex flex-col justify-between p-6 bottom-sheet" id="cart-drawer-sheet">
+                
+                <!-- Slide Sheet handle -->
+                <div class="w-10 h-1 bg-white/15 rounded-full mx-auto mb-5 cursor-pointer" onclick="toggleCartDrawer(false)"></div>
 
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h3 class="text-xl font-serif font-extrabold text-white">Table Invoice</h3>
-                    <p class="text-[9px] uppercase tracking-wider text-arscape-textMuted mt-0.5">Active Group Session</p>
-                </div>
-                <button onclick="toggleCartDrawer(false)" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-arscape-textMuted hover:text-white"><i class="fa-solid fa-times"></i></button>
-            </div>
-
-            <!-- Scrollable list wrapper -->
-            <div class="flex-grow overflow-y-auto no-scrollbar pr-1 flex flex-col gap-3 max-h-[35vh]">
-                <div id="cart-items-container" class="flex flex-col gap-3">
-                    <!-- Dynamic Cart Rows injected via Javascript -->
-                </div>
-            </div>
-
-            <!-- Tableside Bill Splitting Widget -->
-            <div class="my-4 bg-black/40 p-4 rounded-2xl border border-white/5 flex flex-col gap-3">
-                <div class="flex justify-between items-center">
-                    <span class="text-[10px] uppercase font-bold tracking-wider text-arscape-textMuted">Split Between Friends</span>
-                    <span id="bill-split-metric" class="text-xs font-black font-mono text-arscape-champagne">1 Diner</span>
-                </div>
-                <div class="flex items-center justify-between bg-white/5 p-2 rounded-xl border border-white/5">
-                    <button onclick="adjustDinerCount(-1)" class="w-8 h-8 rounded-lg bg-black text-arscape-champagne font-bold flex items-center justify-center active:scale-90">-</button>
-                    <span id="diner-split-label" class="text-xs font-bold text-white">Split with 1 Person</span>
-                    <button onclick="adjustDinerCount(1)" class="w-8 h-8 rounded-lg bg-black text-arscape-champagne font-bold flex items-center justify-center active:scale-90">+</button>
-                </div>
-                <div class="flex justify-between items-center border-t border-white/5 pt-2 mt-1">
-                    <span class="text-xs text-neutral-300">Liability Per Person:</span>
-                    <span id="split-individual-price" class="text-sm font-black font-mono text-arscape-champagne">$ 0.00</span>
-                </div>
-            </div>
-
-            <!-- Ledger Breakdown & Order CTA -->
-            <div class="border-t border-white/5 pt-4">
-                <div class="flex flex-col gap-2 mb-4 font-mono text-xs text-neutral-400">
-                    <div class="flex justify-between">
-                        <span>Items Subtotal:</span>
-                        <span id="invoice-subtotal">$ 0.00</span>
+                <div class="flex justify-between items-center mb-5">
+                    <div>
+                        <h3 class="text-lg font-serif font-extrabold text-white leading-none">Table Invoice</h3>
+                        <p class="text-[8px] uppercase tracking-wider text-slate-500 font-bold mt-1 font-mono">ARscape Live Session</p>
                     </div>
-                    <div class="flex justify-between">
-                        <span>Gastronomy Tax (8.25%):</span>
-                        <span id="invoice-tax">$ 0.00</span>
-                    </div>
-                    <div class="flex justify-between border-t border-white/10 pt-2 text-sm font-black text-white">
-                        <span class="font-sans uppercase tracking-widest text-[10px]">Grand Ledger:</span>
-                        <span id="invoice-total" class="text-arscape-champagne">$ 0.00</span>
+                    <button onclick="toggleCartDrawer(false)" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white"><i class="fa-solid fa-times text-xs"></i></button>
+                </div>
+
+                <!-- Dynamic Itemized Row Lists -->
+                <div class="flex-grow overflow-y-auto no-scrollbar pr-1 flex flex-col gap-3 max-h-[35vh]">
+                    <div id="cart-items-container" class="flex flex-col gap-2">
+                        <!-- Dynamic lines are injected here -->
                     </div>
                 </div>
 
-                <button onclick="triggerYelpGuard()" class="ambient-shimmer w-full py-4 rounded-2xl text-black font-black text-xs uppercase tracking-widest shadow-xl active:scale-95 transition-all">
-                    Confirm &amp; Dispatch Order <i class="fa-solid fa-fire-burner ml-2"></i>
+                <!-- Dynamic tableside bill splitter widget -->
+                <div class="my-4 bg-white/5 p-4 rounded-2xl border border-white/5 flex flex-col gap-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[8px] uppercase font-bold tracking-wider text-slate-400 font-mono">// Tableside Bill Splitting</span>
+                        <span id="bill-split-metric" class="text-[11px] font-bold font-mono text-arscape-champagne">1 Diner</span>
+                    </div>
+                    <div class="flex items-center justify-between bg-black/40 p-1.5 rounded-xl border border-white/5">
+                        <button onclick="adjustDinerCount(-1)" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 text-arscape-champagne font-bold flex items-center justify-center active:scale-90">-</button>
+                        <span id="diner-split-label" class="text-xs font-semibold text-white">Split with 1 Person</span>
+                        <button onclick="adjustDinerCount(1)" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 text-arscape-champagne font-bold flex items-center justify-center active:scale-90">+</button>
+                    </div>
+                    <div class="flex justify-between items-center border-t border-white/5 pt-2 mt-1">
+                        <span class="text-[11px] text-slate-400">Individual Liability:</span>
+                        <span id="split-individual-price" class="text-sm font-bold font-mono text-arscape-champagne">$ 0.00</span>
+                    </div>
+                </div>
+
+                <!-- Total Invoice breakdown -->
+                <div class="border-t border-white/5 pt-4">
+                    <div class="flex flex-col gap-2 mb-4 font-mono text-[11px] text-slate-400">
+                        <div class="flex justify-between">
+                            <span>Subtotal:</span>
+                            <span id="invoice-subtotal" class="text-white">$ 0.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>AR Tech Fee (8.25%):</span>
+                            <span id="invoice-tax" class="text-white">$ 0.00</span>
+                        </div>
+                        <div class="flex justify-between border-t border-white/5 pt-2 text-xs font-bold text-white">
+                            <span class="font-sans uppercase tracking-wider text-[9px]">Grand Total Ledger:</span>
+                            <span id="invoice-total" class="text-arscape-champagne font-mono">$ 0.00</span>
+                        </div>
+                    </div>
+
+                    <button onclick="triggerYelpGuard()" class="shimmer-active w-full py-4 rounded-2xl text-black font-black text-[10px] uppercase tracking-widest shadow-lg active:scale-95 transition-all">
+                        Confirm &amp; Dispense Order <i class="fa-solid fa-fire-burner ml-1.5"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================== OVERLAY: CHEF NOTE MODAL ==================== -->
+        <div id="chef-modal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+            <div class="bg-slate-950 border border-white/10 rounded-[32px] p-6 max-w-xs w-full relative shadow-premium text-center flex flex-col gap-4">
+                <button onclick="closeChefCard()" class="absolute top-4 right-4 text-slate-500 hover:text-white"><i class="fa-solid fa-circle-xmark"></i></button>
+                <span class="text-[8px] uppercase font-bold text-arscape-champagne tracking-widest font-mono">// Heritage &amp; Sourcing</span>
+                <h3 id="chef-modal-title" class="text-xl font-serif font-extrabold text-white">Provenance Notes</h3>
+                <div class="w-full h-px bg-white/5"></div>
+                <p id="chef-modal-desc" class="text-[11px] text-slate-400 leading-relaxed text-left italic">
+                    A premium cut aged over red embers...
+                </p>
+                <button onclick="closeChefCard()" class="w-full py-3 bg-white text-black font-extrabold text-[10px] uppercase tracking-widest rounded-xl active:scale-95 transition-all">
+                    Acknowledge
                 </button>
             </div>
-
         </div>
-    </div>
 
-    <!-- ==================== OVERLAY: CHEF NOTE MODAL ==================== -->
-    <div id="chef-modal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-arscape-cardBg border border-white/10 rounded-3xl p-6 max-w-xs w-full relative shadow-2xl text-center flex flex-col gap-4">
-            <button onclick="closeChefCard()" class="absolute top-4 right-4 text-arscape-textMuted hover:text-white"><i class="fa-solid fa-circle-xmark"></i></button>
-            <span class="text-[9px] uppercase font-black text-arscape-champagne tracking-widest">// Provenance &amp; Ingredients</span>
-            <h3 id="chef-modal-title" class="text-xl font-serif font-extrabold text-white">Composition Notes</h3>
-            <div class="w-full h-px bg-white/5"></div>
-            <p id="chef-modal-desc" class="text-xs text-neutral-400 leading-relaxed text-left italic">
-                A dry-aged Angus ribeye seared over volcanic coals...
-            </p>
-            <button onclick="closeChefCard()" class="w-full py-3 bg-white text-black font-bold text-xs uppercase tracking-wider rounded-xl active:scale-95 transition-all">
-                Acknowledge Notes
-            </button>
-        </div>
-    </div>
+        <!-- ==================== OVERLAY: YELP REPUTATION SHIELD GUARD ==================== -->
+        <div id="yelp-guard-modal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+            <div class="bg-slate-950 border border-white/10 rounded-[32px] p-6 max-w-xs w-full text-center flex flex-col gap-4 shadow-premium">
+                <span class="text-[8px] uppercase font-bold text-arscape-champagne tracking-widest animate-pulse font-mono">
+                    <i class="fa-solid fa-shield-halved mr-1"></i> Reputation Shield Guard
+                </span>
+                <h3 class="text-lg font-serif font-extrabold text-white leading-tight">How was your spatial dining experience today?</h3>
+                <p class="text-[9px] text-slate-500">Your feedback is monitored closely by our culinary directors.</p>
 
-    <!-- ==================== OVERLAY: YELP REPUTATION SHIELD GUARD ==================== -->
-    <div id="yelp-guard-modal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-arscape-cardBg border border-white/10 rounded-3xl p-6 max-w-xs w-full text-center flex flex-col gap-4 shadow-2xl">
-            <span class="text-[9px] uppercase font-black text-arscape-champagne tracking-widest animate-pulse">
-                <i class="fa-solid fa-shield-halved mr-1"></i> Reputation Guard Protection
-            </span>
-            <h3 class="text-xl font-serif font-extrabold text-white leading-tight">How was your ARscape spatial experience today?</h3>
-            <p class="text-[10px] text-arscape-textMuted">Your private score controls automated kitchen workflows.</p>
+                <div class="flex items-center justify-center gap-2 py-2 text-slate-500">
+                    <i onclick="setYelpStar(1)" class="yelp-star fa-regular fa-star text-2xl cursor-pointer hover:text-arscape-champagne"></i>
+                    <i onclick="setYelpStar(2)" class="yelp-star fa-regular fa-star text-2xl cursor-pointer hover:text-arscape-champagne"></i>
+                    <i onclick="setYelpStar(3)" class="yelp-star fa-regular fa-star text-2xl cursor-pointer hover:text-arscape-champagne"></i>
+                    <i onclick="setYelpStar(4)" class="yelp-star fa-regular fa-star text-2xl cursor-pointer hover:text-arscape-champagne"></i>
+                    <i onclick="setYelpStar(5)" class="yelp-star fa-regular fa-star text-2xl cursor-pointer hover:text-arscape-champagne"></i>
+                </div>
 
-            <div class="flex items-center justify-center gap-2 py-2">
-                <i onclick="setYelpStar(1)" class="yelp-star fa-regular fa-star text-2xl cursor-pointer text-slate-500 hover:text-arscape-champagne"></i>
-                <i onclick="setYelpStar(2)" class="yelp-star fa-regular fa-star text-2xl cursor-pointer text-slate-500 hover:text-arscape-champagne"></i>
-                <i onclick="setYelpStar(3)" class="yelp-star fa-regular fa-star text-2xl cursor-pointer text-slate-500 hover:text-arscape-champagne"></i>
-                <i onclick="setYelpStar(4)" class="yelp-star fa-regular fa-star text-2xl cursor-pointer text-slate-500 hover:text-arscape-champagne"></i>
-                <i onclick="setYelpStar(5)" class="yelp-star fa-regular fa-star text-2xl cursor-pointer text-slate-500 hover:text-arscape-champagne"></i>
+                <!-- Textarea showing for reviews <= 3 Stars -->
+                <div id="low-star-intercept" class="hidden flex flex-col gap-2 text-left">
+                    <label class="text-[8px] text-slate-400 uppercase font-black font-mono">Direct Manager SMS Dispatch Alert:</label>
+                    <textarea id="private-feedback-text" rows="2" class="bg-black/60 border border-white/10 rounded-xl p-3 text-[10px] text-white placeholder-slate-600 focus:outline-none focus:border-arscape-champagne" placeholder="How can our chef or floor team rectify this tableside?"></textarea>
+                </div>
+
+                <button onclick="submitYelpFeedback()" class="w-full py-3.5 bg-white text-black font-black text-[10px] uppercase tracking-widest rounded-xl active:scale-95 transition-all">
+                    Settle &amp; Dispatch
+                </button>
             </div>
-
-            <!-- Intercept routing area for low review stars -->
-            <div id="low-star-intercept" class="hidden flex flex-col gap-2 text-left">
-                <label class="text-[9px] text-arscape-textMuted uppercase font-black">Private Floor Alert Dispatch Details:</label>
-                <textarea id="private-feedback-text" rows="2" class="bg-black/60 border border-white/10 rounded-xl p-3 text-[11px] text-white placeholder-slate-600 focus:outline-none focus:border-arscape-champagne" placeholder="How can our floor manager immediately assist you tableside?"></textarea>
-            </div>
-
-            <button onclick="submitYelpFeedback()" class="w-full py-3.5 bg-white text-black font-black text-xs uppercase tracking-widest rounded-xl active:scale-95 transition-all">
-                Settle &amp; Dispatch
-            </button>
         </div>
+
+        <!-- DYNAMIC NOTIFICATION TOAST HUD -->
+        <div id="hud-toast" class="hidden fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-emerald-950 to-emerald-900 border border-emerald-500/30 px-5 py-3 rounded-2xl text-[10px] font-bold text-emerald-100 shadow-premium flex items-center gap-2.5 transform translate-y-4 opacity-0 transition-all duration-300">
+            <i class="fa-solid fa-circle-check text-emerald-400"></i>
+            <span id="hud-toast-message">Added onto table plate.</span>
+        </div>
+
     </div>
 
-    <!-- NOTIFICATION HUD TOAST -->
-    <div id="hud-toast" class="hidden fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-emerald-950 to-emerald-900 border border-emerald-500/30 px-5 py-3 rounded-2xl text-[11px] font-bold text-emerald-100 shadow-2xl flex items-center gap-2.5 transform translate-y-4 opacity-0 transition-all duration-300">
-        <i class="fa-solid fa-circle-check text-emerald-400"></i>
-        <span id="hud-toast-message">Dispatched onto Table 08.</span>
-    </div>
-
-    <!-- ==================== DATA LAYER & CONTROLLER SCRIPT ==================== -->
+    <!-- ==================== JAVASCRIPT LOGIC CONTROLLERS ==================== -->
     <script>
-        // We set up primary relative links ('./filename.glb') so that files uploaded into your Vercel project work immediately.
-        // If the local file is missing, Model-Viewer falls back or displays gracefully.
         const itemDatabase = [
             {
                 id: 1,
@@ -331,7 +391,7 @@
                 category: "steak",
                 price: 55.00,
                 image: "https://images.unsplash.com/photo-1546964124-0cce460f38ef?auto=format&fit=crop&q=80&w=400",
-                glbUrl: "./steak.glb", // Local deployment target
+                glbUrl: "./steak.glb",
                 fallbackGlb: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Avocado/glTF-Binary/Avocado.glb",
                 desc: "A prime cut of aged beef tenderloin, seared to medium-rare perfection. Coated with organic handcrafted herb compound butter, roasted garlic heads, and a drizzle of rosemary-infused oil.",
                 chefNote: "Dry-aged for 35 days in our oak cellar chamber. The herb butter compound features freshly harvested spring dill and toasted volcanic mineral flakes."
@@ -342,7 +402,7 @@
                 category: "steak",
                 price: 85.00,
                 image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=400",
-                glbUrl: "./tomahawk.glb", // Local deployment target
+                glbUrl: "./tomahawk.glb",
                 fallbackGlb: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Avocado/glTF-Binary/Avocado.glb",
                 desc: "An incredible cut of prime ribeye with the long frenched bone intact. Grilled to order and finished with cold-pressed olive oil, freshly harvested sea salt flakes, hand-cracked peppercorns, and fresh thyme branches.",
                 chefNote: "Grass-fed Aberdeen Angus herds raised on the maritime mountain ridges of the Western Highlands."
@@ -353,8 +413,8 @@
                 category: "pizza",
                 price: 24.50,
                 image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=400",
-                glbUrl: "./pizza.glb", // Local deployment target
-                fallbackGlb: "https://raw.githubusercontent.com/AviDwivedi/WebAR/main/pizza.glb", // Stable CORS-allowed fallback
+                glbUrl: "./pizza.glb",
+                fallbackGlb: "https://raw.githubusercontent.com/AviDwivedi/WebAR/main/pizza.glb",
                 desc: "Hand-tossed sourdough pizza crust baked in our stone-hearth oven at 800 degrees. Layered with Sicilian plum tomato sauce, buffalo mozzarella, and spicy cured dry salami rounds.",
                 chefNote: "Crafted with dynamic wild-yeast sourdough culture aged for 72 hours to achieve full texture crumb."
             },
@@ -364,46 +424,46 @@
                 category: "burgers",
                 price: 18.90,
                 image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=400",
-                glbUrl: "./burger.glb", // Local deployment target
+                glbUrl: "./burger.glb",
                 fallbackGlb: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Avocado/glTF-Binary/Avocado.glb",
                 desc: "Smashed custom brisket-blend patties layered with double molten cheddar, pickled red onions, butter lettuce, and home-smoked bacon glaze on a brioche bun.",
                 chefNote: "Brisket cut combined with premium short rib fat ratios to ensure extremely juicy bite structures."
             }
         ];
 
-        let currentItem = itemDatabase[2]; // Default to Pepperoni Pizza
+        let currentItem = itemDatabase[2]; // Pizza is selected by default
         let cart = [];
         let dinerCount = 1;
         let selectedRating = 5;
+        let activeModifiersValue = 0.0;
+        let activeModifiers = [];
 
         window.addEventListener('DOMContentLoaded', () => {
             renderCatalog('all');
             previewItem(currentItem.id);
         });
 
-        // Haptic feedback simulator utilizing synthesized audio context (no external file needed)
-        let audioContextInstance = null;
-        function playHapticFeedback(duration = 80, freq = 600) {
+        // Web Audio synthesized gentle haptic sounds to avoid slow MP3 files
+        let hapticContext = null;
+        function playHapticFeedback(duration = 75, freq = 650) {
             try {
-                if (!audioContextInstance) {
-                    audioContextInstance = new (window.AudioContext || window.webkitAudioContext)();
+                if (!hapticContext) {
+                    hapticContext = new (window.AudioContext || window.webkitAudioContext)();
                 }
-                const osc = audioContextInstance.createOscillator();
-                const gainNode = audioContextInstance.createGain();
+                const osc = hapticContext.createOscillator();
+                const gain = hapticContext.createGain();
                 
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(freq, audioContextInstance.currentTime);
+                osc.frequency.setValueAtTime(freq, hapticContext.currentTime);
+                gain.gain.setValueAtTime(0.015, hapticContext.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, hapticContext.currentTime + (duration / 1000));
                 
-                gainNode.gain.setValueAtTime(0.015, audioContextInstance.currentTime); // Gentle pop volume
-                gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContextInstance.currentTime + (duration / 1000));
-                
-                osc.connect(gainNode);
-                gainNode.connect(audioContextInstance.destination);
-                
+                osc.connect(gain);
+                gain.connect(hapticContext.destination);
                 osc.start();
-                osc.stop(audioContextInstance.currentTime + (duration / 1000));
-            } catch (error) {
-                console.warn("Audio element initialization blocked.");
+                osc.stop(hapticContext.currentTime + (duration / 1000));
+            } catch (err) {
+                console.log("Interactive sound block bypassed.");
             }
         }
 
@@ -420,22 +480,22 @@
                 const card = document.createElement('div');
                 card.id = `card-${item.id}`;
                 card.onclick = () => previewItem(item.id);
-                card.className = `group cursor-pointer bg-arscape-cardBg border rounded-2xl p-2.5 flex flex-col gap-2 shadow-md transition-all ${isSelected ? 'border-arscape-champagne ring-2 ring-arscape-champagne/10' : 'border-white/5'}`;
+                card.className = `group cursor-pointer premium-glass rounded-[24px] p-2.5 flex flex-col gap-2 shadow-sm active:scale-95 transition-all ${isSelected ? 'border-arscape-champagne' : 'border-white/5'}`;
                 
                 card.innerHTML = `
-                    <div class="relative overflow-hidden rounded-xl aspect-[4/3] bg-neutral-900">
+                    <div class="relative overflow-hidden rounded-[18px] aspect-[4/3] bg-neutral-900">
                         <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
                         ${isSelected ? `
-                            <div class="absolute top-1.5 right-1.5 bg-arscape-champagne text-black w-5 h-5 rounded-full flex items-center justify-center shadow-lg">
-                                <i class="fa-solid fa-check text-[10px]"></i>
+                            <div class="absolute top-2 right-2 bg-arscape-champagne text-black w-5 h-5 rounded-full flex items-center justify-center shadow-lg">
+                                <i class="fa-solid fa-check text-[9px]"></i>
                             </div>
                         ` : ''}
                     </div>
-                    <div>
-                        <h3 class="text-[11px] font-bold text-white tracking-tight leading-tight line-clamp-1">${item.title}</h3>
-                        <div class="flex items-center justify-between mt-1 pt-1 border-t border-white/5">
-                            <span class="text-xs font-bold text-arscape-champagne font-mono">$ ${item.price.toFixed(2)}</span>
-                            <span class="text-[8px] uppercase font-black text-arscape-textMuted tracking-wider">Inspect <i class="fa-solid fa-chevron-right"></i></span>
+                    <div class="px-1">
+                        <h3 class="text-[10px] font-bold text-white tracking-tight leading-tight line-clamp-1">${item.title}</h3>
+                        <div class="flex items-center justify-between mt-1 pt-1.5 border-t border-white/5">
+                            <span class="text-[11px] font-bold text-arscape-champagne font-mono">$ ${item.price.toFixed(2)}</span>
+                            <span class="text-[8px] uppercase font-bold text-slate-500 tracking-wider">Inspect <i class="fa-solid fa-chevron-right text-[7px]"></i></span>
                         </div>
                     </div>
                 `;
@@ -446,14 +506,11 @@
         function filterCategory(categoryKey, pillElement) {
             playHapticFeedback(100, 600);
             
-            // Remove active classes from other category pills
             document.querySelectorAll('.category-pill').forEach(pill => {
-                pill.className = "category-pill flex-shrink-0 bg-arscape-cardBg border border-white/5 text-arscape-textMuted font-bold text-xs py-2.5 px-5 rounded-full active:scale-95 transition-all";
+                pill.className = "category-pill flex-shrink-0 bg-white/5 border border-white/5 text-slate-400 font-bold text-[10px] uppercase tracking-wider py-2.5 px-5 rounded-xl active:scale-95 transition-all";
             });
 
-            // Set active styles
-            pillElement.className = "category-pill flex-shrink-0 bg-white text-black font-extrabold text-xs py-2.5 px-5 rounded-full shadow-lg active:scale-95 transition-all";
-            
+            pillElement.className = "category-pill flex-shrink-0 bg-white text-black font-extrabold text-[10px] uppercase tracking-wider py-2.5 px-5 rounded-xl shadow-lg active:scale-95 transition-all";
             renderCatalog(categoryKey);
         }
 
@@ -464,34 +521,37 @@
 
             currentItem = item;
 
+            // Reset Plate Composer Modifiers when switching items
+            activeModifiersValue = 0.0;
+            activeModifiers = [];
+            document.querySelectorAll('.modifier-pill').forEach(pill => {
+                pill.className = "modifier-pill flex items-center justify-between px-3 py-2.5 rounded-xl border border-white/5 bg-white/5 cursor-pointer active:scale-95 transition-all";
+            });
+
             // Retouch catalog selection outline
             document.querySelectorAll('#catalog-grid > div').forEach(card => {
-                card.className = "group cursor-pointer bg-arscape-cardBg border border-white/5 rounded-2xl p-2.5 flex flex-col gap-2 shadow-md transition-all";
+                card.className = "group cursor-pointer premium-glass border border-white/5 rounded-[24px] p-2.5 flex flex-col gap-2 shadow-sm active:scale-95 transition-all";
                 const checkBadge = card.querySelector('.fa-check');
                 if (checkBadge) checkBadge.parentElement.remove();
             });
 
             const targetCard = document.getElementById(`card-${id}`);
             if (targetCard) {
-                targetCard.className = "group cursor-pointer bg-arscape-cardBg border border-arscape-champagne rounded-2xl p-2.5 flex flex-col gap-2 shadow-lg ring-2 ring-arscape-champagne/10 transition-all";
+                targetCard.className = "group cursor-pointer premium-glass border border-arscape-champagne rounded-[24px] p-2.5 flex flex-col gap-2 shadow-lg active:scale-95 transition-all";
                 const imgContainer = targetCard.querySelector('.relative');
                 if (imgContainer) {
                     const check = document.createElement('div');
-                    check.className = "absolute top-1.5 right-1.5 bg-arscape-champagne text-black w-5 h-5 rounded-full flex items-center justify-center shadow-lg";
-                    check.innerHTML = `<i class="fa-solid fa-check text-[10px]"></i>`;
+                    check.className = "absolute top-2 right-2 bg-arscape-champagne text-black w-5 h-5 rounded-full flex items-center justify-center shadow-lg";
+                    check.innerHTML = `<i class="fa-solid fa-check text-[9px]"></i>`;
                     imgContainer.appendChild(check);
                 }
             }
 
-            // Sync 3D viewer model and metadata with fallback listener
+            // Sync 3D viewer model and metadata with CORS fallback listener
             const viewer = document.getElementById('main-spatial-canvas');
-            
-            // First we attempt to load the local path.
             viewer.src = item.glbUrl;
 
-            // Simple listener logic to check if local path loading fails, redirecting to stable public CDN fallbacks
-            viewer.addEventListener('error', (err) => {
-                console.warn(`Local model not found at ${item.glbUrl}. Defaulting to stable fallback link.`);
+            viewer.addEventListener('error', () => {
                 if (viewer.src !== item.fallbackGlb) {
                     viewer.src = item.fallbackGlb;
                 }
@@ -503,18 +563,40 @@
             document.getElementById('detail-price').innerText = `$ ${item.price.toFixed(2)}`;
         }
 
-        function addCurrentItemToCart() {
-            playHapticFeedback(220, 750);
+        function toggleModifier(modId, cost, element) {
+            playHapticFeedback(80, 580);
             
-            const existing = cart.find(i => i.id === currentItem.id);
-            if (existing) {
-                existing.quantity += 1;
+            const index = activeModifiers.indexOf(modId);
+            if (index > -1) {
+                activeModifiers.splice(index, 1);
+                activeModifiersValue -= cost;
+                element.className = "modifier-pill flex items-center justify-between px-3 py-2.5 rounded-xl border border-white/5 bg-white/5 cursor-pointer active:scale-95 transition-all";
             } else {
-                cart.push({ ...currentItem, quantity: 1 });
+                activeModifiers.push(modId);
+                activeModifiersValue += cost;
+                element.className = "modifier-pill flex items-center justify-between px-3 py-2.5 rounded-xl border border-arscape-champagne bg-arscape-champagne/5 cursor-pointer active:scale-95 transition-all";
             }
 
+            const totalItemPrice = currentItem.price + activeModifiersValue;
+            document.getElementById('detail-price').innerText = `$ ${totalItemPrice.toFixed(2)}`;
+        }
+
+        function addCurrentItemToCart() {
+            playHapticFeedback(225, 760);
+            const itemPriceWithMods = currentItem.price + activeModifiersValue;
+            
+            // Format dynamic tags
+            const modLabel = activeModifiers.length > 0 ? "With Premium Toppings" : "";
+
+            cart.push({
+                ...currentItem,
+                price: itemPriceWithMods,
+                modDescription: modLabel,
+                quantity: 1
+            });
+
             updateCartState();
-            triggerHUDNotification(`Placed <strong>${currentItem.title}</strong> onto Table 08!`);
+            triggerHUDNotification(`Placed <strong>${currentItem.title}</strong> onto your plate!`);
         }
 
         function updateCartState() {
@@ -525,31 +607,32 @@
             let subtotal = 0;
             let totalCount = 0;
 
-            cart.forEach(item => {
+            cart.forEach((item, index) => {
                 subtotal += item.price * item.quantity;
                 totalCount += item.quantity;
 
                 const row = document.createElement('div');
-                row.className = "flex items-center justify-between bg-black/40 border border-white/5 p-3 rounded-xl text-xs";
+                row.className = "flex items-center justify-between bg-white/5 border border-white/5 p-3 rounded-2xl text-[11px]";
                 row.innerHTML = `
                     <div class="flex items-center gap-3">
-                        <img src="${item.image}" class="w-10 h-10 rounded-lg object-cover">
+                        <img src="${item.image}" class="w-10 h-10 rounded-xl object-cover">
                         <div>
                             <h4 class="font-bold text-white leading-tight">${item.title}</h4>
-                            <span class="text-arscape-champagne text-[10px] font-mono">$ ${item.price.toFixed(2)} each</span>
+                            <p class="text-[8px] text-arscape-champagne uppercase font-bold tracking-wider mt-0.5">${item.modDescription}</p>
+                            <span class="text-slate-400 font-mono text-[9px]">$ ${item.price.toFixed(2)} each</span>
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button onclick="changeQuantity(${item.id}, -1)" class="w-6 h-6 rounded bg-white/5 text-arscape-champagne hover:text-white flex items-center justify-center font-bold">-</button>
+                        <button onclick="changeQuantity(${index}, -1)" class="w-6 h-6 rounded-lg bg-white/5 text-arscape-champagne hover:text-white flex items-center justify-center font-bold font-mono">-</button>
                         <span class="font-mono text-white font-bold">${item.quantity}</span>
-                        <button onclick="changeQuantity(${item.id}, 1)" class="w-6 h-6 rounded bg-white/5 text-arscape-champagne hover:text-white flex items-center justify-center font-bold">+</button>
+                        <button onclick="changeQuantity(${index}, 1)" class="w-6 h-6 rounded-lg bg-white/5 text-arscape-champagne hover:text-white flex items-center justify-center font-bold font-mono">+</button>
                     </div>
                 `;
                 container.appendChild(row);
             });
 
             if (cart.length === 0) {
-                container.innerHTML = `<p class="text-[11px] text-arscape-textMuted text-center py-6">Your table invoice ledger is empty.</p>`;
+                container.innerHTML = `<p class="text-[9px] text-slate-500 text-center py-6 uppercase tracking-wider font-bold">Your table invoice ledger is empty.</p>`;
             }
 
             badge.innerText = totalCount;
@@ -560,21 +643,19 @@
             document.getElementById('invoice-subtotal').innerText = `$ ${subtotal.toFixed(2)}`;
             document.getElementById('invoice-tax').innerText = `$ ${tax.toFixed(2)}`;
             document.getElementById('invoice-total').innerText = `$ ${total.toFixed(2)}`;
-            
-            // Sync permanent bottom floating bar total
             document.getElementById('floating-bar-total').innerText = `$ ${total.toFixed(2)}`;
 
             updateBillSplit();
         }
 
-        function changeQuantity(id, modifier) {
+        function changeQuantity(index, modifier) {
             playHapticFeedback(100, 500);
-            const item = cart.find(i => i.id === id);
+            const item = cart[index];
             if (!item) return;
 
             item.quantity += modifier;
             if (item.quantity <= 0) {
-                cart = cart.filter(i => i.id !== id);
+                cart.splice(index, 1);
             }
             updateCartState();
         }
@@ -617,7 +698,7 @@
         function triggerYelpGuard() {
             playHapticFeedback(200, 800);
             if (cart.length === 0) {
-                triggerHUDNotification("Please place items onto the table first!");
+                triggerHUDNotification("Please place dishes on your plate first!");
                 return;
             }
             toggleCartDrawer(false);
@@ -634,7 +715,7 @@
                 if (index < count) {
                     star.className = "yelp-star fa-solid fa-star text-2xl cursor-pointer text-arscape-champagne";
                 } else {
-                    star.className = "yelp-star fa-regular fa-star text-2xl cursor-pointer text-slate-500";
+                    star.className = "yelp-star fa-regular fa-star text-2xl cursor-pointer text-slate-600";
                 }
             });
 
@@ -651,14 +732,13 @@
             document.getElementById('yelp-guard-modal').classList.add('hidden');
 
             if (selectedRating >= 4) {
-                triggerHUDNotification(`🌟 Order dispatched! Forwarding to Google Reviews profile...`);
+                triggerHUDNotification(`🌟 Order dispatched! Redirecting to Google Reviews profile...`);
             } else {
                 const textValue = document.getElementById('private-feedback-text').value;
-                triggerHUDNotification(`📨 Private Floor Alert dispatched to Kitchen Supervisor!`);
-                console.log(`[Reputation Guard Active] Suppressed public Yelp link. Sent SMS to Manager: "${textValue}"`);
+                triggerHUDNotification(`📨 Private Floor Alert dispatched to kitchen supervisor!`);
+                console.log(`[Reputation Guard Active] Suppressed public Yelp link. Sent SMS to manager: "${textValue}"`);
             }
 
-            // Flush active checkout
             cart = [];
             dinerCount = 1;
             updateCartState();
@@ -666,7 +746,7 @@
 
         function openChefCard() {
             playHapticFeedback(150, 480);
-            document.getElementById('chef-modal-title').innerText = `${currentItem.title} Provenance`;
+            document.getElementById('chef-modal-title').innerText = `${currentItem.title} Sourcing`;
             document.getElementById('chef-modal-desc').innerText = currentItem.chefNote;
             document.getElementById('chef-modal').classList.remove('hidden');
         }
@@ -678,7 +758,7 @@
 
         function triggerAR() {
             playHapticFeedback(300, 650);
-            triggerHUDNotification(`Opening camera environment for ${currentItem.title}...`);
+            triggerHUDNotification(`Opening spatial projection environment...`);
             const viewer = document.getElementById('main-spatial-canvas');
             viewer.activateAR();
         }
@@ -690,7 +770,6 @@
             label.innerHTML = messageHtml;
             toast.classList.remove('hidden');
             
-            // Force browser reflow to transition nicely
             void toast.offsetWidth;
 
             toast.classList.remove('translate-y-4', 'opacity-0');
@@ -700,7 +779,7 @@
                 toast.classList.remove('translate-y-0', 'opacity-100');
                 toast.classList.add('translate-y-4', 'opacity-0');
                 setTimeout(() => {
-                    toast.add('hidden');
+                    toast.classList.add('hidden');
                 }, 300);
             }, 4000);
         }
