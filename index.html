@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARscape - Interactive 3D Gastronomy</title>
-    <!-- Tailwind CSS for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>ARscape - Premium 3D Gastronomy Experience</title>
     
-    <!-- Google <model-viewer> library for loading 3D models -->
+    <!-- Tailwind CSS for modern fluid grid mechanics -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Icons and premium typography pairings -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Google <model-viewer> for pure, lightning-fast 3D rendering (AR omitted) -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
     <script>
@@ -20,14 +21,15 @@
                 extend: {
                     fontFamily: {
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
                     },
                     colors: {
                         brand: {
-                            obsidian: '#090a0f',
-                            cardBg: '#12141c',
-                            gold: '#d97706',
-                            goldLight: '#fcd34d',
-                            grayMuted: '#8b8f9c'
+                            obsidian: '#07090e',       /* Deep premium obsidian black */
+                            cardBg: '#0e121d',         /* Warm slate containers */
+                            gold: '#ca8a04',           /* Luxury burnished copper gold */
+                            goldLight: '#fef08a',      /* Champagne highlights */
+                            grayMuted: '#64748b'       /* Subdued secondary typography text */
                         }
                     }
                 }
@@ -36,17 +38,20 @@
     </script>
 
     <style>
-        /* Smooth loading shimmer animation */
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+        /* Smooth physics transition representing luxurious native touch states */
+        .cinematic-transition {
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .shimmer-bg {
-            background: linear-gradient(90deg, #12141c 25%, #1d2130 50%, #12141c 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
+
+        /* Glassmorphism styling for floating micro-panels */
+        .premium-glass {
+            background: rgba(14, 18, 29, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        /* Custom scrollbar hiding */
+
+        /* Hide standard scrollbars for smooth swipe gestures */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -54,46 +59,38 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        /* Glassmorphism card utility */
-        .glass-panel {
-            background: rgba(18, 20, 28, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
     </style>
 </head>
-<body class="bg-brand-obsidian text-white font-sans min-h-screen flex flex-col items-center justify-start overflow-x-hidden">
+<body class="bg-brand-obsidian text-slate-100 font-sans min-h-screen flex flex-col items-center justify-start overflow-x-hidden antialiased">
 
-    <!-- Premium Mobile App Frame Simulator (Scales to full screen on real mobile phones) -->
+    <!-- Center Column limiting width for beautiful desktop preview, natively scaling to full screen on actual mobile displays -->
     <div class="w-full max-w-md min-h-screen flex flex-col justify-between p-5 relative">
         
-        <!-- App Header -->
+        <!-- App branding header -->
         <header class="flex items-center justify-between mb-4 select-none">
             <div class="flex flex-col">
-                <span class="text-xs tracking-widest text-brand-gold font-bold uppercase">Welcome to</span>
-                <h1 class="text-2xl font-extrabold tracking-tight text-white">ARscape<span class="text-xs font-bold text-brand-gold">®</span></h1>
+                <span class="text-[9px] uppercase tracking-widest text-brand-gold font-bold">Spatial Gastronomy</span>
+                <h1 class="text-2xl font-black tracking-tight text-white">ARscape<span class="text-xs font-bold text-brand-gold">®</span></h1>
             </div>
-            <!-- Simple Badge showing status -->
-            <div class="bg-brand-cardBg px-3 py-1.5 rounded-full border border-white/5 flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                <span class="text-[10px] font-bold tracking-wider uppercase text-brand-grayMuted">Interactive 3D</span>
+            <div class="bg-brand-cardBg/80 border border-white/5 px-3 py-1.5 rounded-full flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-yellow-500 animate-pulse"></span>
+                <span class="text-[9px] font-bold tracking-wider uppercase text-brand-gold">Pure 3D Mode</span>
             </div>
         </header>
 
-        <!-- Main Showcase Area -->
-        <main class="flex-1 flex flex-col gap-5 justify-center">
+        <!-- THE MAIN 3D PLATFORM CANVAS -->
+        <main class="flex-1 flex flex-col gap-6 justify-center">
             
-            <!-- THE 3D CANVAS PLATFORM -->
-            <div class="relative w-full aspect-square rounded-3xl overflow-hidden glass-panel flex flex-col items-center justify-center shadow-2xl shadow-black/50">
+            <div class="relative w-full aspect-square rounded-[32px] overflow-hidden premium-glass flex flex-col items-center justify-center shadow-2xl shadow-black/80">
                 
-                <!-- Ambient Spotlight Background Glow -->
-                <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(217,119,6,0.1)_0%,rgba(0,0,0,0)_70%)] pointer-events-none"></div>
+                <!-- Ambient luxury light spotlight behind the 3D model pedestal -->
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(202,138,4,0.08)_0%,rgba(0,0,0,0)_75%)] pointer-events-none z-0"></div>
 
                 <!-- 
-                  THE 3D MODEL VIEWER
-                  - By omitting 'ar', 'ar-modes', and 'ios-src', we disable AR completely.
-                  - This keeps the browser fast and prevents loading camera engines.
+                  GOOGLE MODEL VIEWER
+                  - Fully optimized for simple, instant 3D rendering.
+                  - All heavy AR engine directives ('ar', 'ar-modes', 'ios-src') have been omitted completely.
+                  - This shields your site from slow loading times, browser freezes, or camera permission delays.
                 -->
                 <model-viewer 
                     id="food-3d-player"
@@ -102,69 +99,92 @@
                     auto-rotate 
                     camera-controls 
                     interaction-prompt="auto"
-                    shadow-intensity="1.5"
-                    shadow-softness="0.8"
-                    exposure="1.1"
+                    shadow-intensity="1.6"
+                    shadow-softness="0.75"
+                    exposure="1.2"
                     loading="eager"
                     class="w-full h-full bg-transparent relative z-10"
                     style="--poster-color: transparent;">
                     
-                    <!-- Premium Loading Indicator Slot -->
-                    <div slot="poster" class="absolute inset-0 flex flex-col items-center justify-center bg-brand-cardBg/90 z-20">
-                        <div class="w-12 h-12 rounded-full border-2 border-brand-gold/30 border-t-brand-gold animate-spin mb-3"></div>
-                        <span class="text-xs font-semibold tracking-wider text-brand-gold animate-pulse">Streaming 3D Mesh...</span>
+                    <!-- Sophisticated mesh downloading loader -->
+                    <div slot="poster" class="absolute inset-0 flex flex-col items-center justify-center bg-brand-cardBg/95 z-20">
+                        <div class="w-12 h-12 rounded-full border-2 border-brand-gold/20 border-t-brand-gold animate-spin mb-3"></div>
+                        <span class="text-[10px] font-bold tracking-widest text-brand-gold animate-pulse uppercase">Streaming 3D Mesh...</span>
                     </div>
 
                 </model-viewer>
 
-                <!-- Subtle Floor Pedestal Shadow -->
-                <div class="absolute bottom-6 w-32 h-3 bg-black/40 blur-md rounded-full pointer-events-none z-0"></div>
+                <!-- Subtle shadow pedestal grounding the food structure -->
+                <div class="absolute bottom-6 w-36 h-3 bg-black/50 blur-lg rounded-full pointer-events-none z-0"></div>
                 
-                <!-- Interactive Controls Notice -->
-                <div class="absolute bottom-3 right-3 glass-panel px-2.5 py-1 rounded-lg text-[9px] text-brand-grayMuted flex items-center gap-1 z-20 pointer-events-none">
-                    <i class="fa-solid fa-arrows-spin text-brand-gold"></i> Swipe to Rotate / Pinch to Zoom
+                <!-- Touch gesture overlay helper -->
+                <div class="absolute bottom-4 right-4 premium-glass px-3 py-1 rounded-full text-[9px] text-brand-gold font-medium flex items-center gap-1.5 z-20 pointer-events-none select-none">
+                    <i class="fa-solid fa-arrows-spin text-brand-goldLight animate-spin-slow"></i> Swipe to Spin / Pinch to Zoom
                 </div>
             </div>
 
-            <!-- DISH METADATA & SELECTOR -->
+            <!-- DISH DETAILS & CUSTOMIZER CONTROL -->
             <div class="flex flex-col gap-3">
                 <div class="flex items-start justify-between">
                     <div>
-                        <span id="dish-category" class="text-[10px] tracking-widest text-brand-gold uppercase font-bold">// Best Seller</span>
-                        <h2 id="dish-title" class="text-2xl font-bold text-white tracking-tight mt-0.5">Classic Pepperoni Pizza</h2>
+                        <span id="dish-category" class="text-[9px] tracking-widest text-brand-gold uppercase font-bold">// Best Seller</span>
+                        <h2 id="dish-title" class="text-3xl font-serif font-bold text-white tracking-tight mt-0.5">Classic Pepperoni Pizza</h2>
                     </div>
-                    <span id="dish-price" class="text-xl font-bold text-brand-gold font-mono bg-brand-cardBg px-3 py-1 rounded-xl border border-white/5">Rs. 1,499</span>
+                    <span id="dish-price" class="text-xl font-bold text-brand-gold font-mono bg-brand-cardBg px-3.5 py-1.5 rounded-2xl border border-white/5">Rs. 1,499</span>
                 </div>
                 <p id="dish-desc" class="text-xs text-brand-grayMuted leading-relaxed">
                     A golden stone-baked sourdough crust topped with rich Italian tomato marinara, melted whole-milk mozzarella cheese, and generous layers of spicy, crisped pepperoni slices.
                 </p>
+
+                <!-- Integrated Toppings Customizer Box -->
+                <div class="bg-brand-cardBg border border-white/5 rounded-2xl p-3.5 mt-1 flex flex-col gap-2">
+                    <span class="text-[9px] uppercase tracking-wider text-brand-grayMuted font-bold"><i class="fa-solid fa-sliders mr-1 text-brand-gold"></i> Plate Customizer (Topping Add-Ons)</span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <!-- Topping Option A -->
+                        <label onclick="toggleTopping(this, 150)" class="flex items-center gap-2.5 p-2 rounded-xl bg-brand-obsidian border border-white/5 cursor-pointer active:scale-95 cinematic-transition select-none">
+                            <input type="checkbox" class="accent-brand-gold w-3.5 h-3.5 rounded bg-brand-cardBg border-white/10">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] font-bold text-white">Extra Melted Cheese</span>
+                                <span class="text-[8px] font-mono text-brand-gold">+Rs. 150</span>
+                            </div>
+                        </label>
+                        <!-- Topping Option B -->
+                        <label onclick="toggleTopping(this, 350)" class="flex items-center gap-2.5 p-2 rounded-xl bg-brand-obsidian border border-white/5 cursor-pointer active:scale-95 cinematic-transition select-none">
+                            <input type="checkbox" class="accent-brand-gold w-3.5 h-3.5 rounded bg-brand-cardBg border-white/10">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] font-bold text-white">Gourmet Truffle Oil</span>
+                                <span class="text-[8px] font-mono text-brand-gold">+Rs. 350</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
             </div>
 
-            <!-- HORIZONTAL DISH SELECTOR GRID -->
+            <!-- DYNAMIC FOOD ITEM SELECTION CHIPS -->
             <div class="flex flex-col gap-2.5">
-                <span class="text-[10px] uppercase tracking-wider text-brand-grayMuted font-bold">Select Dish to View in 3D</span>
-                <div class="flex gap-3 overflow-x-auto no-scrollbar pb-2 select-none">
+                <span class="text-[9px] uppercase tracking-wider text-brand-grayMuted font-bold">Browse the Menu in Full 3D</span>
+                <div class="flex gap-3.5 overflow-x-auto no-scrollbar pb-2 select-none">
                     
-                    <!-- Dish Option 1 (Active) -->
-                    <div id="btn-1" onclick="switchFoodItem(1, this)" class="flex-shrink-0 w-24 p-2 rounded-2xl bg-brand-cardBg border border-brand-gold flex flex-col gap-1.5 cursor-pointer transition-all active:scale-95">
-                        <div class="w-full aspect-square rounded-xl overflow-hidden bg-stone-900">
+                    <!-- Item Card 1 (Active) -->
+                    <div id="btn-1" onclick="switchFoodItem(1, this)" class="flex-shrink-0 w-24 p-2 rounded-2xl bg-brand-cardBg border border-brand-gold flex flex-col gap-1.5 cursor-pointer cinematic-transition active:scale-95">
+                        <div class="w-full aspect-square rounded-xl overflow-hidden bg-brand-obsidian">
                             <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=200" alt="Pizza" class="w-full h-full object-cover">
                         </div>
                         <span class="text-[10px] font-bold text-white text-center truncate leading-none">Pizza</span>
                     </div>
 
-                    <!-- Dish Option 2 -->
-                    <div id="btn-2" onclick="switchFoodItem(2, this)" class="flex-shrink-0 w-24 p-2 rounded-2xl bg-brand-cardBg border border-white/5 flex flex-col gap-1.5 cursor-pointer transition-all hover:border-white/10 active:scale-95">
-                        <div class="w-full aspect-square rounded-xl overflow-hidden bg-stone-900">
-                            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=200" alt="Burger" class="w-full h-full object-cover">
+                    <!-- Item Card 2 -->
+                    <div id="btn-2" onclick="switchFoodItem(2, this)" class="flex-shrink-0 w-24 p-2 rounded-2xl bg-brand-cardBg border border-white/5 flex flex-col gap-1.5 cursor-pointer cinematic-transition hover:border-white/10 active:scale-95">
+                        <div class="w-full aspect-square rounded-xl overflow-hidden bg-brand-obsidian">
+                            <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80&w=200" alt="Curry" class="w-full h-full object-cover">
                         </div>
-                        <span class="text-[10px] font-bold text-brand-grayMuted text-center truncate leading-none">Burger</span>
+                        <span class="text-[10px] font-bold text-brand-grayMuted text-center truncate leading-none">Curry</span>
                     </div>
 
-                    <!-- Dish Option 3 -->
-                    <div id="btn-3" onclick="switchFoodItem(3, this)" class="flex-shrink-0 w-24 p-2 rounded-2xl bg-brand-cardBg border border-white/5 flex flex-col gap-1.5 cursor-pointer transition-all hover:border-white/10 active:scale-95">
-                        <div class="w-full aspect-square rounded-xl overflow-hidden bg-stone-900">
-                            <img src="https://images.unsplash.com/photo-1546964124-0cce460f38ef?auto=format&fit=crop&q=80&w=200" alt="Steak" class="w-full h-full object-cover">
+                    <!-- Item Card 3 -->
+                    <div id="btn-3" onclick="switchFoodItem(3, this)" class="flex-shrink-0 w-24 p-2 rounded-2xl bg-brand-cardBg border border-white/5 flex flex-col gap-1.5 cursor-pointer cinematic-transition hover:border-white/10 active:scale-95">
+                        <div class="w-full aspect-square rounded-xl overflow-hidden bg-brand-obsidian">
+                            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=200" alt="Steak" class="w-full h-full object-cover">
                         </div>
                         <span class="text-[10px] font-bold text-brand-grayMuted text-center truncate leading-none">Steak</span>
                     </div>
@@ -174,73 +194,79 @@
 
         </main>
 
-        <!-- Simple Checkout Action Row -->
+        <!-- Settle Invoice Action Panel -->
         <footer class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
             <div class="flex flex-col">
-                <span class="text-[9px] uppercase tracking-wider text-brand-grayMuted">Total Bill</span>
-                <span id="cart-total" class="text-lg font-bold font-mono text-white">Rs. 1,499</span>
+                <span class="text-[8px] uppercase tracking-wider text-brand-grayMuted font-bold">Total Bill</span>
+                <span id="cart-total" class="text-xl font-bold font-mono text-white">Rs. 1,499</span>
             </div>
-            <button class="bg-brand-gold hover:bg-amber-600 text-black font-bold text-xs py-3 px-6 rounded-2xl flex items-center gap-2 active:scale-95 transition-all">
-                <i class="fa-solid fa-cart-shopping"></i> Order Now
+            <button class="bg-brand-gold hover:bg-yellow-700 text-black font-bold text-xs py-3.5 px-6 rounded-2xl flex items-center gap-2 active:scale-95 cinematic-transition select-none">
+                <i class="fa-solid fa-kitchen-set"></i> Order Now
             </button>
         </footer>
 
     </div>
 
-    <!-- Active Swapping Logic -->
+    <!-- Localized database mapping paths and working CDN fallbacks for offline routing protection -->
     <script>
-        // Localized Mock Database containing absolute fallbacks for slow systems or sandboxed frames
         const menuData = {
             1: {
                 title: "Classic Pepperoni Pizza",
                 category: "// Best Seller",
-                price: "Rs. 1,499",
+                basePrice: 1499,
                 primaryGlb: "./pizza.glb",
                 fallbackGlb: "https://raw.githubusercontent.com/AviDwivedi/WebAR/main/pizza.glb",
                 desc: "A golden stone-baked sourdough crust topped with rich Italian tomato marinara, melted whole-milk mozzarella cheese, and generous layers of spicy, crisped pepperoni slices."
             },
             2: {
-                title: "Double Stack Beef Burger",
-                category: "// House Gourmet",
-                price: "Rs. 899",
-                primaryGlb: "./burger.glb",
-                fallbackGlb: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Avocado/glTF-Binary/Avocado.glb",
-                desc: "Two smash-grilled beef patties layered with melted cheddar cheese, crisp pickles, sweet caramelized onions, and our signature ARscape house sauce on a toasted brioche bun."
+                title: "House Gourmet Curry",
+                category: "// House Special",
+                basePrice: 899,
+                primaryGlb: "./curry.glb",
+                fallbackGlb: "https://raw.githubusercontent.com/code4fukui/xrgourmet/main/taishiron-curry.glb",
+                desc: "Fragrant, slow-simmered rich golden curry sauce served over hot Japanese sticky rice, infused with aromatic ground spices, fresh scallions, and soft local root vegetables."
             },
             3: {
                 title: "Filet Mignon Steak",
                 category: "// Premium Cut",
-                price: "Rs. 3,299",
+                basePrice: 3299,
                 primaryGlb: "./steak.glb",
-                fallbackGlb: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Avocado/glTF-Binary/Avocado.glb",
+                fallbackGlb: "https://raw.githubusercontent.com/code4fukui/xrgourmet/main/ktri-steak.glb",
                 desc: "A thick, juicy medallion of center-cut tenderloin beef, seared in garlic butter, rosemary, and thyme, served mid-rare with gourmet compound herb butter."
             }
         };
 
         let currentActiveId = 1;
+        let selectedToppingsCost = 0;
 
-        // Resolve URLs dynamically using window context safely
+        // Bypasses CORS blocking rules securely using absolute address construction
         function resolveUrl(path) {
             if (path.startsWith('http://') || path.startsWith('https://')) {
                 return path;
             }
             try {
-                // Resolves relative directories to clean absolute URLs
                 return new URL(path, window.location.href).href;
             } catch (e) {
-                console.warn("Failed to construct URL object. Falling back to simple path routing.");
                 return path;
             }
         }
 
-        // Active trigger on item clicks
+        // Handles menu category swapping
         function switchFoodItem(id, cardElement) {
             const data = menuData[id];
             if (!data) return;
 
             currentActiveId = id;
+            selectedToppingsCost = 0;
 
-            // Update UI Border states
+            // Reset all customizer checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(box => {
+                box.checked = false;
+                box.parentElement.classList.remove('border-brand-gold');
+                box.parentElement.classList.add('border-white/5');
+            });
+
+            // Update card selected borders
             const cards = cardElement.parentElement.children;
             for (let card of cards) {
                 card.classList.remove('border-brand-gold');
@@ -253,30 +279,65 @@
             cardElement.querySelector('span').classList.remove('text-brand-grayMuted');
             cardElement.querySelector('span').classList.add('text-white');
 
-            // Force dynamic absolute request path resolution to bypass CORS blocks
+            // Force dynamic pathing resolve
             const viewer = document.getElementById('food-3d-player');
             viewer.src = resolveUrl(data.primaryGlb);
 
-            // Fade update other copy blocks
+            // Update pricing and copy blocks
+            updatePriceDisplay();
             document.getElementById('dish-title').innerText = data.title;
             document.getElementById('dish-category').innerText = data.category;
-            document.getElementById('dish-price').innerText = data.price;
             document.getElementById('dish-desc').innerText = data.desc;
-            document.getElementById('cart-total').innerText = data.price;
         }
 
-        // Fallback Handler: If local .glb path does not exist, swap to CDN back-ups safely
+        // Dynamically calculates customizer toppings and triggers totals update
+        function toggleTopping(labelElement, cost) {
+            const checkbox = labelElement.querySelector('input[type="checkbox"]');
+            
+            // Adjust toggle design borders
+            setTimeout(() => {
+                if (checkbox.checked) {
+                    labelElement.classList.remove('border-white/5');
+                    labelElement.classList.add('border-brand-gold');
+                } else {
+                    labelElement.classList.remove('border-brand-gold');
+                    labelElement.classList.add('border-white/5');
+                }
+
+                // Recalculate totals
+                selectedToppingsCost = 0;
+                document.querySelectorAll('input[type="checkbox"]:checked').forEach(box => {
+                    const costVal = box.nextElementSibling.querySelector('span:last-child').innerText;
+                    const parsedCost = parseInt(costVal.replace(/[^0-9]/g, ''));
+                    selectedToppingsCost += parsedCost;
+                });
+
+                updatePriceDisplay();
+            }, 50);
+        }
+
+        // Computes financial strings
+        function updatePriceDisplay() {
+            const currentItem = menuData[currentActiveId];
+            if (!currentItem) return;
+
+            const totalVal = currentItem.basePrice + selectedToppingsCost;
+            const formattedVal = `Rs. ${totalVal.toLocaleString()}`;
+
+            document.getElementById('dish-price').innerText = formattedVal;
+            document.getElementById('cart-total').innerText = formattedVal;
+        }
+
+        // Auto-loads first model and routes error exceptions directly to cloud servers
         window.addEventListener('load', () => {
             const viewer = document.getElementById('food-3d-player');
-            
-            // Set initial state
             viewer.src = resolveUrl(menuData[1].primaryGlb);
 
+            // Robust diagnostic fallback
             viewer.addEventListener('error', (event) => {
                 const currentData = menuData[currentActiveId];
                 if (currentData && viewer.src !== currentData.fallbackGlb) {
-                    console.warn(`Local model failed to load from: ${viewer.src}. Swapping to high-speed CDN fallback.`);
-                    // Direct swap to verified public repository files
+                    console.warn(`Local model not found at ${viewer.src}. Instantly routing to CDN fallback asset...`);
                     viewer.src = currentData.fallbackGlb;
                 }
             });
