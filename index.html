@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARscape - Mobile Gastronomy Portal</title>
     
-    <!-- Tailwind CSS for modern fluid layout engine -->
+    <!-- Tailwind CSS for high-fidelity responsive utility layout systems -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Premium Google Fonts pairing: Plus Jakarta Sans for clean technical UI -->
+    <!-- Premium Google Fonts pairing: Plus Jakarta Sans for clean modern tech UI -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- Google <model-viewer> for pure, lightning-fast 3D web rendering (AR Omitted for Wi-Fi speed) -->
+    <!-- Google <model-viewer> for lightweight, fast 3D native web rendering -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
     <script>
@@ -24,11 +24,11 @@
                     },
                     colors: {
                         brand: {
-                            obsidian: '#07090e',       /* Luxury slate black background */
-                            cardBg: '#0e121d',         /* Deep elevated container panels */
-                            accent: '#ca8a04',         /* Premium burnished gold accents */
-                            accentLight: '#fcd34d',    /* Highlight champagne gold */
-                            mutedText: '#64748b'       /* Secondary slate gray text */
+                            obsidian: '#07090e',       /* Deep obsidian luxury black */
+                            cardBg: '#0e121d',         /* Glassmorphic elevated containers */
+                            accent: '#ca8a04',         /* Burnished champagne gold accent */
+                            accentLight: '#fcd34d',    /* Rich gold highlight tone */
+                            mutedText: '#64748b'       /* Secondary slate grey metadata */
                         }
                     }
                 }
@@ -37,12 +37,12 @@
     </script>
 
     <style>
-        /* Smooth cubic bezier curve matching Apple physical spring transitions */
+        /* Smooth cubic bezier curve matching native Apple Spring physics */
         .cinematic-ease {
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Custom scrollbar stripping for seamless touch swiping */
+        /* Custom scrollbar stripping for touchscreen swiping layouts */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -51,7 +51,7 @@
             scrollbar-width: none;
         }
 
-        /* Glassmorphism styling representing expensive premium layouts */
+        /* Glassmorphic panel styling for expensive feel */
         .glass-panel {
             background: rgba(14, 18, 29, 0.85);
             backdrop-filter: blur(20px);
@@ -59,12 +59,12 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Ambient glowing highlights behind interactive panels */
+        /* Ambient glowing golden drop shadow */
         .glow-gold {
             box-shadow: 0 0 30px rgba(202, 138, 4, 0.15);
         }
         
-        /* Simulated physical smartphone framing to showcase layout flows perfectly */
+        /* Simulated high-fidelity physical smartphone container frame */
         .phone-frame {
             border: 14px solid #1e293b;
             border-radius: 48px;
@@ -75,57 +75,83 @@
             height: 820px;
             position: relative;
         }
+
+        /* Cart Bounce keyframes for organic reactive spring feel */
+        @keyframes cartBounce {
+            0%, 100% { transform: translate(-50%, 0) scale(1); }
+            30% { transform: translate(-50%, -10px) scale(1.15) rotate(-5deg); }
+            50% { transform: translate(-50%, 4px) scale(0.9) rotate(3deg); }
+            80% { transform: translate(-50%, -2px) scale(1.03); }
+        }
+        .animate-cart-bounce {
+            animation: cartBounce 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Flight flyer container for path calculations */
+        .flight-flyer {
+            position: fixed;
+            z-index: 9999;
+            pointer-events: none;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #ca8a04;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease-out, width 0.5s ease, height 0.5s ease;
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen py-10 px-4 flex flex-col items-center justify-center gap-6 overflow-x-hidden antialiased">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen py-6 px-4 flex flex-col items-center justify-center gap-6 overflow-x-hidden antialiased select-none">
 
-
-    <!-- MAIN APP WIREFRAME CONTAINER (Simulated Smartphone) -->
+    <!-- MAIN SMARTPHONE WIREFRAME CONTAINER -->
     <div class="phone-frame cinematic-ease relative flex flex-col justify-between">
         
-        <!-- Hardware camera notch simulator -->
+        <!-- Physical camera camera notch overlay -->
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1e293b] rounded-b-2xl z-50 flex items-center justify-center">
             <span class="w-3.5 h-3.5 rounded-full bg-black/60 border border-white/5"></span>
             <span class="w-1.5 h-1.5 rounded-full bg-blue-900/40 ml-2"></span>
         </div>
 
-        <!-- ======================================================== -->
-        <!-- APP MASTER WRAPPER                                       -->
-        <!-- ======================================================== -->
+        <!-- Custom Toast Notification Box Overlay (No-Alert Guardrail) -->
+        <div id="app-toast-box" class="absolute top-10 left-4 right-4 z-50 bg-[#1e1e2d] border border-[#ca8a04]/40 p-3 rounded-xl shadow-2xl opacity-0 pointer-events-none translate-y-[-20px] cinematic-ease flex items-center gap-2.5">
+            <i id="toast-icon" class="fa-solid fa-circle-info text-brand-accentLight text-sm"></i>
+            <span id="toast-message" class="text-[10px] text-slate-200 font-semibold leading-tight">Toast message context...</span>
+        </div>
+
+        <!-- CORE APPLICATION MASTER FRAME -->
         <div class="w-full h-full flex flex-row relative pt-6 z-10">
             
             <!-- ======================================================== -->
-            <!-- NARROW LEFT SIDEBAR (List of Items - Common to all screens) -->
+            <!-- NARROW LEFT SIDEBAR (Structural Multi-Screen Navigation)  -->
             <!-- ======================================================== -->
             <aside class="w-[85px] bg-brand-obsidian border-r border-white/5 flex flex-col justify-between py-6 px-1 h-full select-none z-30">
                 <div class="flex flex-col gap-8">
-                    <!-- Software Branding text (top-left) -->
+                    <!-- Brand Identifier -->
                     <div class="px-2 text-center">
                         <span class="text-[9px] uppercase tracking-widest text-brand-accent font-black block">ARscape</span>
                         <span class="text-[6px] text-brand-mutedText tracking-wider uppercase block mt-0.5">Software</span>
                     </div>
 
-                    <!-- List of item category triggers -->
+                    <!-- Category Items Chip Buttons (Dynamic State Triggers) -->
                     <div class="flex flex-col gap-1 pr-1.5 pl-1 max-h-[500px] overflow-y-auto no-scrollbar">
-                        <!-- Category 1: Steak (Active default) -->
+                        <!-- Category: Steak (Active default) -->
                         <button id="cat-steak" onclick="filterMenuCategory('steak', this)" class="flex flex-col items-center justify-center py-3 px-1 rounded-xl cursor-pointer transition-all bg-brand-accent/10 border border-brand-accent/20 text-brand-accentLight">
                             <i class="fa-solid fa-fire text-xs"></i>
                             <span class="text-[8px] font-bold mt-1.5 tracking-wider uppercase">Steaks</span>
                         </button>
 
-                        <!-- Category 2: Pizza -->
+                        <!-- Category: Pizza -->
                         <button id="cat-pizza" onclick="filterMenuCategory('pizza', this)" class="flex flex-col items-center justify-center py-3 px-1 rounded-xl cursor-pointer transition-all text-slate-500 hover:text-white hover:bg-white/5">
                             <i class="fa-solid fa-pizza-slice text-xs"></i>
                             <span class="text-[8px] font-medium mt-1.5 tracking-wider uppercase">Pizza</span>
                         </button>
 
-                        <!-- Category 3: Curry -->
+                        <!-- Category: Curry -->
                         <button id="cat-curry" onclick="filterMenuCategory('curry', this)" class="flex flex-col items-center justify-center py-3 px-1 rounded-xl cursor-pointer transition-all text-slate-500 hover:text-white hover:bg-white/5">
                             <i class="fa-solid fa-bowl-hot text-xs"></i>
                             <span class="text-[8px] font-medium mt-1.5 tracking-wider uppercase">Curries</span>
                         </button>
 
-                        <!-- Category 4: Drinks -->
+                        <!-- Category: Drinks -->
                         <button id="cat-drinks" onclick="filterMenuCategory('drinks', this)" class="flex flex-col items-center justify-center py-3 px-1 rounded-xl cursor-pointer transition-all text-slate-500 hover:text-white hover:bg-white/5">
                             <i class="fa-solid fa-martini-glass-citrus text-xs"></i>
                             <span class="text-[8px] font-medium mt-1.5 tracking-wider uppercase">Drinks</span>
@@ -133,21 +159,21 @@
                     </div>
                 </div>
 
-                <!-- Footer version code -->
-                <div class="text-center select-none opacity-40">
+                <!-- Footer version spec -->
+                <div class="text-center opacity-40">
                     <span class="text-[7px] font-mono tracking-widest text-slate-500 block">v1.4.0</span>
                 </div>
             </aside>
 
             <!-- ======================================================== -->
-            <!-- RIGHT MAIN PANEL - SCREEN 1: BROWSE GRID (iPhone 17 - 1) -->
+            <!-- RIGHT PANEL - SCREEN 1: BROWSE GRID (iPhone 17 - 1)      -->
             <!-- ======================================================== -->
             <section id="screen-browse" class="flex-1 flex flex-col justify-between bg-brand-obsidian/40 relative">
                 
-                <!-- Main scrollable content window -->
-                <div class="flex-grow flex flex-col overflow-y-auto no-scrollbar p-4 pb-20">
+                <!-- Scrollable grid main window -->
+                <div class="flex-grow flex flex-col overflow-y-auto no-scrollbar p-4 pb-24">
                     
-                    <!-- Header Bar (name and logo of resturant) -->
+                    <!-- Restaurant Header bar -->
                     <div class="flex items-center justify-between mb-5 select-none border-b border-white/5 pb-3">
                         <div class="flex items-center gap-2">
                             <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-brand-accent to-yellow-600 flex items-center justify-center text-black font-extrabold text-sm shadow-md">
@@ -167,17 +193,17 @@
                         <input oninput="executeCatalogSearch(this.value)" type="text" placeholder="Search delicious food..." class="w-full bg-brand-cardBg/80 border border-white/5 py-2 pl-9 pr-4 rounded-xl text-[11px] text-white placeholder-slate-500 focus:outline-none focus:border-brand-accent/40 transition-colors">
                     </div>
 
-                    <!-- Interactive dynamic grid container (dishes) -->
-                    <div id="dishes-catalog-grid" class="grid grid-cols-2 gap-3">
-                        <!-- Custom JS items cards injected here dynamically -->
+                    <!-- Interactive catalog grid list -->
+                    <div id="dishes-catalog-grid" class="grid grid-cols-2 gap-3 relative">
+                        <!-- Injected dynamic food card DOMs -->
                     </div>
                 </div>
 
-                <!-- Centered Shopping Cart Floating Action Button -->
-                <div class="absolute bottom-5 left-1/2 -translate-x-1/2 z-20">
-                    <button onclick="toggleViewToCheckout()" class="w-14 h-14 rounded-full bg-gradient-to-r from-brand-accent to-yellow-600 hover:brightness-110 active:scale-95 text-black flex items-center justify-center transition-all shadow-lg shadow-yellow-500/10 border-4 border-brand-obsidian relative">
+                <!-- CENTERED FLOATING ACTION ACTION BUTTON (THE MAIN PORTAL CART TRIGGER) -->
+                <div class="absolute bottom-5 left-1/2 -translate-x-1/2 z-30">
+                    <button id="floating-cart-btn" onclick="toggleViewToCheckout()" class="w-14 h-14 rounded-full bg-gradient-to-r from-brand-accent to-yellow-600 hover:brightness-110 active:scale-95 text-black flex items-center justify-center transition-all shadow-lg shadow-yellow-500/20 border-4 border-brand-obsidian relative">
                         <i class="fa-solid fa-shopping-cart text-lg"></i>
-                        <!-- Live counter indicator badge -->
+                        <!-- Cart item count indicator tag -->
                         <span id="cart-floating-badge" class="absolute -top-1 -right-1 bg-red-500 text-white font-bold font-mono text-[9px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-brand-obsidian shadow-sm">
                             0
                         </span>
@@ -187,15 +213,15 @@
             </section>
 
             <!-- ======================================================== -->
-            <!-- OVERLAY MODAL PANEL - SCREEN 2: 3D MODIFIED VIEW (iPhone 17 - 2) -->
+            <!-- OVERLAY PANEL - SCREEN 2: 3D MODAL OVERLAY (iPhone 17 - 2) -->
             <!-- ======================================================== -->
             <div id="screen-detail-modal" class="absolute inset-0 bg-black/85 z-40 flex items-center justify-center opacity-0 pointer-events-none cinematic-ease">
                 <div class="w-[280px] bg-brand-cardBg border border-white/10 rounded-3xl p-5 shadow-2xl relative flex flex-col justify-between overflow-hidden">
                     
-                    <!-- Dark paper textured background details -->
+                    <!-- Atmospheric Spotlight visual back-mesh -->
                     <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(202,138,4,0.06)_0%,rgba(0,0,0,0)_75%)] pointer-events-none"></div>
 
-                    <!-- Modal top header + Close trigger (X) -->
+                    <!-- Modal Top Actions -->
                     <div class="flex items-center justify-between mb-4 relative z-10">
                         <span id="modal-dish-category" class="text-[8px] uppercase tracking-widest text-brand-accent font-bold">// 3D Spec</span>
                         <button onclick="dismiss3DModal()" class="w-7 h-7 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
@@ -203,7 +229,7 @@
                         </button>
                     </div>
 
-                    <!-- Pure 3D Canvas Box (No AR tracking permissions overhead) -->
+                    <!-- Pure 3D WebGL Canvas pedestal (No Camera permissions asked) -->
                     <div class="relative w-full aspect-square rounded-2xl overflow-hidden bg-brand-obsidian/80 border border-white/5 flex flex-col items-center justify-center mb-4 relative z-10">
                         <model-viewer 
                             id="modal-viewer-3d"
@@ -219,46 +245,46 @@
                             class="w-full h-full bg-transparent relative z-20"
                             style="--poster-color: transparent;">
                             
-                            <!-- Static loader component inside canvas block -->
+                            <!-- Custom structural loader page inside canvas block -->
                             <div slot="poster" class="absolute inset-0 flex flex-col items-center justify-center bg-brand-cardBg z-30">
                                 <div class="w-8 h-8 rounded-full border-2 border-brand-accent/20 border-t-brand-accent animate-spin mb-2"></div>
                                 <span class="text-[8px] font-bold tracking-widest text-brand-accent animate-pulse uppercase">Compiling Mesh...</span>
                             </div>
                         </model-viewer>
 
-                        <!-- Hint Overlay -->
+                        <!-- Micro-interaction touch instruction overlay -->
                         <div class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/40 border border-white/5 text-[7px] text-brand-mutedText pointer-events-none select-none z-20 flex items-center gap-1">
                             <i class="fa-solid fa-arrows-spin text-brand-accent"></i> Drag to Spin
                         </div>
                     </div>
 
-                    <!-- Meta specifications -->
+                    <!-- Meta specs copy -->
                     <div class="mb-5 relative z-10">
                         <div class="flex items-center justify-between mb-1">
                             <h3 id="modal-dish-title" class="text-sm font-bold text-white tracking-tight truncate max-w-[170px]">Tomahawk Ribeye</h3>
                             <span id="modal-dish-price" class="text-xs font-black font-mono text-brand-accent">Rs. 3,299</span>
                         </div>
                         <p id="modal-dish-desc" class="text-[10px] text-brand-mutedText leading-relaxed line-clamp-2">
-                            A delicious, premium cut of meat, prepared tableside and seasoned to ultimate perfection.
+                            A premium, juicy cuts of meat seared over open hickory logs and seasoned with fresh coastal hand-cracked sea salt.
                         </p>
                     </div>
 
-                    <!-- Action Trigger (add to cart) -->
-                    <button onclick="commitModalItemToCart()" class="w-full bg-white hover:bg-slate-100 text-black font-black text-xs py-3 rounded-xl flex items-center justify-center gap-2 relative z-10 active:scale-95 transition-transform">
+                    <!-- Modal Order Action trigger -->
+                    <button id="modal-add-btn" onclick="commitModalItemToCart(event)" class="w-full bg-white hover:bg-slate-100 text-black font-black text-xs py-3 rounded-xl flex items-center justify-center gap-2 relative z-10 active:scale-95 transition-transform">
                         <i class="fa-solid fa-cart-plus"></i> Add to Session Cart
                     </button>
                 </div>
             </div>
 
             <!-- ======================================================== -->
-            <!-- RIGHT MAIN PANEL - SCREEN 3: CHECKOUT TAB (iPhone 17 - 3) -->
+            <!-- RIGHT PANEL - SCREEN 3: CHECKOUT TAB (iPhone 17 - 3)     -->
             <!-- ======================================================== -->
             <section id="screen-checkout" class="flex-1 flex flex-col justify-between bg-brand-obsidian/40 relative hidden">
                 
-                <!-- Main checkout scrollable flow window -->
+                <!-- Main invoice layout wrap -->
                 <div class="flex-grow flex flex-col overflow-y-auto no-scrollbar p-4">
                     
-                    <!-- Header Bar (name and logo of resturant) -->
+                    <!-- Back navigation action top header -->
                     <div class="flex items-center justify-between mb-5 select-none border-b border-white/5 pb-3">
                         <button onclick="toggleViewToBrowse()" class="flex items-center gap-1.5 text-[10px] text-brand-mutedText hover:text-white transition-colors">
                             <i class="fa-solid fa-arrow-left text-[8px]"></i> Back Menu
@@ -269,25 +295,25 @@
                         </div>
                     </div>
 
-                    <!-- Core Unified Invoice Container (list of selected dishes & total amount) -->
+                    <!-- Unified Box Invoice Container (Dashes list on left, price summary on right) -->
                     <div class="bg-brand-cardBg/90 border border-white/5 rounded-2xl overflow-hidden mb-6 shadow-xl flex flex-col">
                         
-                        <!-- Header specs -->
+                        <!-- Panel description title -->
                         <div class="p-3 bg-white/5 border-b border-white/5 flex justify-between items-center">
-                            <span class="text-[9px] uppercase font-extrabold tracking-wider text-brand-accent"><i class="fa-solid fa-file-invoice-dollar mr-1"></i> Current Order Receipt</span>
+                            <span class="text-[9px] uppercase font-extrabold tracking-wider text-brand-accent"><i class="fa-solid fa-file-invoice-dollar mr-1"></i> Unified Table Receipt</span>
                             <span class="text-[8px] font-mono text-brand-mutedText">ID: #4092-B</span>
                         </div>
 
-                        <!-- Left Pane representation (list of selected dishes) -->
+                        <!-- Left Pane representation: List of selected dishes -->
                         <div id="selected-items-wrapper" class="p-3 flex flex-col gap-2 max-h-[190px] overflow-y-auto no-scrollbar border-b border-white/5">
-                            <!-- Injected by JavaScript dynamically based on state -->
+                            <!-- Injected by state dynamically -->
                         </div>
 
-                        <!-- Right Pane representation (total amount) -->
+                        <!-- Right Pane representation: Total aggregate pricing -->
                         <div class="p-4 bg-brand-accent/[0.02] flex items-center justify-between">
                             <div>
                                 <span class="text-[8px] text-brand-mutedText block uppercase tracking-wider font-extrabold">Grand Total</span>
-                                <span class="text-[9px] text-brand-mutedText block">Tax & services included</span>
+                                <span class="text-[9px] text-brand-mutedText block">Tax & fees included</span>
                             </div>
                             <div class="text-right">
                                 <span id="checkout-calculated-total" class="text-2xl font-black font-mono text-white">Rs. 0</span>
@@ -296,9 +322,8 @@
 
                     </div>
 
-                    <!-- Settle Invoice Action Panel (place your order) -->
+                    <!-- Place Order Trigger Section -->
                     <div class="flex flex-col gap-3">
-                        <!-- Place order button trigger -->
                         <button onclick="executePlaceOrderFlow()" class="w-full bg-gradient-to-r from-brand-accent to-yellow-600 hover:brightness-110 text-black font-black text-xs py-3.5 rounded-2xl flex items-center justify-center gap-2 transition-transform active:scale-95 shadow-lg shadow-yellow-500/10">
                             <i class="fa-solid fa-receipt"></i> Place Your Table Order
                         </button>
@@ -314,14 +339,14 @@
 
         </div>
 
-        <!-- Silent Yelp-Guard Manager Warning Toast -->
+        <!-- Silent Yelp-Guard Manager Alert Warning Toast -->
         <div id="manager-alert-banner" class="absolute bottom-5 left-4 right-4 z-50 bg-red-950/95 border border-red-500/30 backdrop-blur-xl p-3 rounded-2xl shadow-2xl translate-y-[130%] cinematic-ease flex items-start gap-2.5">
             <div class="w-7 h-7 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 text-red-400">
                 <i class="fa-solid fa-triangle-exclamation text-xs animate-bounce"></i>
             </div>
             <div class="flex-grow">
-                <span class="text-[8px] uppercase tracking-wider text-red-400 font-extrabold">Yelp-Guard Real-Time Shield</span>
-                <p class="text-[9px] text-red-200 leading-tight mt-0.5">Table 4 logged poor rating! Silent SMS alerts dispatched to Supervisor for tableside recovery.</p>
+                <span class="text-[8px] uppercase tracking-wider text-red-400 font-extrabold">Yelp-Guard Shield Triggered</span>
+                <p class="text-[9px] text-red-200 leading-tight mt-0.5">Table 4 logged poor rating! Silent SMS dispatch sent to manager for tableside recovery.</p>
             </div>
             <button onclick="dismissManagerAlert()" class="text-red-400 hover:text-white transition-colors text-[10px]">
                 <i class="fa-solid fa-xmark"></i>
@@ -330,7 +355,7 @@
 
     </div>
 
-    <!-- Active Feedback Modal Interaction (Yelp Guard Prompt) -->
+    <!-- Yelp Guard Feedback Interceptor Dialog Overlay -->
     <div id="feedback-interceptor-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center opacity-0 pointer-events-none cinematic-ease">
         <div class="max-w-xs w-full bg-brand-cardBg border border-white/5 rounded-3xl p-5 flex flex-col gap-4 mx-4 shadow-2xl relative overflow-hidden">
             
@@ -344,7 +369,7 @@
                 <p class="text-[10px] text-brand-mutedText max-w-[200px] mx-auto leading-relaxed">Let us know how your food was before order completion.</p>
             </div>
 
-            <!-- Interceptor star grid selection -->
+            <!-- Interceptor star grid selectors -->
             <div class="flex justify-center gap-2.5 relative z-10">
                 <button onclick="evaluateRatingStarSelection(1)" class="text-xl text-slate-600 hover:scale-115 active:scale-90 transition-all"><i class="fa-solid fa-star"></i></button>
                 <button onclick="evaluateRatingStarSelection(2)" class="text-xl text-slate-600 hover:scale-115 active:scale-90 transition-all"><i class="fa-solid fa-star"></i></button>
@@ -353,7 +378,7 @@
                 <button onclick="evaluateRatingStarSelection(5)" class="text-xl text-slate-600 hover:scale-115 active:scale-90 transition-all"><i class="fa-solid fa-star"></i></button>
             </div>
 
-            <!-- Negative interception private feedback prompt block -->
+            <!-- Negative interception private review inputs -->
             <div id="negative-review-intercept" class="relative z-10 hidden flex flex-col gap-2">
                 <p class="text-[9px] text-center text-rose-400 font-semibold leading-normal bg-rose-950/20 border border-rose-500/20 p-2 rounded-lg">We are sorry for falling short. Leaving a note sends a private priority text to Table 4's manager.</p>
                 <textarea id="private-feedback-comment" placeholder="Tell us privately what went wrong so we can fix it right now..." class="w-full bg-brand-obsidian/60 border border-white/5 p-2 rounded-lg text-[10px] text-white placeholder-slate-500 focus:outline-none focus:border-rose-500/50 h-14 resize-none"></textarea>
@@ -362,7 +387,7 @@
                 </button>
             </div>
 
-            <!-- Public Promotion Block (4-5 stars) -->
+            <!-- Public Google promo review blocks -->
             <div id="positive-review-promo" class="relative z-10 hidden flex flex-col gap-2 text-center">
                 <p class="text-[9px] text-green-400 font-semibold bg-green-950/20 border border-green-500/20 p-2 rounded-lg">Thank you for the amazing review! Support our local kitchen staff on Google Business.</p>
                 <a href="https://google.com" target="_blank" onclick="concludeCheckoutOrderPipeline()" class="w-full bg-gradient-to-r from-brand-accent to-yellow-600 text-black font-black text-[10px] py-2.5 rounded-lg block active:scale-95 transition-transform shadow-lg">
@@ -375,7 +400,7 @@
         </div>
     </div>
 
-    <!-- Active JavaScript State Controllers -->
+    <!-- Active Javascript State Controllers -->
     <script>
         // Localized Mock Catalog representing WhatsApp Image 2026-07-17 at 12.37.45 AM.jpeg grid nodes
         const foodCatalog = {
@@ -437,7 +462,7 @@
                 price: 499,
                 image: "https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&q=80&w=300",
                 desc: "Sleek, tangy cranberry fusion, shaken with triple sec, fresh lime twist, and clear vodka.",
-                glb: "https://raw.githubusercontent.com/AviDwivedi/WebAR/main/pizza.glb" // Reuse stable GLB for placeholder structure
+                glb: "https://raw.githubusercontent.com/AviDwivedi/WebAR/main/pizza.glb" 
             }
         };
 
@@ -471,6 +496,77 @@
             renderDishesCatalogGrid();
         }
 
+        // Custom Toast replacement logic for standard alerts (Guardrail check)
+        function triggerAppToast(msg, isSuccess = true) {
+            const toast = document.getElementById('app-toast-box');
+            const icon = document.getElementById('toast-icon');
+            const message = document.getElementById('toast-message');
+
+            message.innerText = msg;
+            if (isSuccess) {
+                icon.className = "fa-solid fa-circle-check text-green-400 text-sm";
+                toast.className = "absolute top-10 left-4 right-4 z-50 bg-[#1e1e2d] border border-green-500/30 p-3 rounded-xl shadow-2xl opacity-100 translate-y-0 cinematic-ease flex items-center gap-2.5";
+            } else {
+                icon.className = "fa-solid fa-triangle-exclamation text-rose-500 text-sm";
+                toast.className = "absolute top-10 left-4 right-4 z-50 bg-[#1e1e2d] border border-rose-500/30 p-3 rounded-xl shadow-2xl opacity-100 translate-y-0 cinematic-ease flex items-center gap-2.5";
+            }
+
+            setTimeout(() => {
+                toast.className = "absolute top-10 left-4 right-4 z-50 bg-[#1e1e2d] border border-[#ca8a04]/40 p-3 rounded-xl shadow-2xl opacity-0 pointer-events-none translate-y-[-20px] cinematic-ease flex items-center gap-2.5";
+            }, 3000);
+        }
+
+        // Master Flight Animation Engine: flies dish image to bottom-center shopping cart
+        function triggerCartFlight(sourceElement, dishImageSrc) {
+            const cartBtn = document.getElementById('floating-cart-btn');
+            if (!sourceElement || !cartBtn) return;
+
+            // Calculate start coordinates (of the tapped card or modal trigger)
+            const sourceRect = sourceElement.getBoundingClientRect();
+            const cartRect = cartBtn.getBoundingClientRect();
+
+            // Create temporary animated flyer element
+            const flyer = document.createElement('div');
+            flyer.className = 'flight-flyer';
+            flyer.style.backgroundImage = `url('${dishImageSrc}')`;
+            flyer.style.backgroundSize = 'cover';
+            flyer.style.backgroundPosition = 'center';
+            
+            // Match starting size and positions
+            flyer.style.width = sourceRect.width + 'px';
+            flyer.style.height = sourceRect.height + 'px';
+            flyer.style.left = sourceRect.left + 'px';
+            flyer.style.top = sourceRect.top + 'px';
+
+            document.body.appendChild(flyer);
+
+            // Execute animation frame sequence (0.5 seconds flying loop)
+            requestAnimationFrame(() => {
+                // Shrink from original square size down to cart's tiny icon size
+                flyer.style.width = '24px';
+                flyer.style.height = '24px';
+                
+                // Flight math translation targeting the center cart element coordinates
+                const deltaX = (cartRect.left + cartRect.width / 2) - (sourceRect.left + sourceRect.width / 2);
+                const deltaY = (cartRect.top + cartRect.height / 2) - (sourceRect.top + sourceRect.height / 2);
+                
+                flyer.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.1) rotate(360deg)`;
+                flyer.style.opacity = '0.3';
+            });
+
+            // Conclude flight path
+            setTimeout(() => {
+                flyer.remove();
+                
+                // Trigger spring elastic responsive wobble on center cart button
+                cartBtn.classList.remove('animate-cart-bounce');
+                void cartBtn.offsetWidth; // Force CSS reflow
+                cartBtn.classList.add('animate-cart-bounce');
+                
+                playSyntheticHapticFeedback(120, 950);
+            }, 500);
+        }
+
         // Render dynamic grid of dishes (iPhone 17 - 1 main area)
         function renderDishesCatalogGrid() {
             const grid = document.getElementById('dishes-catalog-grid');
@@ -488,12 +584,12 @@
                         : `<span class="absolute top-2 right-2 text-[8px] bg-black/80 backdrop-blur border border-white/10 px-2 py-0.5 rounded-full font-black text-brand-accent tracking-widest">${dish.badge}</span>`;
 
                     const dishCard = `
-                        <div onclick="launch3DDetailModal(${dish.id})" class="flex flex-col gap-2 p-2 rounded-2xl bg-brand-cardBg border border-white/5 hover:border-brand-accent/35 cursor-pointer cinematic-ease active:scale-95 relative group select-none">
+                        <div id="dish-card-${dish.id}" onclick="launch3DDetailModal(${dish.id})" class="flex flex-col gap-2 p-2 rounded-2xl bg-brand-cardBg border border-white/5 hover:border-brand-accent/35 cursor-pointer cinematic-ease active:scale-95 relative group select-none">
                             <div class="relative rounded-xl overflow-hidden aspect-[4/3] bg-brand-obsidian">
-                                <img src="${dish.image}" alt="${dish.title}" class="w-full h-full object-cover group-hover:scale-105 cinematic-ease">
+                                <img id="dish-img-${dish.id}" src="${dish.image}" alt="${dish.title}" class="w-full h-full object-cover group-hover:scale-105 cinematic-ease">
                                 ${badgeHtml}
                                 <!-- Beautiful interactive Quick-Add Plus Button at the corner -->
-                                <button onclick="event.stopPropagation(); quickAddDishToCart(${dish.id})" class="absolute bottom-2 right-2 w-6 h-6 rounded-full bg-brand-accent hover:bg-yellow-500 text-black flex items-center justify-center font-black shadow-md shadow-black/50 transition-all active:scale-90 hover:scale-110 z-10 border border-brand-obsidian/30">
+                                <button onclick="event.stopPropagation(); quickAddDishToCart(${dish.id})" class="absolute bottom-2 right-2 w-7 h-7 rounded-full bg-brand-accent hover:bg-yellow-500 text-black flex items-center justify-center font-black shadow-md shadow-black/50 transition-all active:scale-90 hover:scale-110 z-10 border border-brand-obsidian/30">
                                     <i class="fa-solid fa-plus text-[10px]"></i>
                                 </button>
                             </div>
@@ -527,6 +623,10 @@
             if (!dish) return;
 
             playSyntheticHapticFeedback(220, 850);
+
+            // Trigger the flight animation path starting from the clicked card image
+            const cardImg = document.getElementById(`dish-img-${dish.id}`);
+            triggerCartFlight(cardImg, dish.image);
 
             // Add or increment shopping cart record
             if (shoppingCart[dish.id]) {
@@ -582,12 +682,16 @@
         }
 
         // Modal Action: commitModalItemToCart
-        function commitModalItemToCart() {
+        function commitModalItemToCart(event) {
             if (!focusedDishId) return;
             const dish = foodCatalog[focusedDishId];
             if (!dish) return;
 
             playSyntheticHapticFeedback(250, 900);
+
+            // Trigger flying transition starting from modal button position
+            const sourceBtn = document.getElementById('modal-add-btn');
+            triggerCartFlight(sourceBtn, dish.image);
 
             // Add or increment shopping cart record
             if (shoppingCart[dish.id]) {
@@ -689,7 +793,7 @@
             Object.values(shoppingCart).forEach(i => totalCountSum += i.quantity);
 
             if (totalCountSum === 0) {
-                alert("Please select at least one dish in the catalog grid before trying to place an order.");
+                triggerAppToast("Your shopping cart is currently empty! Add a dish using the Quick-Add (+) corner buttons first.", false);
                 return;
             }
 
@@ -749,7 +853,7 @@
 
         function concludeCheckoutOrderPipeline() {
             closeYelpGuardModal();
-            alert("Table Order dispatched! Kitchen terminals are preparing your selections.");
+            triggerAppToast("Table Selection Confirmed! Order dispatched directly to Kitchen Terminal 3.", true);
             
             // Reset shopping states
             shoppingCart = {};
@@ -783,7 +887,7 @@
                 oscNode.type = 'sine';
                 oscNode.frequency.setValueAtTime(freqHz, audioCtxInstance.currentTime);
 
-                gainNode.gain.setValueAtTime(0.015, audioCtxInstance.currentTime); // low elegant volume
+                gainNode.gain.setValueAtTime(0.015, audioCtxInstance.currentTime); 
                 gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtxInstance.currentTime + (durationMs / 1000));
 
                 oscNode.connect(gainNode);
