@@ -221,7 +221,7 @@
                     <!-- Atmospheric Spotlight visual back-mesh -->
                     <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(202,138,4,0.06)_0%,rgba(0,0,0,0)_75%)] pointer-events-none"></div>
 
-                    <!-- Modal Header -->
+                    <!-- Modal Top Actions -->
                     <div class="flex items-center justify-between mb-4 relative z-10">
                         <span id="modal-dish-category" class="text-[8px] uppercase tracking-widest text-brand-accent font-bold">// 3D Spec</span>
                         <button onclick="dismiss3DModal()" class="w-7 h-7 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
@@ -242,18 +242,24 @@
                             shadow-softness="0.75"
                             exposure="1.2"
                             loading="eager"
-                            class="w-full h-full bg-transparent relative z-20"
+                            class="w-full h-full bg-transparent relative z-20 cinematic-ease"
                             style="--poster-color: transparent;">
                             
                             <!-- Custom structural loader page inside canvas block -->
-                            <div slot="poster" class="absolute inset-0 flex flex-col items-center justify-center bg-brand-cardBg z-30">
-                                <div class="w-8 h-8 rounded-full border-2 border-brand-accent/20 border-t-brand-accent animate-spin mb-2"></div>
-                                <span class="text-[8px] font-bold tracking-widest text-brand-accent animate-pulse uppercase">Compiling Mesh...</span>
+                            <div id="viewer-poster" slot="poster" class="absolute inset-0 flex flex-col items-center justify-center bg-brand-cardBg z-30 transition-opacity duration-300">
+                                <div id="viewer-spinner" class="w-8 h-8 rounded-full border-2 border-brand-accent/20 border-t-brand-accent animate-spin mb-2"></div>
+                                <span id="viewer-loader-text" class="text-[8px] font-bold tracking-widest text-brand-accent animate-pulse uppercase">Compiling Mesh...</span>
                             </div>
                         </model-viewer>
 
+                        <!-- High-Fidelity 2D Image Fallback (displayed automatically if 3D files fail to load) -->
+                        <img id="modal-dish-fallback-img" src="" class="absolute inset-0 w-full h-full object-cover hidden z-25 rounded-2xl transition-all duration-300">
+                        <div id="modal-dish-fallback-banner" class="absolute top-2 left-2 px-2 py-0.5 rounded bg-yellow-950/80 border border-yellow-500/20 text-[7px] text-brand-accentLight hidden z-25 flex items-center gap-1">
+                            <i class="fa-solid fa-triangle-exclamation animate-pulse"></i> 3D offline, loaded 2D
+                        </div>
+
                         <!-- Micro-interaction touch instruction overlay -->
-                        <div class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/40 border border-white/5 text-[7px] text-brand-mutedText pointer-events-none select-none z-20 flex items-center gap-1">
+                        <div id="modal-drag-hint" class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/40 border border-white/5 text-[7px] text-brand-mutedText pointer-events-none select-none z-20 flex items-center gap-1">
                             <i class="fa-solid fa-arrows-spin text-brand-accent"></i> Drag to Spin
                         </div>
                     </div>
@@ -654,6 +660,8 @@
         }
 
         // Screen 2 Trigger: Launch 3D modal detailed overlay (iPhone 17 - 2)
+        let modelLoadTimeout = null;
+
         function launch3DDetailModal(dishId) {
             playSyntheticHapticFeedback(120, 600);
             focusedDishId = dishId;
@@ -666,16 +674,74 @@
             document.getElementById('modal-dish-desc').innerText = dish.desc;
             document.getElementById('modal-dish-price').innerText = `Rs. ${dish.price.toLocaleString()}`;
 
-            // Initialize GLB source securely using the pre-compiled public model links
+            // Reset view state (hide old fallback frames, show fresh loader states)
+            const fallbackImg = document.getElementById('modal-dish-fallback-img');
+            const fallbackBanner = document.getElementById('modal-dish-fallback-banner');
+            const dragHint = document.getElementById('modal-drag-hint');
             const viewer = document.getElementById('modal-viewer-3d');
+            const poster = document.getElementById('viewer-poster');
+            const spinner = document.getElementById('viewer-spinner');
+            const loaderText = document.getElementById('viewer-loader-text');
+
+            fallbackImg.classList.add('hidden');
+            fallbackBanner.classList.add('hidden');
+            dragHint.classList.remove('hidden');
+            viewer.classList.remove('opacity-0');
+            poster.classList.remove('hidden', 'opacity-0');
+            spinner.classList.remove('hidden');
+            loaderText.innerText = "Compiling Mesh...";
+            loaderText.className = "text-[8px] font-bold tracking-widest text-brand-accent animate-pulse uppercase";
+
+            // Initialize GLB source
             viewer.src = dish.glb;
+
+            // Clear any lingering load timers
+            if (modelLoadTimeout) clearTimeout(modelLoadTimeout);
+
+            // Set a strict 4-second safety limit to intercept slow downloads or CORS errors
+            modelLoadTimeout = setTimeout(() => {
+                // If loader poster is still visible after 4 seconds, activate 2D fallback gracefully
+                if (poster && !poster.classList.contains('hidden')) {
+                    handle3DViewerError(dish);
+                }
+            }, 4000);
+
+            // Setup lifecycle listeners on model viewer
+            viewer.addEventListener('load', () => {
+                if (modelLoadTimeout) clearTimeout(modelLoadTimeout);
+            });
+
+            viewer.addEventListener('error', () => {
+                if (modelLoadTimeout) clearTimeout(modelLoadTimeout);
+                handle3DViewerError(dish);
+            });
 
             // Smooth fade popup modal activation (iPhone 17 - 2 state shift)
             const modal = document.getElementById('screen-detail-modal');
             modal.classList.remove('opacity-0', 'pointer-events-none');
         }
 
+        // Activates beautiful high-res image render card if WebGL engine is blocked
+        function handle3DViewerError(dish) {
+            const fallbackImg = document.getElementById('modal-dish-fallback-img');
+            const fallbackBanner = document.getElementById('modal-dish-fallback-banner');
+            const dragHint = document.getElementById('modal-drag-hint');
+            const viewer = document.getElementById('modal-viewer-3d');
+            const poster = document.getElementById('viewer-poster');
+
+            if (fallbackImg && viewer) {
+                fallbackImg.src = dish.image;
+                fallbackImg.classList.remove('hidden');
+                fallbackBanner.classList.remove('hidden');
+                dragHint.classList.add('hidden');
+                viewer.classList.add('opacity-0');
+                poster.classList.add('hidden');
+                console.warn("CORS or slow connection interrupted 3D mesh load. Smoothly rolled back to high-res static asset.");
+            }
+        }
+
         function dismiss3DModal() {
+            if (modelLoadTimeout) clearTimeout(modelLoadTimeout);
             playSyntheticHapticFeedback(80, 500);
             const modal = document.getElementById('screen-detail-modal');
             modal.classList.add('opacity-0', 'pointer-events-none');
