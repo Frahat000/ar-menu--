@@ -117,6 +117,17 @@
             <span id="toast-message" class="text-[10px] text-slate-200 font-semibold leading-tight">Toast message context...</span>
         </div>
 
+        <!-- CENTERED FLOATING ACTION BUTTON (THE MAIN PORTAL CART TRIGGER - POSITIONED IN TRUE PHONE CENTER) -->
+        <div id="floating-cart-container" class="absolute bottom-5 left-1/2 -translate-x-1/2 z-50">
+            <button id="floating-cart-btn" onclick="toggleViewToCheckout()" class="w-14 h-14 rounded-full bg-gradient-to-r from-brand-accent to-yellow-600 hover:brightness-110 active:scale-95 text-black flex items-center justify-center transition-all shadow-lg shadow-yellow-500/20 border-4 border-brand-obsidian relative">
+                <i class="fa-solid fa-shopping-cart text-lg"></i>
+                <!-- Cart item count indicator tag -->
+                <span id="cart-floating-badge" class="absolute -top-1 -right-1 bg-red-500 text-white font-bold font-mono text-[9px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-brand-obsidian shadow-sm">
+                    0
+                </span>
+            </button>
+        </div>
+
         <!-- CORE APPLICATION MASTER FRAME -->
         <div class="w-full h-full flex flex-row relative pt-6 z-10">
             
@@ -197,17 +208,6 @@
                     <div id="dishes-catalog-grid" class="grid grid-cols-2 gap-3 relative">
                         <!-- Injected dynamic food card DOMs -->
                     </div>
-                </div>
-
-                <!-- CENTERED FLOATING ACTION BUTTON (THE MAIN PORTAL CART TRIGGER) -->
-                <div class="absolute bottom-5 left-1/2 -translate-x-1/2 z-30">
-                    <button id="floating-cart-btn" onclick="toggleViewToCheckout()" class="w-14 h-14 rounded-full bg-gradient-to-r from-brand-accent to-yellow-600 hover:brightness-110 active:scale-95 text-black flex items-center justify-center transition-all shadow-lg shadow-yellow-500/20 border-4 border-brand-obsidian relative">
-                        <i class="fa-solid fa-shopping-cart text-lg"></i>
-                        <!-- Cart item count indicator tag -->
-                        <span id="cart-floating-badge" class="absolute -top-1 -right-1 bg-red-500 text-white font-bold font-mono text-[9px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-brand-obsidian shadow-sm">
-                            0
-                        </span>
-                    </button>
                 </div>
 
             </section>
@@ -397,7 +397,7 @@
             <div id="positive-review-promo" class="relative z-10 hidden flex flex-col gap-2 text-center">
                 <p class="text-[9px] text-green-400 font-semibold bg-green-950/20 border border-green-500/20 p-2 rounded-lg">Thank you for the amazing review! Support our local kitchen staff on Google Business.</p>
                 <a href="https://google.com" target="_blank" onclick="concludeCheckoutOrderPipeline()" class="w-full bg-gradient-to-r from-brand-accent to-yellow-600 text-black font-black text-[10px] py-2.5 rounded-lg block active:scale-95 transition-transform shadow-lg">
-                    Post 5-Star on Google <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i>
+                    Post 5-Star on Google <i class="fa-solid fa-arrow-up-right-from-square ml-1.5"></i>
                 </a>
             </div>
 
@@ -409,7 +409,8 @@
     <!-- Active Javascript State Controllers -->
     <script>
         // High-Fidelity 3D Model Catalog Mapping
-        // Contains direct, stable public CDN links for perfect web loading
+        // To build a reliable startup, these paths point to LOCAL models in your directory.
+        // If the local files do not exist yet, the engine automatically triggers the fallback.
         const foodCatalog = {
             1: {
                 id: 1,
@@ -419,7 +420,7 @@
                 price: 3299,
                 image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=300",
                 desc: "An incredible cut of bone-in ribeye, seared in garlic cloves, rosemary, and thyme.",
-                glb: "https://raw.githubusercontent.com/code4fukui/xrgourmet/main/ktri-steak.glb"
+                glb: "./steak.glb"
             },
             2: {
                 id: 2,
@@ -429,7 +430,7 @@
                 price: 1899,
                 image: "https://images.unsplash.com/photo-1546964124-0cce460f38ef?auto=format&fit=crop&q=80&w=300",
                 desc: "Center-cut premium tenderloin steak, seasoned with hand-cracked peppercorns and sea salt.",
-                glb: "https://raw.githubusercontent.com/code4fukui/xrgourmet/main/ktri-steak.glb"
+                glb: "./steak.glb"
             },
             3: {
                 id: 3,
@@ -439,7 +440,7 @@
                 price: 1199,
                 image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=300",
                 desc: "Stone-baked sourdough crust topped with rich tomato sauce, melted mozzarella, and crisped pepperoni.",
-                glb: "https://raw.githubusercontent.com/AviDwivedi/WebAR/main/pizza.glb"
+                glb: "./pizza.glb"
             },
             4: {
                 id: 4,
@@ -449,7 +450,7 @@
                 price: 999,
                 image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&q=80&w=300",
                 desc: "Classic Naples-style pizza with fresh buffalo mozzarella, aromatic basil leaves, and cold-pressed oil.",
-                glb: "https://raw.githubusercontent.com/AviDwivedi/WebAR/main/pizza.glb"
+                glb: "./pizza.glb"
             },
             5: {
                 id: 5,
@@ -459,7 +460,7 @@
                 price: 899,
                 image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80&w=300",
                 desc: "Aromatic golden coconut curry sauce simmered with local root vegetables and served over sticky rice.",
-                glb: "https://raw.githubusercontent.com/code4fukui/xrgourmet/main/taishiron-curry.glb"
+                glb: "./curry.glb"
             },
             6: {
                 id: 6,
@@ -469,7 +470,7 @@
                 price: 499,
                 image: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&q=80&w=300",
                 desc: "Sleek, refreshing tableside mineral water served ice cold with organic mountain minerals.",
-                glb: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/WaterBottle/glTF-Binary/WaterBottle.glb" 
+                glb: "./drinks.glb" 
             }
         };
 
@@ -660,6 +661,8 @@
         }
 
         // Screen 2 Trigger: Launch 3D modal detailed overlay (iPhone 17 - 2)
+        // Implements a strict, clean safety fallback: if local 3D models fail or run slowly, 
+        // the loader does not freeze; it seamlessly swaps to a beautiful 2D presentation card.
         let modelLoadTimeout = null;
 
         function launch3DDetailModal(dishId) {
@@ -677,20 +680,13 @@
             // Reset view state (hide old fallback frames, show fresh loader states)
             const fallbackImg = document.getElementById('modal-dish-fallback-img');
             const fallbackBanner = document.getElementById('modal-dish-fallback-banner');
-            const dragHint = document.getElementById('modal-drag-hint');
             const viewer = document.getElementById('modal-viewer-3d');
-            const poster = document.getElementById('viewer-poster');
-            const spinner = document.getElementById('viewer-spinner');
-            const loaderText = document.getElementById('viewer-loader-text');
+            const poster = viewer.querySelector('[slot="poster"]');
 
             fallbackImg.classList.add('hidden');
             fallbackBanner.classList.add('hidden');
-            dragHint.classList.remove('hidden');
             viewer.classList.remove('opacity-0');
-            poster.classList.remove('hidden', 'opacity-0');
-            spinner.classList.remove('hidden');
-            loaderText.innerText = "Compiling Mesh...";
-            loaderText.className = "text-[8px] font-bold tracking-widest text-brand-accent animate-pulse uppercase";
+            if (poster) poster.classList.remove('hidden');
 
             // Initialize GLB source
             viewer.src = dish.glb;
@@ -700,10 +696,7 @@
 
             // Set a strict 4-second safety limit to intercept slow downloads or CORS errors
             modelLoadTimeout = setTimeout(() => {
-                // If loader poster is still visible after 4 seconds, activate 2D fallback gracefully
-                if (poster && !poster.classList.contains('hidden')) {
-                    handle3DViewerError(dish);
-                }
+                handle3DViewerError(dish);
             }, 4000);
 
             // Setup lifecycle listeners on model viewer
@@ -725,19 +718,15 @@
         function handle3DViewerError(dish) {
             const fallbackImg = document.getElementById('modal-dish-fallback-img');
             const fallbackBanner = document.getElementById('modal-dish-fallback-banner');
-            const dragHint = document.getElementById('modal-drag-hint');
             const viewer = document.getElementById('modal-viewer-3d');
-            const poster = document.getElementById('viewer-poster');
+            const poster = viewer.querySelector('[slot="poster"]');
 
-            if (fallbackImg && viewer) {
-                fallbackImg.src = dish.image;
-                fallbackImg.classList.remove('hidden');
-                fallbackBanner.classList.remove('hidden');
-                dragHint.classList.add('hidden');
-                viewer.classList.add('opacity-0');
-                poster.classList.add('hidden');
-                console.warn("CORS or slow connection interrupted 3D mesh load. Smoothly rolled back to high-res static asset.");
-            }
+            fallbackImg.src = dish.image;
+            fallbackImg.classList.remove('hidden');
+            fallbackBanner.classList.remove('hidden');
+            viewer.classList.add('opacity-0');
+            if (poster) poster.classList.add('hidden');
+            console.warn("CORS or slow connection interrupted 3D mesh load. Smoothly rolled back to high-res static asset.");
         }
 
         function dismiss3DModal() {
@@ -845,6 +834,9 @@
             playSyntheticHapticFeedback(150, 650);
             document.getElementById('screen-browse').classList.add('hidden');
             document.getElementById('screen-checkout').classList.remove('hidden');
+            
+            // Hides centered floating button container in Screen 3 (iPhone 17 - 3)
+            document.getElementById('floating-cart-container').classList.add('hidden');
         }
 
         // Back to menu browses screen
@@ -852,6 +844,9 @@
             playSyntheticHapticFeedback(150, 650);
             document.getElementById('screen-checkout').classList.add('hidden');
             document.getElementById('screen-browse').classList.remove('hidden');
+            
+            // Displays centered floating button container in Screen 1 (iPhone 17 - 1)
+            document.getElementById('floating-cart-container').classList.remove('hidden');
         }
 
         // Screen 3 Action: Settle & Place Order trigger leading to Yelp Guard
@@ -881,9 +876,9 @@
             // Render active and mute colors
             for (let i = 0; i < 5; i++) {
                 if (i < starCount) {
-                    stars[i].parentElement.className = "text-xl text-brand-accent hover:scale-115 active:scale-95 transition-all";
+                    stars[i].parentElement.className = "text-xl text-brand-accent hover:scale-115 active:scale-90 transition-all";
                 } else {
-                    stars[i].parentElement.className = "text-xl text-slate-600 hover:scale-115 active:scale-95 transition-all";
+                    stars[i].parentElement.className = "text-xl text-slate-600 hover:scale-115 active:scale-90 transition-all";
                 }
             }
 
@@ -936,7 +931,7 @@
             
             // Clean star selection designs
             const stars = modal.querySelectorAll('.fa-star');
-            stars.forEach(s => s.parentElement.className = "text-xl text-slate-600 hover:scale-115 active:scale-95 transition-all");
+            stars.forEach(s => s.parentElement.className = "text-xl text-slate-600 hover:scale-115 active:scale-90 transition-all");
             document.getElementById('negative-review-intercept').classList.add('hidden');
             document.getElementById('positive-review-promo').classList.add('hidden');
             document.getElementById('private-feedback-comment').value = "";
