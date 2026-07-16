@@ -105,7 +105,7 @@
     <!-- MAIN SMARTPHONE WIREFRAME CONTAINER -->
     <div class="phone-frame cinematic-ease relative flex flex-col justify-between">
         
-        <!-- Physical camera camera notch overlay -->
+        <!-- Physical camera notch overlay -->
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1e293b] rounded-b-2xl z-50 flex items-center justify-center">
             <span class="w-3.5 h-3.5 rounded-full bg-black/60 border border-white/5"></span>
             <span class="w-1.5 h-1.5 rounded-full bg-blue-900/40 ml-2"></span>
@@ -177,11 +177,11 @@
                     <div class="flex items-center justify-between mb-5 select-none border-b border-white/5 pb-3">
                         <div class="flex items-center gap-2">
                             <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-brand-accent to-yellow-600 flex items-center justify-center text-black font-extrabold text-sm shadow-md">
-                                B
+                                A
                             </div>
                             <div>
-                                <h2 class="text-xs font-black text-white tracking-wide uppercase leading-none">BroneX® Elite</h2>
-                                <span class="text-[7px] text-brand-mutedText uppercase tracking-widest font-semibold block mt-0.5">Bistro Suite</span>
+                                <h2 class="text-xs font-black text-white tracking-wide uppercase leading-none">ARscape Lounge</h2>
+                                <span class="text-[7px] text-brand-mutedText uppercase tracking-widest font-semibold block mt-0.5">Tableside Suite</span>
                             </div>
                         </div>
                         <i class="fa-solid fa-circle-nodes text-brand-accent text-xs animate-pulse"></i>
@@ -199,7 +199,7 @@
                     </div>
                 </div>
 
-                <!-- CENTERED FLOATING ACTION ACTION BUTTON (THE MAIN PORTAL CART TRIGGER) -->
+                <!-- CENTERED FLOATING ACTION BUTTON (THE MAIN PORTAL CART TRIGGER) -->
                 <div class="absolute bottom-5 left-1/2 -translate-x-1/2 z-30">
                     <button id="floating-cart-btn" onclick="toggleViewToCheckout()" class="w-14 h-14 rounded-full bg-gradient-to-r from-brand-accent to-yellow-600 hover:brightness-110 active:scale-95 text-black flex items-center justify-center transition-all shadow-lg shadow-yellow-500/20 border-4 border-brand-obsidian relative">
                         <i class="fa-solid fa-shopping-cart text-lg"></i>
@@ -221,7 +221,7 @@
                     <!-- Atmospheric Spotlight visual back-mesh -->
                     <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(202,138,4,0.06)_0%,rgba(0,0,0,0)_75%)] pointer-events-none"></div>
 
-                    <!-- Modal Top Actions -->
+                    <!-- Modal Header -->
                     <div class="flex items-center justify-between mb-4 relative z-10">
                         <span id="modal-dish-category" class="text-[8px] uppercase tracking-widest text-brand-accent font-bold">// 3D Spec</span>
                         <button onclick="dismiss3DModal()" class="w-7 h-7 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
@@ -229,7 +229,7 @@
                         </button>
                     </div>
 
-                    <!-- Pure 3D WebGL Canvas pedestal (No Camera permissions asked) -->
+                    <!-- Pure 3D WebGL Canvas pedestal -->
                     <div class="relative w-full aspect-square rounded-2xl overflow-hidden bg-brand-obsidian/80 border border-white/5 flex flex-col items-center justify-center mb-4 relative z-10">
                         <model-viewer 
                             id="modal-viewer-3d"
@@ -265,7 +265,7 @@
                             <span id="modal-dish-price" class="text-xs font-black font-mono text-brand-accent">Rs. 3,299</span>
                         </div>
                         <p id="modal-dish-desc" class="text-[10px] text-brand-mutedText leading-relaxed line-clamp-2">
-                            A premium, juicy cuts of meat seared over open hickory logs and seasoned with fresh coastal hand-cracked sea salt.
+                            Premium succulent steak seared to precision over live fires and topped with roasted garlic.
                         </p>
                     </div>
 
@@ -290,7 +290,7 @@
                             <i class="fa-solid fa-arrow-left text-[8px]"></i> Back Menu
                         </button>
                         <div>
-                            <h2 class="text-xs font-black text-white tracking-wide uppercase leading-none text-right">BroneX® Elite</h2>
+                            <h2 class="text-xs font-black text-white tracking-wide uppercase leading-none text-right">ARscape Lounge</h2>
                             <span class="text-[7px] text-brand-mutedText uppercase tracking-widest font-semibold block mt-0.5 text-right">Table 4 Tab</span>
                         </div>
                     </div>
@@ -402,7 +402,8 @@
 
     <!-- Active Javascript State Controllers -->
     <script>
-        // Localized Mock Catalog representing WhatsApp Image 2026-07-17 at 12.37.45 AM.jpeg grid nodes
+        // High-Fidelity 3D Model Catalog Mapping
+        // Contains direct, stable public CDN links for perfect web loading
         const foodCatalog = {
             1: {
                 id: 1,
@@ -456,13 +457,13 @@
             },
             6: {
                 id: 6,
-                title: "Cosmopolitan Classic",
+                title: "Artisanal Mineral Water",
                 category: "drinks",
-                badge: "DRINK",
+                badge: "PURE",
                 price: 499,
-                image: "https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&q=80&w=300",
-                desc: "Sleek, tangy cranberry fusion, shaken with triple sec, fresh lime twist, and clear vodka.",
-                glb: "https://raw.githubusercontent.com/AviDwivedi/WebAR/main/pizza.glb" 
+                image: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&q=80&w=300",
+                desc: "Sleek, refreshing tableside mineral water served ice cold with organic mountain minerals.",
+                glb: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/WaterBottle/glTF-Binary/WaterBottle.glb" 
             }
         };
 
@@ -665,7 +666,7 @@
             document.getElementById('modal-dish-desc').innerText = dish.desc;
             document.getElementById('modal-dish-price').innerText = `Rs. ${dish.price.toLocaleString()}`;
 
-            // Initialize GLB source securely
+            // Initialize GLB source securely using the pre-compiled public model links
             const viewer = document.getElementById('modal-viewer-3d');
             viewer.src = dish.glb;
 
@@ -780,6 +781,7 @@
             document.getElementById('screen-checkout').classList.remove('hidden');
         }
 
+        // Back to menu browses screen
         function toggleViewToBrowse() {
             playSyntheticHapticFeedback(150, 650);
             document.getElementById('screen-checkout').classList.add('hidden');
@@ -813,9 +815,9 @@
             // Render active and mute colors
             for (let i = 0; i < 5; i++) {
                 if (i < starCount) {
-                    stars[i].parentElement.className = "text-xl text-brand-accent hover:scale-115 active:scale-90 transition-all";
+                    stars[i].parentElement.className = "text-xl text-brand-accent hover:scale-115 active:scale-95 transition-all";
                 } else {
-                    stars[i].parentElement.className = "text-xl text-slate-600 hover:scale-115 active:scale-90 transition-all";
+                    stars[i].parentElement.className = "text-xl text-slate-600 hover:scale-115 active:scale-95 transition-all";
                 }
             }
 
@@ -868,7 +870,7 @@
             
             // Clean star selection designs
             const stars = modal.querySelectorAll('.fa-star');
-            stars.forEach(s => s.parentElement.className = "text-xl text-slate-600 hover:scale-115 active:scale-90 transition-all");
+            stars.forEach(s => s.parentElement.className = "text-xl text-slate-600 hover:scale-115 active:scale-95 transition-all");
             document.getElementById('negative-review-intercept').classList.add('hidden');
             document.getElementById('positive-review-promo').classList.add('hidden');
             document.getElementById('private-feedback-comment').value = "";
