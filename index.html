@@ -76,7 +76,7 @@
             position: relative;
         }
 
-        /* Fixed Cart Bounce Keyframes: uses pure relative vertical translation to completely prevent shifting */
+        /* Fixed Cart Bounce Keyframes: uses relative vertical translation instead of absolute translation percentages to prevent shifting */
         @keyframes cartBounce {
             0%, 100% { transform: translateY(0) scale(1); }
             30% { transform: translateY(-10px) scale(1.15) rotate(-5deg); }
@@ -111,13 +111,80 @@
             <span class="w-1.5 h-1.5 rounded-full bg-blue-900/40 ml-2"></span>
         </div>
 
+        <!-- PROMINENT ONBOARDING QR LANDING SCREEN SPLASH OVERLAY -->
+        <div id="screen-landing" class="absolute inset-0 bg-brand-obsidian/95 z-50 flex flex-col items-center justify-between p-6 pt-12 cinematic-ease">
+            <!-- Background Spotlight -->
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(202,138,4,0.1)_0%,rgba(0,0,0,0)_80%)] pointer-events-none"></div>
+
+            <!-- Top Brand Identity -->
+            <div class="text-center relative z-10">
+                <span class="text-[9px] uppercase tracking-[0.25em] text-brand-accent font-black">ARscape Platform</span>
+                <h1 class="text-xl font-black text-white mt-1 uppercase tracking-tight">Tableside Stand Mock</h1>
+                <p class="text-[10px] text-brand-mutedText mt-1 max-w-[240px]">Scan physical stand QR code to deploy the spatial gastronomy menu instantly.</p>
+            </div>
+
+            <!-- Center Modern Vector QR Code Block -->
+            <div class="relative z-10 bg-brand-cardBg border border-white/10 p-5 rounded-3xl shadow-2xl flex flex-col items-center justify-center glow-gold max-w-[220px]">
+                <!-- High-fidelity custom SVG QR stand asset -->
+                <svg class="w-40 h-40 text-brand-accent" viewBox="0 0 100 100" fill="currentColor">
+                    <!-- Corner Anchor 1 (Top-Left) -->
+                    <path d="M 5,5 h 25 v 25 h -25 z M 10,10 v 15 h 15 v -15 z M 13,13 h 9 v 9 h -9 z" />
+                    <!-- Corner Anchor 2 (Top-Right) -->
+                    <path d="M 70,5 h 25 v 25 h -25 z M 75,10 v 15 h 15 v -15 z M 78,13 h 9 v 9 h -9 z" />
+                    <!-- Corner Anchor 3 (Bottom-Left) -->
+                    <path d="M 5,70 h 25 v 25 h -25 z M 10,75 v 15 h 15 v -15 z M 13,78 h 9 v 9 h -9 z" />
+                    <!-- Small Anchor Alignment block -->
+                    <path d="M 72,72 h 8 v 8 h -8 z M 74,74 h 4 v 4 h -4 z" />
+                    <!-- Mock Data matrix nodes scattered inside -->
+                    <path d="M 35,5 h 5 v 5 h -5 z M 45,5 h 10 v 5 h -10 z M 60,10 h 5 v 10 h -5 z M 35,15 h 15 v 5 h -15 z M 40,25 h 5 v 5 h -5 z M 55,25 h 10 v 5 h -10 z" />
+                    <path d="M 35,35 h 10 v 5 h -10 z M 55,35 h 5 v 5 h -5 z M 65,35 h 10 v 5 h -10 z M 40,45 h 5 v 15 h -5 z M 50,45 h 15 v 5 h -15 z M 75,45 h 10 v 5 h -10 z" />
+                    <path d="M 35,55 h 5 v 10 h -5 z M 45,60 h 10 v 5 h -10 z M 65,55 h 5 v 5 h -5 z M 75,55 h 5 v 15 h -5 z M 35,70 h 10 v 5 h -10 z M 45,75 h 5 v 5 h -5 z" />
+                    <path d="M 55,70 h 10 v 5 h -10 z M 55,80 h 5 v 10 h -5 z M 65,85 h 15 v 5 h -15 z" />
+                </svg>
+                <span class="text-[8px] uppercase tracking-widest text-brand-accent font-extrabold mt-3 animate-pulse"><i class="fa-solid fa-camera mr-1"></i> Point Camera at Stand</span>
+            </div>
+
+            <!-- Clean 3-Step Flow Indicators -->
+            <div class="w-full max-w-[280px] flex flex-col gap-3 relative z-10">
+                <!-- Step 1 -->
+                <div class="flex items-center gap-3 bg-white/[0.02] border border-white/5 p-2 rounded-xl">
+                    <div class="w-6 h-6 rounded-lg bg-brand-accent/10 border border-brand-accent/20 text-brand-accent text-xs font-black flex items-center justify-center flex-shrink-0">1</div>
+                    <div>
+                        <h4 class="text-[10px] font-bold text-white leading-none">Scan QR Code</h4>
+                        <p class="text-[8px] text-brand-mutedText mt-0.5 leading-tight">Focus your camera on the table stand code.</p>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="flex items-center gap-3 bg-white/[0.02] border border-white/5 p-2 rounded-xl">
+                    <div class="w-6 h-6 rounded-lg bg-brand-accent/10 border border-brand-accent/20 text-brand-accent text-xs font-black flex items-center justify-center flex-shrink-0">2</div>
+                    <div>
+                        <h4 class="text-[10px] font-bold text-white leading-none">Menu Opens Instantly</h4>
+                        <p class="text-[8px] text-brand-mutedText mt-0.5 leading-tight">Zero latency, zero dynamic app downloads needed.</p>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="flex items-center gap-3 bg-white/[0.02] border border-white/5 p-2 rounded-xl">
+                    <div class="w-6 h-6 rounded-lg bg-brand-accent/10 border border-brand-accent/20 text-brand-accent text-xs font-black flex items-center justify-center flex-shrink-0">3</div>
+                    <div>
+                        <h4 class="text-[10px] font-bold text-white leading-none">Browse & Order</h4>
+                        <p class="text-[8px] text-brand-mutedText mt-0.5 leading-tight">Inspect items in rich 3D and dispatch tab requests.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onboarding Scan Simulation CTA Trigger -->
+            <button onclick="dismissQRStandOnboarding()" class="w-full bg-brand-accent hover:bg-yellow-500 text-black font-black text-xs py-3.5 rounded-2xl relative z-10 shadow-lg shadow-yellow-600/10 active:scale-95 transition-transform flex items-center justify-center gap-2">
+                <i class="fa-solid fa-expand animate-pulse"></i> Simulate Tableside Scan
+            </button>
+        </div>
+
         <!-- Custom Toast Notification Box Overlay (No-Alert Guardrail) -->
         <div id="app-toast-box" class="absolute top-10 left-4 right-4 z-50 bg-[#1e1e2d] border border-[#ca8a04]/40 p-3 rounded-xl shadow-2xl opacity-0 pointer-events-none translate-y-[-20px] cinematic-ease flex items-center gap-2.5">
             <i id="toast-icon" class="fa-solid fa-circle-info text-brand-accentLight text-sm"></i>
             <span id="toast-message" class="text-[10px] text-slate-200 font-semibold leading-tight">Toast message context...</span>
         </div>
 
-        <!-- CENTERED FLOATING ACTION BUTTON (THE MAIN PORTAL CART TRIGGER - LOCKED IN FIXED WIDTH/HEIGHT SIZE) -->
+        <!-- CENTERED FLOATING ACTION BUTTON (THE MAIN PORTAL CART TRIGGER - POSITIONED IN TRUE PHONE CENTER) -->
         <div id="floating-cart-container" class="absolute bottom-5 left-1/2 -translate-x-1/2 z-50 w-14 h-14">
             <button id="floating-cart-btn" onclick="toggleViewToCheckout()" class="w-full h-full rounded-full bg-gradient-to-r from-brand-accent to-yellow-600 hover:brightness-110 active:scale-95 text-black flex items-center justify-center transition-all shadow-lg shadow-yellow-500/20 border-4 border-brand-obsidian relative">
                 <i class="fa-solid fa-shopping-cart text-lg"></i>
@@ -143,7 +210,7 @@
                     </div>
 
                     <!-- Category Items Chip Buttons (Dynamic State Triggers) -->
-                    <div class="flex flex-col gap-1 pr-1.5 pl-1 max-h-[500px] overflow-y-auto no-scrollbar">
+                    <div class="flex flex-col gap-1 pr-1.5 pl-1 max-h-[460px] overflow-y-auto no-scrollbar">
                         <!-- Category: Steak (Active default) -->
                         <button id="cat-steak" onclick="filterMenuCategory('steak', this)" class="flex flex-col items-center justify-center py-3 px-1 rounded-xl cursor-pointer transition-all bg-brand-accent/10 border border-brand-accent/20 text-brand-accentLight">
                             <i class="fa-solid fa-fire text-xs"></i>
@@ -195,7 +262,10 @@
                                 <span class="text-[7px] text-brand-mutedText uppercase tracking-widest font-semibold block mt-0.5">Tableside Suite</span>
                             </div>
                         </div>
-                        <i class="fa-solid fa-circle-nodes text-brand-accent text-xs animate-pulse"></i>
+                        <!-- Onboarding Quick Reset Trigger for Sales Presentations -->
+                        <button onclick="launchQRStandOnboarding()" class="w-6 h-6 rounded-full bg-white/5 hover:bg-white/10 text-brand-accent flex items-center justify-center transition-all border border-white/5 active:scale-90" title="Scan QR Stand Onboarding page">
+                            <i class="fa-solid fa-qrcode text-[10px]"></i>
+                        </button>
                     </div>
 
                     <!-- Search Bar input -->
@@ -265,7 +335,7 @@
                     </div>
 
                     <!-- Meta specs copy -->
-                    <div class="mb-5 relative z-10">
+                    <div class="mb-4 relative z-10">
                         <div class="flex items-center justify-between mb-1">
                             <h3 id="modal-dish-title" class="text-sm font-bold text-white tracking-tight truncate max-w-[170px]">Tomahawk Ribeye</h3>
                             <span id="modal-dish-price" class="text-xs font-black font-mono text-brand-accent">Rs. 3,299</span>
@@ -275,8 +345,8 @@
                         </p>
                     </div>
 
-                    <!-- Modal Order Action trigger -->
-                    <button id="modal-add-btn" onclick="commitModalItemToCart(event)" class="w-full bg-white hover:bg-slate-100 text-black font-black text-xs py-3 rounded-xl flex items-center justify-center gap-2 relative z-10 active:scale-95 transition-transform">
+                    <!-- Modal Order Action trigger with premium shadow glow and floating tactile height -->
+                    <button id="modal-add-btn" onclick="commitModalItemToCart(event)" class="w-full bg-gradient-to-r from-brand-accent to-yellow-600 text-black font-black text-xs py-4 rounded-2xl flex items-center justify-center gap-2 relative z-10 shadow-lg shadow-yellow-600/25 border border-white/5 active:scale-95 hover:brightness-105 transition-all">
                         <i class="fa-solid fa-cart-plus"></i> Add to Session Cart
                     </button>
                 </div>
@@ -408,8 +478,9 @@
 
     <!-- Active Javascript State Controllers -->
     <script>
-        // High-Fidelity 3D Model Catalog Mapping with Smart CDN Fallback Integration
-        // First try relative ./path (loads your uploaded files), then fallback to raw CDN instantly.
+        // High-Fidelity 3D Model Catalog Mapping
+        // To allow instant sandbox previews, these GLB endpoints point directly to secure, public GitHub-hosted CDN models.
+        // If your server loses connection, the program safely falls back to a high-res 2D static display card.
         const foodCatalog = {
             1: {
                 id: 1,
@@ -419,8 +490,7 @@
                 price: 3299,
                 image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=300",
                 desc: "An incredible cut of bone-in ribeye, seared in garlic cloves, rosemary, and thyme.",
-                glb: "./steak.glb",
-                cdn: "https://raw.githubusercontent.com/code4fukui/xrgourmet/main/ktri-steak.glb"
+                glb: "https://raw.githubusercontent.com/code4fukui/xrgourmet/main/ktri-steak.glb"
             },
             2: {
                 id: 2,
@@ -430,8 +500,7 @@
                 price: 1899,
                 image: "https://images.unsplash.com/photo-1546964124-0cce460f38ef?auto=format&fit=crop&q=80&w=300",
                 desc: "Center-cut premium tenderloin steak, seasoned with hand-cracked peppercorns and sea salt.",
-                glb: "./steak.glb",
-                cdn: "https://raw.githubusercontent.com/code4fukui/xrgourmet/main/ktri-steak.glb"
+                glb: "https://raw.githubusercontent.com/code4fukui/xrgourmet/main/ktri-steak.glb"
             },
             3: {
                 id: 3,
@@ -441,8 +510,7 @@
                 price: 1199,
                 image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=300",
                 desc: "Stone-baked sourdough crust topped with rich tomato sauce, melted mozzarella, and crisped pepperoni.",
-                glb: "./pizza.glb",
-                cdn: "https://raw.githubusercontent.com/AviDwivedi/WebAR/main/pizza.glb"
+                glb: "https://raw.githubusercontent.com/AviDwivedi/WebAR/main/pizza.glb"
             },
             4: {
                 id: 4,
@@ -452,8 +520,7 @@
                 price: 999,
                 image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&q=80&w=300",
                 desc: "Classic Naples-style pizza with fresh buffalo mozzarella, aromatic basil leaves, and cold-pressed oil.",
-                glb: "./pizza.glb",
-                cdn: "https://raw.githubusercontent.com/AviDwivedi/WebAR/main/pizza.glb"
+                glb: "https://raw.githubusercontent.com/AviDwivedi/WebAR/main/pizza.glb"
             },
             5: {
                 id: 5,
@@ -463,8 +530,7 @@
                 price: 899,
                 image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80&w=300",
                 desc: "Aromatic golden coconut curry sauce simmered with local root vegetables and served over sticky rice.",
-                glb: "./curry.glb",
-                cdn: "https://raw.githubusercontent.com/code4fukui/xrgourmet/main/taishiron-curry.glb"
+                glb: "https://raw.githubusercontent.com/code4fukui/xrgourmet/main/taishiron-curry.glb"
             },
             6: {
                 id: 6,
@@ -474,8 +540,7 @@
                 price: 499,
                 image: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&q=80&w=300",
                 desc: "Sleek, refreshing tableside mineral water served ice cold with organic mountain minerals.",
-                glb: "./drinks.glb",
-                cdn: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/WaterBottle/glTF-Binary/WaterBottle.glb" 
+                glb: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/WaterBottle/glTF-Binary/WaterBottle.glb" 
             }
         };
 
@@ -597,13 +662,13 @@
                         : `<span class="absolute top-2 right-2 text-[8px] bg-black/80 backdrop-blur border border-white/10 px-2 py-0.5 rounded-full font-black text-brand-accent tracking-widest">${dish.badge}</span>`;
 
                     const dishCard = `
-                        <div id="dish-card-${dish.id}" onclick="launch3DDetailModal(${dish.id})" class="flex flex-col gap-2 p-2 rounded-2xl bg-brand-cardBg border border-white/5 hover:border-brand-accent/35 cursor-pointer cinematic-ease active:scale-95 relative group select-none">
+                        <div id="dish-card-${dish.id}" onclick="launch3DDetailModal(${dish.id})" class="flex flex-col gap-2 p-2 rounded-2xl bg-brand-cardBg border border-white/5 hover:border-brand-accent/35 cursor-pointer cinematic-ease active:scale-95 relative group select-none overflow-hidden">
                             <div class="relative rounded-xl overflow-hidden aspect-[4/3] bg-brand-obsidian">
                                 <img id="dish-img-${dish.id}" src="${dish.image}" alt="${dish.title}" class="w-full h-full object-cover group-hover:scale-105 cinematic-ease">
                                 ${badgeHtml}
-                                <!-- Beautiful interactive Quick-Add Plus Button at the corner -->
-                                <button onclick="event.stopPropagation(); quickAddDishToCart(${dish.id})" class="absolute bottom-2 right-2 w-7 h-7 rounded-full bg-brand-accent hover:bg-yellow-500 text-black flex items-center justify-center font-black shadow-md shadow-black/50 transition-all active:scale-90 hover:scale-110 z-10 border border-brand-obsidian/30">
-                                    <i class="fa-solid fa-plus text-[10px]"></i>
+                                <!-- Compact circular "+" add button moved to top-left corner, fully responsive and visible -->
+                                <button onclick="event.stopPropagation(); quickAddDishToCart(${dish.id})" class="absolute top-2 left-2 w-6 h-6 rounded-full bg-brand-accent hover:bg-yellow-500 text-black flex items-center justify-center font-black shadow-md shadow-black/50 transition-all active:scale-90 hover:scale-110 z-10 border border-brand-obsidian/30">
+                                    <i class="fa-solid fa-plus text-[8px]"></i>
                                 </button>
                             </div>
                             <div class="px-1 flex flex-col justify-between flex-1">
@@ -666,7 +731,8 @@
         }
 
         // Screen 2 Trigger: Launch 3D modal detailed overlay (iPhone 17 - 2)
-        // Implements dual-path routing: first try relative path, then try the secure CDN.
+        // Implements a strict, clean safety fallback: if local 3D models fail or run slowly, 
+        // the loader does not freeze; it seamlessly swaps to a beautiful 2D presentation card.
         let modelLoadTimeout = null;
 
         function launch3DDetailModal(dishId) {
@@ -692,45 +758,26 @@
             viewer.classList.remove('opacity-0');
             if (poster) poster.classList.remove('hidden');
 
-            // Initialize GLB source with the primary relative path
+            // Initialize GLB source
             viewer.src = dish.glb;
 
             // Clear any lingering load timers
             if (modelLoadTimeout) clearTimeout(modelLoadTimeout);
 
-            // Set up load and error tracking on current frame
-            let hasLoadedSuccessfully = false;
-
-            const onModelLoadComplete = () => {
-                hasLoadedSuccessfully = true;
-                if (modelLoadTimeout) clearTimeout(modelLoadTimeout);
-                viewer.removeEventListener('load', onModelLoadComplete);
-            };
-            viewer.addEventListener('load', onModelLoadComplete);
-
-            // If the local file fails or throws an error, immediately redirect to our cloud CDN fallback
-            const onModelLoadError = () => {
-                viewer.removeEventListener('error', onModelLoadError);
-                if (!hasLoadedSuccessfully) {
-                    console.log("Local model path not found or blocked. Swapping to high-speed CDN model repository...");
-                    viewer.src = dish.cdn;
-                    
-                    // If the CDN also fails, trigger full image recovery
-                    modelLoadTimeout = setTimeout(() => {
-                        if (!hasLoadedSuccessfully) {
-                            handle3DViewerError(dish);
-                        }
-                    }, 5000);
-                }
-            };
-            viewer.addEventListener('error', onModelLoadError);
-
-            // Set a 3-second limit to intercept slower relative connections and swap to CDN quickly
+            // Set a strict 4-second safety limit to intercept slow downloads or CORS errors
             modelLoadTimeout = setTimeout(() => {
-                if (!hasLoadedSuccessfully) {
-                    viewer.src = dish.cdn;
-                }
-            }, 3000);
+                handle3DViewerError(dish);
+            }, 4000);
+
+            // Setup lifecycle listeners on model viewer
+            viewer.addEventListener('load', () => {
+                if (modelLoadTimeout) clearTimeout(modelLoadTimeout);
+            });
+
+            viewer.addEventListener('error', () => {
+                if (modelLoadTimeout) clearTimeout(modelLoadTimeout);
+                handle3DViewerError(dish);
+            });
 
             // Smooth fade popup modal activation (iPhone 17 - 2 state shift)
             const modal = document.getElementById('screen-detail-modal');
@@ -870,6 +917,20 @@
             
             // Displays centered floating button container in Screen 1 (iPhone 17 - 1)
             document.getElementById('floating-cart-container').classList.remove('hidden');
+        }
+
+        // Onboarding Screen Control Functions (Perfect for B2B Client pitches)
+        function dismissQRStandOnboarding() {
+            playSyntheticHapticFeedback(300, 800);
+            const overlay = document.getElementById('screen-landing');
+            overlay.classList.add('translate-y-[-100%]', 'opacity-0', 'pointer-events-none');
+            triggerAppToast("Tableside QR Scanned! 3D Menu compiled.", true);
+        }
+
+        function launchQRStandOnboarding() {
+            playSyntheticHapticFeedback(150, 600);
+            const overlay = document.getElementById('screen-landing');
+            overlay.classList.remove('translate-y-[-100%]', 'opacity-0', 'pointer-events-none');
         }
 
         // Screen 3 Action: Settle & Place Order trigger leading to Yelp Guard
