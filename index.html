@@ -111,7 +111,6 @@
             <span class="w-1.5 h-1.5 rounded-full bg-blue-900/40 ml-2"></span>
         </div>
 
-        <!-- -->
         <!-- PROMINENT ONBOARDING QR LANDING SCREEN SPLASH OVERLAY -->
         <div id="screen-landing" class="absolute inset-0 bg-brand-obsidian/95 z-50 flex flex-col items-center justify-between p-6 pt-12 cinematic-ease">
             <!-- Background Spotlight -->
@@ -185,7 +184,6 @@
             <span id="toast-message" class="text-[10px] text-slate-200 font-semibold leading-tight">Toast message context...</span>
         </div>
 
-        <!-- -->
         <!-- CENTERED FLOATING ACTION BUTTON (THE MAIN PORTAL CART TRIGGER - POSITIONED IN TRUE PHONE CENTER - STARTS HIDDEN TO PREVENT OVERLAP) -->
         <div id="floating-cart-container" class="absolute bottom-5 left-1/2 -translate-x-1/2 z-50 w-14 h-14 hidden">
             <button id="floating-cart-btn" onclick="toggleViewToCheckout()" class="w-full h-full rounded-full bg-gradient-to-r from-brand-accent to-yellow-600 hover:brightness-110 active:scale-95 text-black flex items-center justify-center transition-all shadow-lg shadow-yellow-500/20 border-4 border-brand-obsidian relative">
@@ -284,7 +282,6 @@
 
             </section>
 
-            <!-- -->
             <!-- ======================================================== -->
             <!-- OVERLAY PANEL - SCREEN 2: 3D MODAL OVERLAY (iPhone 17 - 2) -->
             <!-- ======================================================== -->
@@ -479,7 +476,6 @@
         </div>
     </div>
 
-    <!-- -->
     <!-- Active Javascript State Controllers -->
     <script>
         // High-Fidelity 3D Model Catalog Mapping: 
@@ -648,7 +644,7 @@
             }, 500);
         }
 
-        //        // Render dynamic grid of dishes (iPhone 17 - 1 main area)
+        // Render dynamic grid of dishes (iPhone 17 - 1 main area)
         function renderDishesCatalogGrid() {
             const grid = document.getElementById('dishes-catalog-grid');
             grid.innerHTML = "";
@@ -805,7 +801,8 @@
             console.warn("3D download threshold met. Swapped dynamically to static asset placeholder.");
         }
 
-        //        function dismiss3DModal() {
+        // Dismis 3D modal helper - properly declared to prevent browser script errors
+        function dismiss3DModal() {
             if (modelLoadTimeout) clearTimeout(modelLoadTimeout);
             playSyntheticHapticFeedback(80, 500);
             const modal = document.getElementById('screen-detail-modal');
@@ -951,7 +948,7 @@
             document.getElementById('floating-cart-container').classList.add('hidden');
         }
 
-        //        // Screen 3 Action: Settle & Place Order trigger leading to Yelp Guard
+        // Screen 3 Action: Settle & Place Order trigger leading to Yelp Guard
         function executePlaceOrderFlow() {
             // Count current total item prices to reject zero checkout
             let totalCountSum = 0;
