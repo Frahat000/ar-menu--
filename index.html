@@ -111,6 +111,7 @@
             <span class="w-1.5 h-1.5 rounded-full bg-blue-900/40 ml-2"></span>
         </div>
 
+        <!-- -->
         <!-- PROMINENT ONBOARDING QR LANDING SCREEN SPLASH OVERLAY -->
         <div id="screen-landing" class="absolute inset-0 bg-brand-obsidian/95 z-50 flex flex-col items-center justify-between p-6 pt-12 cinematic-ease">
             <!-- Background Spotlight -->
@@ -184,8 +185,9 @@
             <span id="toast-message" class="text-[10px] text-slate-200 font-semibold leading-tight">Toast message context...</span>
         </div>
 
-        <!-- CENTERED FLOATING ACTION BUTTON (THE MAIN PORTAL CART TRIGGER - POSITIONED IN TRUE PHONE CENTER) -->
-        <div id="floating-cart-container" class="absolute bottom-5 left-1/2 -translate-x-1/2 z-50 w-14 h-14">
+        <!-- -->
+        <!-- CENTERED FLOATING ACTION BUTTON (THE MAIN PORTAL CART TRIGGER - POSITIONED IN TRUE PHONE CENTER - STARTS HIDDEN TO PREVENT OVERLAP) -->
+        <div id="floating-cart-container" class="absolute bottom-5 left-1/2 -translate-x-1/2 z-50 w-14 h-14 hidden">
             <button id="floating-cart-btn" onclick="toggleViewToCheckout()" class="w-full h-full rounded-full bg-gradient-to-r from-brand-accent to-yellow-600 hover:brightness-110 active:scale-95 text-black flex items-center justify-center transition-all shadow-lg shadow-yellow-500/20 border-4 border-brand-obsidian relative">
                 <i class="fa-solid fa-shopping-cart text-lg"></i>
                 <!-- Cart item count indicator tag -->
@@ -282,6 +284,7 @@
 
             </section>
 
+            <!-- -->
             <!-- ======================================================== -->
             <!-- OVERLAY PANEL - SCREEN 2: 3D MODAL OVERLAY (iPhone 17 - 2) -->
             <!-- ======================================================== -->
@@ -416,7 +419,7 @@
         </div>
 
         <!-- Silent Yelp-Guard Manager Alert Warning Toast -->
-        <div id="manager-alert-banner" class="absolute bottom-5 left-4 right-4 z-50 bg-red-950/95 border border-red-500/30 backdrop-blur-xl p-3 rounded-2xl shadow-2xl translate-y-[130%] cinematic-ease flex items-start gap-2.5">
+        <div id="manager-alert-banner" class="absolute bottom-5 left-4 right-4 z-[60] bg-red-950/95 border border-red-500/30 backdrop-blur-xl p-3 rounded-2xl shadow-2xl translate-y-[130%] cinematic-ease flex items-start gap-2.5">
             <div class="w-7 h-7 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 text-red-400">
                 <i class="fa-solid fa-triangle-exclamation text-xs animate-bounce"></i>
             </div>
@@ -476,11 +479,11 @@
         </div>
     </div>
 
+    <!-- -->
     <!-- Active Javascript State Controllers -->
     <script>
-        // High-Fidelity 3D Model Catalog Mapping
-        // To allow instant sandbox previews, these GLB endpoints point directly to secure, public GitHub-hosted CDN models.
-        // If your server loses connection, the program safely falls back to a high-res 2D static display card.
+        // High-Fidelity 3D Model Catalog Mapping: 
+        // Loads direct local paths from your GitHub repo relative path setup first!
         const foodCatalog = {
             1: {
                 id: 1,
@@ -490,7 +493,7 @@
                 price: 3299,
                 image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=300",
                 desc: "An incredible cut of bone-in ribeye, seared in garlic cloves, rosemary, and thyme.",
-                glb: "https://raw.githubusercontent.com/code4fukui/xrgourmet/main/ktri-steak.glb"
+                glb: "./steak.glb"
             },
             2: {
                 id: 2,
@@ -500,7 +503,7 @@
                 price: 1899,
                 image: "https://images.unsplash.com/photo-1546964124-0cce460f38ef?auto=format&fit=crop&q=80&w=300",
                 desc: "Center-cut premium tenderloin steak, seasoned with hand-cracked peppercorns and sea salt.",
-                glb: "https://raw.githubusercontent.com/code4fukui/xrgourmet/main/ktri-steak.glb"
+                glb: "./steak.glb"
             },
             3: {
                 id: 3,
@@ -510,7 +513,7 @@
                 price: 1199,
                 image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=300",
                 desc: "Stone-baked sourdough crust topped with rich tomato sauce, melted mozzarella, and crisped pepperoni.",
-                glb: "https://raw.githubusercontent.com/AviDwivedi/WebAR/main/pizza.glb"
+                glb: "./pizza.glb"
             },
             4: {
                 id: 4,
@@ -520,7 +523,7 @@
                 price: 999,
                 image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&q=80&w=300",
                 desc: "Classic Naples-style pizza with fresh buffalo mozzarella, aromatic basil leaves, and cold-pressed oil.",
-                glb: "https://raw.githubusercontent.com/AviDwivedi/WebAR/main/pizza.glb"
+                glb: "./pizza.glb"
             },
             5: {
                 id: 5,
@@ -530,7 +533,7 @@
                 price: 899,
                 image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&q=80&w=300",
                 desc: "Aromatic golden coconut curry sauce simmered with local root vegetables and served over sticky rice.",
-                glb: "https://raw.githubusercontent.com/code4fukui/xrgourmet/main/taishiron-curry.glb"
+                glb: "./curry.glb"
             },
             6: {
                 id: 6,
@@ -540,7 +543,7 @@
                 price: 499,
                 image: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&q=80&w=300",
                 desc: "Sleek, refreshing tableside mineral water served ice cold with organic mountain minerals.",
-                glb: "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/WaterBottle/glTF-Binary/WaterBottle.glb" 
+                glb: "./drinks.glb"
             }
         };
 
@@ -645,7 +648,7 @@
             }, 500);
         }
 
-        // Render dynamic grid of dishes (iPhone 17 - 1 main area)
+        //        // Render dynamic grid of dishes (iPhone 17 - 1 main area)
         function renderDishesCatalogGrid() {
             const grid = document.getElementById('dishes-catalog-grid');
             grid.innerHTML = "";
@@ -731,8 +734,8 @@
         }
 
         // Screen 2 Trigger: Launch 3D modal detailed overlay (iPhone 17 - 2)
-        // Implements a strict, clean safety fallback: if local 3D models fail or run slowly, 
-        // the loader does not freeze; it seamlessly swaps to a beautiful 2D presentation card.
+        // Generously scales load checks up to 10 seconds to allow standard cellular connections
+        // to compile the heavy custom assets uploaded to your GitHub repository!
         let modelLoadTimeout = null;
 
         function launch3DDetailModal(dishId) {
@@ -740,6 +743,9 @@
             focusedDishId = dishId;
             const dish = foodCatalog[dishId];
             if (!dish) return;
+
+            // Hide the floating cart while the modal detail popup is open!
+            document.getElementById('floating-cart-container').classList.add('hidden');
 
             // Populate modal copy blocks
             document.getElementById('modal-dish-title').innerText = dish.title;
@@ -764,10 +770,10 @@
             // Clear any lingering load timers
             if (modelLoadTimeout) clearTimeout(modelLoadTimeout);
 
-            // Set a strict 4-second safety limit to intercept slow downloads or CORS errors
+            // Set a generous 10-second limit to compile assets uploaded to your GitHub repository
             modelLoadTimeout = setTimeout(() => {
                 handle3DViewerError(dish);
-            }, 4000);
+            }, 10000);
 
             // Setup lifecycle listeners on model viewer
             viewer.addEventListener('load', () => {
@@ -796,15 +802,21 @@
             fallbackBanner.classList.remove('hidden');
             viewer.classList.add('opacity-0');
             if (poster) poster.classList.add('hidden');
-            console.warn("CORS or slow connection interrupted 3D mesh load. Smoothly rolled back to high-res static asset.");
+            console.warn("3D download threshold met. Swapped dynamically to static asset placeholder.");
         }
 
-        function dismiss3DModal() {
+        //        function dismiss3DModal() {
             if (modelLoadTimeout) clearTimeout(modelLoadTimeout);
             playSyntheticHapticFeedback(80, 500);
             const modal = document.getElementById('screen-detail-modal');
             modal.classList.add('opacity-0', 'pointer-events-none');
             focusedDishId = null;
+
+            // Restore the floating cart button once the detail modal exits!
+            // Only show it if we are on the browse catalog screen
+            if (document.getElementById('screen-checkout').classList.contains('hidden')) {
+                document.getElementById('floating-cart-container').classList.remove('hidden');
+            }
         }
 
         // Modal Action: commitModalItemToCart
@@ -925,15 +937,21 @@
             const overlay = document.getElementById('screen-landing');
             overlay.classList.add('translate-y-[-100%]', 'opacity-0', 'pointer-events-none');
             triggerAppToast("Tableside QR Scanned! 3D Menu compiled.", true);
+
+            // Display floating action button ONLY after tableside QR scan completes
+            document.getElementById('floating-cart-container').classList.remove('hidden');
         }
 
         function launchQRStandOnboarding() {
             playSyntheticHapticFeedback(150, 600);
             const overlay = document.getElementById('screen-landing');
             overlay.classList.remove('translate-y-[-100%]', 'opacity-0', 'pointer-events-none');
+
+            // Hide the floating cart triggers when landing screen is active
+            document.getElementById('floating-cart-container').classList.add('hidden');
         }
 
-        // Screen 3 Action: Settle & Place Order trigger leading to Yelp Guard
+        //        // Screen 3 Action: Settle & Place Order trigger leading to Yelp Guard
         function executePlaceOrderFlow() {
             // Count current total item prices to reject zero checkout
             let totalCountSum = 0;
