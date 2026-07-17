@@ -185,9 +185,9 @@
         </div>
 
         <!-- CENTERED FLOATING ACTION BUTTON (THE MAIN PORTAL CART TRIGGER - POSITIONED IN TRUE PHONE CENTER - STARTS HIDDEN TO PREVENT OVERLAP) -->
-        <div id="floating-cart-container" class="absolute bottom-5 left-1/2 -translate-x-1/2 z-50 w-14 h-14 hidden">
+        <div id="floating-cart-container" class="absolute bottom-5 left-1/2 -translate-x-1/2 z-50 w-16 h-16 hidden">
             <button id="floating-cart-btn" onclick="toggleViewToCheckout()" class="w-full h-full rounded-full bg-gradient-to-r from-brand-accent to-yellow-600 hover:brightness-110 active:scale-95 text-black flex items-center justify-center transition-all shadow-lg shadow-yellow-500/20 border-4 border-brand-obsidian relative">
-                <i class="fa-solid fa-shopping-cart text-lg"></i>
+                <i class="fa-solid fa-shopping-cart text-xl"></i>
                 <!-- Cart item count indicator tag -->
                 <span id="cart-floating-badge" class="absolute -top-1 -right-1 bg-red-500 text-white font-bold font-mono text-[9px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-brand-obsidian shadow-sm">
                     0
@@ -346,8 +346,8 @@
                     </div>
 
                     <!-- Modal Order Action trigger with premium shadow glow and floating tactile height -->
-                    <button id="modal-add-btn" onclick="commitModalItemToCart(event)" class="w-full bg-gradient-to-r from-brand-accent to-yellow-600 text-black font-black text-xs py-4 rounded-2xl flex items-center justify-center gap-2 relative z-10 shadow-lg shadow-yellow-600/25 border border-white/5 active:scale-95 hover:brightness-105 transition-all">
-                        <i class="fa-solid fa-cart-plus"></i> Add to Session Cart
+                    <button id="modal-add-btn" onclick="commitModalItemToCart(event)" class="w-full bg-gradient-to-r from-brand-accent to-yellow-600 text-black font-black text-[13px] py-[18px] rounded-2xl flex items-center justify-center gap-2 relative z-10 shadow-lg shadow-yellow-600/25 border border-white/5 active:scale-95 hover:brightness-105 transition-all">
+                        <i class="fa-solid fa-cart-plus text-sm"></i> Add to Session Cart
                     </button>
                 </div>
             </div>
