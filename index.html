@@ -541,4 +541,450 @@
             // Create temporary animated flyer element
             const flyer = document.createElement('div');
             flyer.className = 'flight-flyer';
-            flyer
+            flyer.style.backgroundImage = `url('${dishImageSrc}')`;
+            flyer.style.backgroundSize = 'cover';
+            flyer.style.backgroundPosition = 'center';
+            
+            // Match starting size and positions
+            flyer.style.width = sourceRect.width + 'px';
+            flyer.style.height = sourceRect.height + 'px';
+            flyer.style.left = sourceRect.left + 'px';
+            flyer.style.top = sourceRect.top + 'px';
+
+            document.body.appendChild(flyer);
+
+            // Execute animation frame sequence (0.5 seconds flying loop)
+            requestAnimationFrame(() => {
+                // Shrink from original square size down to cart's tiny icon size
+                flyer.style.width = '24px';
+                flyer.style.height = '24px';
+                
+                // Flight math translation targeting the center cart element coordinates
+                const deltaX = (cartRect.left + cartRect.width / 2) - (sourceRect.left + sourceRect.width / 2);
+                const deltaY = (cartRect.top + cartRect.height / 2) - (sourceRect.top + sourceRect.height / 2);
+                
+                flyer.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.1) rotate(360deg)`;
+                flyer.style.opacity = '0.3';
+            });
+
+            // Conclude flight path
+            setTimeout(() => {
+                flyer.remove();
+                
+                // Trigger spring elastic responsive wobble on center cart button
+                cartBtn.classList.remove('animate-cart-bounce');
+                void cartBtn.offsetWidth; // Force CSS reflow
+                cartBtn.classList.add('animate-cart-bounce');
+                
+                playSyntheticHapticFeedback(120, 950);
+            }, 500);
+        }
+
+        // Render dynamic grid of dishes (iPhone 17 - 1 main area)
+        function renderDishesCatalogGrid() {
+            const grid = document.getElementById('dishes-catalog-grid');
+            grid.innerHTML = "";
+
+            Object.values(foodCatalog).forEach(dish => {
+                // Parse filter criteria matches
+                const matchesCategory = (dish.category === activeCategory);
+                const matchesSearch = dish.title.toLowerCase().includes(searchQueryString.toLowerCase());
+
+                if (matchesCategory && matchesSearch) {
+                    const quantityInCart = shoppingCart[dish.id] ? shoppingCart[dish.id].quantity : 0;
+                    const badgeHtml = quantityInCart > 0 
+                        ? `<span class="absolute top-2 right-2 bg-brand-accent text-black font-black font-mono text-[9px] px-2 py-0.5 rounded-full shadow-lg border border-brand-obsidian">${quantityInCart}x</span>`
+                        : `<span class="absolute top-2 right-2 text-[8px] bg-black/80 backdrop-blur border border-white/10 px-2 py-0.5 rounded-full font-black text-brand-accent tracking-widest">${dish.badge}</span>`;
+
+                    const dishCard = `
+                        <div id="dish-card-${dish.id}" onclick="launch3DDetailModal(${dish.id})" class="flex flex-col gap-2 p-2 rounded-2xl bg-brand-cardBg border border-white/5 hover:border-brand-accent/35 cursor-pointer cinematic-ease active:scale-95 relative group select-none">
+                            <div class="relative rounded-xl overflow-hidden aspect-[4/3] bg-brand-obsidian">
+                                <img id="dish-img-${dish.id}" src="${dish.image}" alt="${dish.title}" class="w-full h-full object-cover group-hover:scale-105 cinematic-ease">
+                                ${badgeHtml}
+                                <!-- Beautiful interactive Quick-Add Plus Button at the corner -->
+                                <button onclick="event.stopPropagation(); quickAddDishToCart(${dish.id})" class="absolute bottom-2 right-2 w-7 h-7 rounded-full bg-brand-accent hover:bg-yellow-500 text-black flex items-center justify-center font-black shadow-md shadow-black/50 transition-all active:scale-90 hover:scale-110 z-10 border border-brand-obsidian/30">
+                                    <i class="fa-solid fa-plus text-[10px]"></i>
+                                </button>
+                            </div>
+                            <div class="px-1 flex flex-col justify-between flex-1">
+                                <h4 class="text-[10px] font-bold text-white tracking-tight leading-tight line-clamp-1 group-hover:text-brand-accentLight transition-colors">${dish.title}</h4>
+                                <div class="flex items-center justify-between border-t border-white/5 pt-1 mt-1.5">
+                                    <span class="text-[10px] font-bold font-mono text-brand-accent">Rs. ${dish.price.toLocaleString()}</span>
+                                    <i class="fa-solid fa-cube text-[9px] text-brand-mutedText"></i>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    grid.insertAdjacentHTML('beforeend', dishCard);
+                }
+            });
+
+            // If empty search/category state helper
+            if (grid.children.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-2 text-center py-10">
+                        <i class="fa-solid fa-circle-question text-brand-mutedText text-xl mb-2 block"></i>
+                        <span class="text-[10px] text-brand-mutedText font-semibold block">No dishes found in category</span>
+                    </div>
+                `;
+            }
+        }
+
+        // Quick-Add Shortcut function bypassing the detail modal
+        function quickAddDishToCart(dishId) {
+            const dish = foodCatalog[dishId];
+            if (!dish) return;
+
+            playSyntheticHapticFeedback(220, 850);
+
+            // Trigger the flight animation path starting from the clicked card image
+            const cardImg = document.getElementById(`dish-img-${dish.id}`);
+            triggerCartFlight(cardImg, dish.image);
+
+            // Add or increment shopping cart record
+            if (shoppingCart[dish.id]) {
+                shoppingCart[dish.id].quantity++;
+            } else {
+                shoppingCart[dish.id] = {
+                    id: dish.id,
+                    title: dish.title,
+                    price: dish.price,
+                    image: dish.image,
+                    quantity: 1
+                };
+            }
+
+            // Sync visual states instantly
+            recalculateCartSummary();
+            renderDishesCatalogGrid();
+        }
+
+        // Real-time catalog search bar listener
+        function executeCatalogSearch(query) {
+            searchQueryString = query;
+            renderDishesCatalogGrid();
+        }
+
+        // Screen 2 Trigger: Launch 3D modal detailed overlay (iPhone 17 - 2)
+        // Implements dual-path routing: first try relative path, then try the secure CDN.
+        let modelLoadTimeout = null;
+
+        function launch3DDetailModal(dishId) {
+            playSyntheticHapticFeedback(120, 600);
+            focusedDishId = dishId;
+            const dish = foodCatalog[dishId];
+            if (!dish) return;
+
+            // Populate modal copy blocks
+            document.getElementById('modal-dish-title').innerText = dish.title;
+            document.getElementById('modal-dish-category').innerText = `// ${dish.category.toUpperCase()} SERIES`;
+            document.getElementById('modal-dish-desc').innerText = dish.desc;
+            document.getElementById('modal-dish-price').innerText = `Rs. ${dish.price.toLocaleString()}`;
+
+            // Reset view state (hide old fallback frames, show fresh loader states)
+            const fallbackImg = document.getElementById('modal-dish-fallback-img');
+            const fallbackBanner = document.getElementById('modal-dish-fallback-banner');
+            const viewer = document.getElementById('modal-viewer-3d');
+            const poster = viewer.querySelector('[slot="poster"]');
+
+            fallbackImg.classList.add('hidden');
+            fallbackBanner.classList.add('hidden');
+            viewer.classList.remove('opacity-0');
+            if (poster) poster.classList.remove('hidden');
+
+            // Initialize GLB source with the primary relative path
+            viewer.src = dish.glb;
+
+            // Clear any lingering load timers
+            if (modelLoadTimeout) clearTimeout(modelLoadTimeout);
+
+            // Set up load and error tracking on current frame
+            let hasLoadedSuccessfully = false;
+
+            const onModelLoadComplete = () => {
+                hasLoadedSuccessfully = true;
+                if (modelLoadTimeout) clearTimeout(modelLoadTimeout);
+                viewer.removeEventListener('load', onModelLoadComplete);
+            };
+            viewer.addEventListener('load', onModelLoadComplete);
+
+            // If the local file fails or throws an error, immediately redirect to our cloud CDN fallback
+            const onModelLoadError = () => {
+                viewer.removeEventListener('error', onModelLoadError);
+                if (!hasLoadedSuccessfully) {
+                    console.log("Local model path not found or blocked. Swapping to high-speed CDN model repository...");
+                    viewer.src = dish.cdn;
+                    
+                    // If the CDN also fails, trigger full image recovery
+                    modelLoadTimeout = setTimeout(() => {
+                        if (!hasLoadedSuccessfully) {
+                            handle3DViewerError(dish);
+                        }
+                    }, 5000);
+                }
+            };
+            viewer.addEventListener('error', onModelLoadError);
+
+            // Set a 3-second limit to intercept slower relative connections and swap to CDN quickly
+            modelLoadTimeout = setTimeout(() => {
+                if (!hasLoadedSuccessfully) {
+                    viewer.src = dish.cdn;
+                }
+            }, 3000);
+
+            // Smooth fade popup modal activation (iPhone 17 - 2 state shift)
+            const modal = document.getElementById('screen-detail-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        // Activates beautiful high-res image render card if WebGL engine is blocked
+        function handle3DViewerError(dish) {
+            const fallbackImg = document.getElementById('modal-dish-fallback-img');
+            const fallbackBanner = document.getElementById('modal-dish-fallback-banner');
+            const viewer = document.getElementById('modal-viewer-3d');
+            const poster = viewer.querySelector('[slot="poster"]');
+
+            fallbackImg.src = dish.image;
+            fallbackImg.classList.remove('hidden');
+            fallbackBanner.classList.remove('hidden');
+            viewer.classList.add('opacity-0');
+            if (poster) poster.classList.add('hidden');
+            console.warn("CORS or slow connection interrupted 3D mesh load. Smoothly rolled back to high-res static asset.");
+        }
+
+        function dismiss3DModal() {
+            if (modelLoadTimeout) clearTimeout(modelLoadTimeout);
+            playSyntheticHapticFeedback(80, 500);
+            const modal = document.getElementById('screen-detail-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            focusedDishId = null;
+        }
+
+        // Modal Action: commitModalItemToCart
+        function commitModalItemToCart(event) {
+            if (!focusedDishId) return;
+            const dish = foodCatalog[focusedDishId];
+            if (!dish) return;
+
+            playSyntheticHapticFeedback(250, 900);
+
+            // Trigger flying transition starting from modal button position
+            const sourceBtn = document.getElementById('modal-add-btn');
+            triggerCartFlight(sourceBtn, dish.image);
+
+            // Add or increment shopping cart record
+            if (shoppingCart[dish.id]) {
+                shoppingCart[dish.id].quantity++;
+            } else {
+                shoppingCart[dish.id] = {
+                    id: dish.id,
+                    title: dish.title,
+                    price: dish.price,
+                    image: dish.image,
+                    quantity: 1
+                };
+            }
+
+            // Sync visual states
+            recalculateCartSummary();
+            renderDishesCatalogGrid();
+            dismiss3DModal();
+        }
+
+        // Recalculate invoice metrics
+        function recalculateCartSummary() {
+            let totalItemCount = 0;
+            let totalPriceSum = 0;
+
+            const selectedItemsWrapper = document.getElementById('selected-items-wrapper');
+            selectedItemsWrapper.innerHTML = "";
+
+            Object.values(shoppingCart).forEach(item => {
+                totalItemCount += item.quantity;
+                totalPriceSum += (item.price * item.quantity);
+
+                // Add item layout representation inside checkout container
+                const itemCheckoutNode = `
+                    <div class="flex items-center justify-between py-2 border-b border-white/5 last:border-b-0">
+                        <div class="flex items-center gap-2.5">
+                            <img src="${item.image}" alt="${item.title}" class="w-8 h-8 rounded-lg object-cover">
+                            <div>
+                                <h4 class="text-[10px] font-bold text-white tracking-tight leading-none">${item.title}</h4>
+                                <span class="text-[8px] text-brand-mutedText block mt-1 font-mono">${item.quantity}x @ Rs. ${item.price.toLocaleString()}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="modifyCartQuantity(${item.id}, -1)" class="w-5 h-5 rounded bg-white/5 border border-white/5 hover:bg-white/10 flex items-center justify-center text-white text-[9px]">-</button>
+                            <span class="text-[10px] font-bold font-mono text-white w-4 text-center">${item.quantity}</span>
+                            <button onclick="modifyCartQuantity(${item.id}, 1)" class="w-5 h-5 rounded bg-white/5 border border-white/5 hover:bg-white/10 flex items-center justify-center text-white text-[9px]">+</button>
+                        </div>
+                    </div>
+                `;
+                selectedItemsWrapper.insertAdjacentHTML('beforeend', itemCheckoutNode);
+            });
+
+            // If empty cart fallback representation inside invoice container
+            if (totalItemCount === 0) {
+                selectedItemsWrapper.innerHTML = `
+                    <div class="text-center py-6">
+                        <i class="fa-solid fa-receipt text-brand-mutedText text-sm mb-1.5 block"></i>
+                        <span class="text-[9px] text-brand-mutedText font-semibold block">Session cart is empty</span>
+                    </div>
+                `;
+            }
+
+            // Sync structural prices and labels
+            document.getElementById('cart-floating-badge').innerText = totalItemCount;
+            document.getElementById('checkout-calculated-total').innerText = `Rs. ${totalPriceSum.toLocaleString()}`;
+        }
+
+        // Increase/decrease quantity handles
+        function modifyCartQuantity(itemId, delta) {
+            playSyntheticHapticFeedback(120, 700);
+            if (!shoppingCart[itemId]) return;
+
+            shoppingCart[itemId].quantity += delta;
+            if (shoppingCart[itemId].quantity <= 0) {
+                delete shoppingCart[itemId];
+            }
+
+            recalculateCartSummary();
+            renderDishesCatalogGrid();
+        }
+
+        // View Mode Switches (iPhone 17 - 1 vs iPhone 17 - 3)
+        function toggleViewToCheckout() {
+            playSyntheticHapticFeedback(150, 650);
+            document.getElementById('screen-browse').classList.add('hidden');
+            document.getElementById('screen-checkout').classList.remove('hidden');
+            
+            // Hides centered floating button container in Screen 3 (iPhone 17 - 3)
+            document.getElementById('floating-cart-container').classList.add('hidden');
+        }
+
+        // Back to menu browses screen
+        function toggleViewToBrowse() {
+            playSyntheticHapticFeedback(150, 650);
+            document.getElementById('screen-checkout').classList.add('hidden');
+            document.getElementById('screen-browse').classList.remove('hidden');
+            
+            // Displays centered floating button container in Screen 1 (iPhone 17 - 1)
+            document.getElementById('floating-cart-container').classList.remove('hidden');
+        }
+
+        // Screen 3 Action: Settle & Place Order trigger leading to Yelp Guard
+        function executePlaceOrderFlow() {
+            // Count current total item prices to reject zero checkout
+            let totalCountSum = 0;
+            Object.values(shoppingCart).forEach(i => totalCountSum += i.quantity);
+
+            if (totalCountSum === 0) {
+                triggerAppToast("Your shopping cart is currently empty! Add a dish using the Quick-Add (+) corner buttons first.", false);
+                return;
+            }
+
+            playSyntheticHapticFeedback(180, 800);
+            
+            // Pop Yelp Guard feedback interceptor modal
+            const feedbackModal = document.getElementById('feedback-interceptor-modal');
+            feedbackModal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        // Yelp Guard: evaluate rating stars selection
+        function evaluateRatingStarSelection(starCount) {
+            playSyntheticHapticFeedback(200, starCount * 150 + 400);
+            
+            const stars = document.getElementById('feedback-interceptor-modal').querySelectorAll('.fa-star');
+            
+            // Render active and mute colors
+            for (let i = 0; i < 5; i++) {
+                if (i < starCount) {
+                    stars[i].parentElement.className = "text-xl text-brand-accent hover:scale-115 active:scale-90 transition-all";
+                } else {
+                    stars[i].parentElement.className = "text-xl text-slate-600 hover:scale-115 active:scale-90 transition-all";
+                }
+            }
+
+            const interceptBlock = document.getElementById('negative-review-intercept');
+            const promoBlock = document.getElementById('positive-review-promo');
+
+            if (starCount <= 3) {
+                // Intercept privately
+                interceptBlock.classList.remove('hidden');
+                promoBlock.classList.add('hidden');
+            } else {
+                // Promote publicly on Google Business
+                promoBlock.classList.remove('hidden');
+                interceptBlock.classList.add('hidden');
+            }
+        }
+
+        // Submit private bad feedback to raise manager alerts (SaaS telemetry feature)
+        function submitPrivateYelpGuardAlert() {
+            closeYelpGuardModal();
+            
+            // Fire silent manager alert text toast
+            const alertBanner = document.getElementById('manager-alert-banner');
+            alertBanner.classList.remove('translate-y-[130%]');
+            
+            // Hide after threshold duration
+            setTimeout(() => {
+                dismissManagerAlert();
+            }, 7000);
+        }
+
+        function dismissManagerAlert() {
+            document.getElementById('manager-alert-banner').classList.add('translate-y-[130%]');
+        }
+
+        function concludeCheckoutOrderPipeline() {
+            closeYelpGuardModal();
+            triggerAppToast("Table Selection Confirmed! Order dispatched directly to Kitchen Terminal 3.", true);
+            
+            // Reset shopping states
+            shoppingCart = {};
+            recalculateCartSummary();
+            renderDishesCatalogGrid();
+            toggleViewToBrowse();
+        }
+
+        function closeYelpGuardModal() {
+            const modal = document.getElementById('feedback-interceptor-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            
+            // Clean star selection designs
+            const stars = modal.querySelectorAll('.fa-star');
+            stars.forEach(s => s.parentElement.className = "text-xl text-slate-600 hover:scale-115 active:scale-90 transition-all");
+            document.getElementById('negative-review-intercept').classList.add('hidden');
+            document.getElementById('positive-review-promo').classList.add('hidden');
+            document.getElementById('private-feedback-comment').value = "";
+        }
+
+        // Web Audio synthetics for physical haptic sounds on touch interfaces
+        let audioCtxInstance = null;
+        function playSyntheticHapticFeedback(durationMs, freqHz) {
+            try {
+                if (!audioCtxInstance) {
+                    audioCtxInstance = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                const oscNode = audioCtxInstance.createOscillator();
+                const gainNode = audioCtxInstance.createGain();
+
+                oscNode.type = 'sine';
+                oscNode.frequency.setValueAtTime(freqHz, audioCtxInstance.currentTime);
+
+                gainNode.gain.setValueAtTime(0.015, audioCtxInstance.currentTime); 
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtxInstance.currentTime + (durationMs / 1000));
+
+                oscNode.connect(gainNode);
+                gainNode.connect(audioCtxInstance.destination);
+
+                oscNode.start();
+                oscNode.stop(audioCtxInstance.currentTime + (durationMs / 1000));
+            } catch (err) {
+                console.log("Audio parameters require page gesture permissions to initialize.");
+            }
+        }
+    </script>
+</body>
+</html>
